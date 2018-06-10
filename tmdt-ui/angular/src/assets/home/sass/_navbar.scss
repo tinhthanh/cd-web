@@ -1,0 +1,196 @@
+.navbar {
+    background-color: #FFFFFF;
+    opacity: 1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    @include basic-delay(1s);
+    @include basic-font($font2, $color5);
+    @import "sub-menu";
+    .navbar-brand {
+        @include basic-font($font1, $color4);
+        b {
+            font-size: 1em;
+            font-family: $font3;
+            @include basic-delay(1s);
+        }
+        span {
+            font-size: 1em;
+            @include basic-delay(1s);
+        }
+    }
+
+    .navbar-toggler {
+        cursor: pointer;
+        @include basic-delay(1s);
+        &:hover {
+            @include basic-delay(1s);
+        }
+    }
+
+    .input-search1 {
+        display: none;
+        input[type=text] {
+            width: 100%;
+            border: 2px solid $color5;
+            border-radius: 30px;
+            font-size: 1em;
+            background-color: white;
+            padding: 12px 12px 12px 12px;
+            @include basic-delay(1s);
+            &:focus {
+                border-radius: 4px;
+                outline: 0;
+                @include basic-delay(1s);
+            }
+            &::placeholder {
+                font-family: $font2;
+            }
+        }
+    }
+
+    .navbar-collapse {
+        @include basic-font($font2, #FFFFFF);
+        
+        .nav-item {
+            a {
+                font-size: 1.2em;
+                color: $color4;
+                font-weight: bold;
+                cursor: pointer;
+                @include basic-delay(1s);
+                &:hover {
+                    background: yellow;
+                    @include basic-delay(1s);
+                }
+
+                img {
+                    border: 1px solid $color5;
+                    width: 30px;
+                }
+            }
+        }
+
+        .dropdown {
+            .dropdown-menu {
+                background-color: #ffffff;
+                // border-radius: 0;
+                // border: 0;
+                @include basic-delay(1s);
+                a {
+                    color: $color5;
+                    @include basic-delay(1s);
+                    &:hover {
+                        background: yellow;
+                        @include basic-delay(1s);
+                    }
+                }
+
+                .remove-item {
+                   &:hover {
+                    background: #ffffff;
+                    @include basic-delay(1s);
+                }
+            }
+        }
+    }
+
+    .input-search2 {
+        display: none;
+        input[type=text] {
+            width: 100%;
+            border: 2px solid $color5;
+            border-radius: 30px;
+            font-size: 1em;
+            background-color: white;
+            padding: 10px 20px 10px 20px;
+            @include basic-delay(1s);
+            &:focus {
+                border-radius: 4px;
+                outline: 0;
+                @include basic-delay(1s);
+            }
+            &::placeholder {
+                font-family: $font2;
+            }
+        }
+    }
+}
+}
+
+@media (max-width: 400px) {
+    .navbar {
+        .navbar-brand {
+            @include basic-font($font1, $color5);
+            b {
+                font-size: 2em;
+                font-family: $font3;
+                @include basic-delay(1s);
+            }
+            span {
+                font-size: 1.5em;
+                @include basic-delay(1s);
+            }
+        }
+
+        .input-search1 {
+            display: none;
+        }
+
+        .navbar-collapse {
+            .input-search2 {
+                display: block;
+            }           
+        }
+    }
+}
+
+@media (min-width: 400px) and (max-width: 990px) {
+    .navbar {
+        .navbar-brand {
+            @include basic-font($font1, $color5);
+            b {
+                font-size: 2em;
+                font-family: $font3;
+                @include basic-delay(1s);
+            }
+            span {
+                font-size: 1.5em;
+                @include basic-delay(1s);
+            }
+        }
+        .input-search1 {
+            display: block;
+        }
+
+        .navbar-collapse {
+            .input-search2 {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (min-width: 990px) {
+    .navbar {
+        .navbar-brand {
+            @include basic-font($font1, $color5);
+            b {
+                font-size: 3em;
+                font-family: $font3;
+                @include basic-delay(1s);
+            }
+            span {
+                font-size: 2em;
+                @include basic-delay(1s);
+            }
+        }
+        .input-search1 {
+            display: none;
+        }
+
+        .navbar-collapse {
+            .input-search2 {
+                display: block;
+            }
+        }
+    }
+}

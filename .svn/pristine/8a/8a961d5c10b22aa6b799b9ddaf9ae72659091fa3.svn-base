@@ -1,0 +1,6 @@
+
+jdbc.driverClassName= com.mysql.cj.jdbc.Driver
+jdbc.url= jdbc:mysql://192.168.11.49/internship
+jdbc.username= internship
+jdbc.password= internship
+jdbc.pool.size =10

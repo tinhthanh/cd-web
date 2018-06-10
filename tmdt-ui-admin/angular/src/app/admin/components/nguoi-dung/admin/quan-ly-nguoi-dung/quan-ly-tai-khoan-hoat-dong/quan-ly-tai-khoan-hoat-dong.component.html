@@ -1,0 +1,169 @@
+<p-confirmDialog></p-confirmDialog>
+
+<p-growl [(value)]="msgs"></p-growl>
+
+<!-- <pre>{{ cars || json }}</pre> -->
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title"> {{ 'd186' | translate }}</span>
+        <span>{{ 'd192' | translate }}</span>
+    </div>
+</div>
+<div style="margin: 0 5px 0 5px">
+    <p-dataTable [value]="listUser" scrollable="true" scrollHeight="400px" [responsive]="true">
+        <p-header>{{ 'd142' | translate }}</p-header>
+        <p-column styleClass="col-button">
+            <ng-template pTemplate="header">
+                    {{ 'd189' | translate }}
+            </ng-template>
+            <ng-template let-user="rowData" pTemplate="body">
+                <img style="
+                   border-radius: 50%;
+                   width: 80px; white-space: nowrap;
+                   overflow: hidden;
+                   text-overflow: ellipsis;" src="{{user.avatar}}">
+            </ng-template>
+        </p-column>
+
+        <p-column field="email" header="  {{ 'd146' | translate }} " [sortable]="true">
+            <ng-template let-col let-user="rowData" pTemplate="body">
+                <h5>
+                    <pre>{{user.email}}</pre>
+                </h5>
+            </ng-template>
+        </p-column>
+        <p-column field="address" header="  {{ 'diachi' | translate }} " [sortable]="true">
+            <ng-template let-col let-user="rowData" pTemplate="body">
+                <h5 innerHTML=" {{user.address}}">
+                   
+                </h5>
+            </ng-template>
+        </p-column>
+        <p-column field="phoneNumber" header=" {{ 'd190' | translate }}" [sortable]="true">
+            <ng-template let-col let-user="rowData" pTemplate="body">
+                <pre>{{user.phoneNumber}}</pre>
+            </ng-template>
+        </p-column>
+        <p-column field="score" header="{{ 'd190' | translate }}" [sortable]="true">
+            <ng-template let-col let-user="rowData" pTemplate="body">
+                <pre>{{user.score}}</pre>
+            <button pButton (click)="clickNapTien(user)"  type="button" label="{{ 'd193' | translate }}" class="ui-button-success"></button>
+            
+            </ng-template>
+        </p-column>
+        <p-column field="score" header="{{ 'diemso' | translate }} " [sortable]="true">
+                <ng-template let-col let-user="rowData" pTemplate="body">
+                       <pre>{{user.score}}</pre>
+                </ng-template>
+            </p-column>
+                <p-column field="permission" header=" {{ 'd191' | translate }}" [sortable]="true">
+                        <ng-template let-col let-user="rowData" pTemplate="body">
+                               <pre *ngFor="let role of user.permission ">{{ 
+                                   (role.roleName ===  'ROLE_ADMIN')?'Manager': (role.roleName === 'ROLE_USER')?'User': role.roleName }}</pre>
+                        </ng-template>
+                    </p-column>
+    <p-column styleClass="col-button" >
+        <ng-template pTemplate="header">
+                {{ 'hanhdong' | translate }}
+        </ng-template>
+            <ng-template let-user="rowData" pTemplate="body">
+                <button (click)="thaoTacMoKhoa(user)" type="button" class="ui-button-danger" pButton icon="fa fa-lock">
+
+                </button>
+
+                <button (click)="thaoTacChinhSua(user)" type="button" pButton icon="fa fa-pencil-square-o">
+
+                </button>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+    <p-paginator rows="{{size}}" totalRecords="{{total}}" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20, 100]"></p-paginator>
+
+    <p-dialog  header="Nạp tiền" [(visible)]="isNapTien">
+        <input type="number" [(ngModel)]="soTien" /> 
+        <button (click)="napTien()" type="button" pButton icon="fa fa-pencil-square-o"> </button>
+        </p-dialog>
+        <p-dialog  minWidth="200" header="Thêm quyền" [(visible)]="isThemQuyen">
+                <button style="width: 100% ; margin: 0px;" *ngFor="let role of selectRoles" 
+                pButton type="button" (click)="themQuyen(role)" icon="fa-plus" class="ui-button-info">
+                {{ 
+                    (role.roleName ===  'ROLE_ADMIN')?'Quản trị viên': (role.roleName === 'ROLE_USER')?'Người dùng': role.roleName }}
+      
+                </button>                
+            </p-dialog>
+
+    <p-dialog minWidth="600" minHeight="300" header="Chỉnh sữa thông tin người dùng" [(visible)]="displayEditUser">
+
+
+        <form *ngIf="userform && displayEditUser" [formGroup]="userform" (ngSubmit)="onSubmit()">
+          
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" >
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Tên người dùng *:
+                        </div>
+                        <div class="ui-grid-col-10">
+                            <input pInputText type="text" formControlName="userName" placeholder="Tên chủ đề" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                Số điện thoại *:
+                            </div>
+                            <div class="ui-grid-col-10">
+                                <input pInputText type="text" formControlName="phoneNumber" placeholder="Tên chủ đề" />
+                            </div>
+                        </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Địa chỉ :
+                        </div>
+                        <div class="ui-grid-col-10">
+                            <p-editor  formControlName="address" [style]="{'height':'70px'}">
+                                <p-header>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold" aria-label="Bold"></button>
+                                        <button class="ql-italic" aria-label="Italic"></button>
+                                        <button class="ql-underline" aria-label="Underline"></button>
+                                    </span>
+                                </p-header>
+                            </p-editor>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Ảnh đại diện:
+                        </div>
+                        <div class="ui-grid-col-3">
+
+                            <img *ngIf="!uploadImgProress" style="width: 100%; height: auto;" [src]="url_img_upload" />
+
+                            <div style="width: 100%;" *ngIf="uploadImgProress">
+                                <p-progressSpinner></p-progressSpinner>
+
+                            </div>
+                            <!-- <input   formControlName="courseAvatar" /> -->
+                            <div style="width: 100%;">
+                                <p-fileUpload (onError)="erroUpload($event)" (onProgress)="progressUp($event)" #fubauto mode="basic" name="file" url="{{url_upload}}/upload"
+                                    accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" auto="true"
+                                    chooseLabel="Browse">
+                                    <ng-template pTemplate="content">
+                                    </ng-template>
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2"></div>
+                        <div class="ui-grid-col-6">
+                            <button pButton type="submit" [disabled]="submitted" label="Lưu lại" [disabled]="!userform.valid">
+                                <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                />
+                            </button>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                </div>
+        </form>
+    </p-dialog>
+</div>

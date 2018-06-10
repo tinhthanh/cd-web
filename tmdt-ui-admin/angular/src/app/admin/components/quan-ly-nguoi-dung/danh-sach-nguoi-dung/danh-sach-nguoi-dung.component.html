@@ -1,0 +1,37 @@
+
+
+<p-dataTable [value]="listNguoiDung">
+    <p-column field="topicID" header="Vin"></p-column>
+    <p-column field="topicName" header="Year"></p-column>
+    <p-column field="topicDescription" header="Brand"></p-column>
+    <p-column field="topicStatus" header="Color">
+        <ng-template let-col let-trangthai="rowData" pTemplate="body">
+            <span >{{(trangthai[col.field]===1)? 'Khoa':'kich hoat'}}</span>
+        </ng-template>
+    </p-column>
+    <p-column styleClass="col-button">
+        <ng-template pTemplate="header">
+           Thao tac
+        </ng-template>
+        <ng-template let-nguoidung="rowData" pTemplate="body">
+            <button type="button" (click)="edit(nguoidung)"  pButton icon="fa-search"> chinh sua</button>
+            <button type="button" (click)="xoa(nguoidung)"  pButton icon="fa-search"> xoa</button>
+        </ng-template>
+    </p-column>
+</p-dataTable>
+
+<p-paginator    (onPageChange)="paginate($event)" rows="{{size}}" totalRecords="{{totalRow}}" [rowsPerPageOptions]="[10,20,30]"></p-paginator>
+
+<p-dialog  minWidth="600" header="chinh sua nguoi dung" [(visible)]="display">
+
+<div *ngIf="nguoidung" >
+    <input  [disabled]="true" [(ngModel)]="nguoidung.topicID" />
+    <input [(ngModel)]="nguoidung.topicName" /> 
+    <input  [(ngModel)]="nguoidung.topicDescription" />
+    <input  [(ngModel)]="nguoidung.topicStatus" />
+    <button (click)="save()" > Save</button>
+    <button (click)="display= !display" > cancel</button>
+</div>
+</p-dialog>
+
+<button type="text" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show">hien</button>

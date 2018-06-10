@@ -1,0 +1,66 @@
+<div class="transaction-history">
+  <section class="sec-1">
+    <div class="container">
+      <h1>Lịch sử giao dịch</h1>
+    </div>
+  </section>
+  <section class="sec-2">
+    <div class="container">
+      <div class="form-group">
+        <label for="numShow">Số lượng cần hiển thị</label>
+        <select [(ngModel)]="size" (ngModelChange)="onChange($event)" class="form-control" id="numShow">
+          <option [ngValue]="1">1</option>
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+      <table class="table table-hover table-bordered table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Mã giao dịch</th>
+            <th scope="col">Ngày giao dịch</th>
+            <th scope="col">
+              <select (change)="hinhThucChange($event)">
+                <option  value="0">Hình thức</option>
+                <option *ngFor="let itemHinhThuc of this.hinhThucGiaoDich" [value]="itemHinhThuc.transactionFormID">{{itemHinhThuc.transactionFormName}}</option>
+              </select>
+            </th>
+            <th scope="col">Có</th>
+            <th scope="col">Nợ</th>
+            <th scope="col">Nội dung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let temp of listTransaction">
+            <td>{{temp.transactionHistoryID}}</td>
+            <td>{{temp.transactionDate.dayOfMonth}}/{{temp.transactionDate.monthValue}}/{{temp.transactionDate.year}} {{temp.transactionDate.hour}}:{{temp.transactionDate.minute}}:{{temp.transactionDate.second}}</td>
+            <td>{{temp.transactionForm.transactionFormName}}</td>
+            <td>{{temp.balance}}</td>
+            <td>{{temp.debt}}</td>
+            <td>
+              <a routerLink="/home/bai-hoc/{{temp.transactionDescription}}" *ngIf="temp.transactionForm.transactionFormID === 'DN'">Xem bài học </a>
+              <a routerLink="/home/chi-tiet-khoa-hoc/{{temp.transactionDescription}}" *ngIf="temp.transactionForm.transactionFormID === 'MKH'">Xem khóa học</a>
+              <i *ngIf="temp.transactionForm.transactionFormID === 'NT'">{{temp.transactionDescription}}</i>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li *ngIf="page !== 1" (click)="lui()" class="page-item disabled">
+            <a class="page-link" tabindex="-1">Trước</a>
+          </li>
+          <li *ngFor="let temp of dataPage" class="page-item">
+            <a (click)="next(temp)" [ngClass]="{'active': temp === page}" class="page-link">{{ temp}}</a>
+          </li>
+          <li *ngIf=" page !== numberOfPage " (click)="toi()" class="page-item">
+            <a class="page-link">Sau</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  <!-- <app-phan-trang [page]="page"  [size]="size" [numberOfPage]="numberOfPage"></app-phan-trang> -->
+</div>

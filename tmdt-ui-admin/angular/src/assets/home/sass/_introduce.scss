@@ -1,0 +1,195 @@
+.introduce {
+	background-image: url("../images/backgroundweb.jpeg");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	section.sec-1 {
+		padding: 350px 0 300px 0;
+		background: rgba(0, 0, 0, 0.67);
+		h1 {
+			font-family: $font1;
+			color: #FFFFFF;
+			font-size: 5em;
+		}
+		h4 {
+			color: #ffffff;
+		}
+	}
+
+	section.sec-2 {
+		background: $color5;
+		a {
+			border: 1px solid $color5;
+			background: #FFFFFF;
+			border-radius: 50%;
+			padding: 15px 20px 15px 20px;
+			color: $color5;
+		}
+	}
+
+	section.sec-3 {
+		background: #ccc;
+		margin-top: -10px;
+		padding: 100px 0 50px 0;
+
+		h1 {
+			font-family: $font1;
+			color: $color1;
+		}
+
+		hr {
+			border-top: 5px dotted $color5;
+		}
+
+		.member {
+			padding: 5px 0 5px 0;
+
+			img.img-thumbnail {
+				border: 5px solid $color5;
+				user-drag: none; 
+				user-select: none;
+				-moz-user-select: none;
+				-webkit-user-drag: none;
+				-webkit-user-select: none;
+				-ms-user-select: none;
+				&:hover {
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				}
+			}
+
+			h3 {
+				font-family: $font1;
+				color: $color1;
+				padding-top: 15%;
+				font-size: 2.129em;
+			}
+
+			h5 {
+				color: #000000;
+			}
+
+			.social-group {
+				a.social-facebook {
+					border: 1px solid #4267b2;
+					padding: 5px 12px 5px 12px;
+					background: #4267b2;
+					color: #ffffff;
+					@include basic-delay(1s);
+					&:hover {
+						background: #ffffff;
+						color: #4267b2;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-twitter {
+					border: 1px solid #1c94e0;
+					padding: 5px 9px 5px 9px;
+					background: #1c94e0;
+					@include basic-delay(1s);
+					color: #ffffff;
+					&:hover {
+						background: #ffffff;
+						color: #1c94e0;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-google {
+					border: 1px solid #db4437;
+					padding: 5px 9px 5px 9px;
+					background: #db4437;
+					@include basic-delay(1s);
+					color: #ffffff;
+					&:hover {
+						background: #ffffff;
+						color: #db4437;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-youtube {
+					border: 1px solid #e62117;
+					padding: 5px 9px 5px 9px;
+					background: #e62117;
+					color: #ffffff;
+					@include basic-delay(1s);
+					&:hover {
+						background: #ffffff;
+						color: #e62117;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-linkedin {
+					border: 1px solid #006097;
+					padding: 5px 9px 5px 9px;
+					background: #006097;
+					color: #ffffff;
+					@include basic-delay(1s);
+					&:hover {
+						background: #ffffff;
+						color: #006097;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-pinterest {
+					border: 1px solid #bd081c;
+					padding: 5px 9px 5px 9px;
+					background: #bd081c;
+					color: #ffffff;
+					@include basic-delay(1s);
+					&:hover {
+						background: #ffffff;
+						color: #bd081c;
+						@include basic-delay(1s);
+					}
+				}
+
+				a.social-github {
+					border: 1px solid #24292e;
+					padding: 5px 9px 5px 9px;
+					background: #24292e;
+					color: #ffffff;
+					@include basic-delay(1s);
+					&:hover {
+						background: #ffffff;
+						color: #24292e;
+						@include basic-delay(1s);
+					}
+				}
+			}
+		}
+	}
+
+	section.sec-4 {
+		padding: 350px 0 300px 0;
+		background: rgba(22, 24, 71, 0.8);
+		color: #ffffff;
+		h1 {
+			font-family: $font1;
+		}
+
+		hr {
+			border-top: 5px dotted $color5;
+		}
+	}
+
+	section.sec-5 {
+		padding: 350px 0 300px 0;
+		background: #FFFFFF;
+		h1 {
+			font-family: $font1;
+		}
+
+		hr {
+			border-top: 5px dotted $color5;
+		}
+
+		img {
+			padding-top: 20%;
+		}
+	}
+}

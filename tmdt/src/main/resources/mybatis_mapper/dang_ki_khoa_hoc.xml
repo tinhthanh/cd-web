@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.CourseRegisterMapper">
+		<resultMap type="com.spring.domain.CourseRegister" id="course_register">
+			<result column="ngay_dang_ky" property="registerDate" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle"/>
+			<association column="ma_khoa_hoc" property="course" select="com.spring.mapper.CourseMapper.getCourseByCourseID"></association>
+			<association column="ma_nguoi_dung" property="userRegister" select="com.spring.mapper.UserMapper.getUserByUserID2"></association>
+		</resultMap>
+		
+		<!-- query data -->
+		
+		<select id="getListCourseRegisterByCourseID"  parameterType="java.lang.String"  resultMap="course_register">
+				select * from dang_ky_khoa_hoc d where d.ma_khoa_hoc =#{courseID}
+		</select>
+		
+		<select id="getListCourseRegisterByUserID" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_register">
+		{call proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},"select * from dang_ky_khoa_hoc d where
+		d.ma_nguoi_dung ='${userID}'")}
+		</select>
+		
+		<select id="getCourseRegister" parameterType="java.util.Map" resultMap="course_register">
+				select * from dang_ky_khoa_hoc d where d.ma_khoa_hoc =#{courseID} and d.ma_nguoi_dung=#{userID}
+		</select>	
+		
+		<insert id="createCourseRegister"  parameterType="java.util.Map">
+				insert into dang_ky_khoa_hoc(ma_khoa_hoc,ma_nguoi_dung) values(#{courseID},#{userID})				
+		</insert>
+		
+		
+</mapper>

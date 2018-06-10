@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.spring.mapper.LessonMapper">
+	<resultMap type="com.spring.domain.Lesson" id="lesson_result_1">
+		<id column="ma_bai_hoc" property="lessonID" javaType="java.lang.String"/>
+		<result column="tieu_de" property="lessonTitle" javaType="java.lang.String"/>
+		<result column="noi_dung" property="lessonContent" javaType="java.lang.String"/>
+		<result column="ma_chuong_muc" property="chapterID" javaType="java.lang.String"/>
+		<result column="luot_xem" property="views" javaType="java.lang.Integer"/>
+		<collection column="ma_bai_hoc" select="com.spring.mapper.CommentMapper.getCommentByLessonID" property="listOfComments"></collection>
+		<collection column="ma_bai_hoc" select="com.spring.mapper.LessonAttachMapper.getLessonAttachByLessonID" property="listOfLessonAttach"></collection>
+	</resultMap>
+
+		<select id="getLessonBychapterID" resultMap="lesson_result_1"  resultType="java.util.List" parameterType="java.lang.String" >
+			select * from bai_hoc b where  b.ma_chuong_muc = #{chapterID}
+		</select>
+		
+		<select id="getLessonByLessonID" resultMap="lesson_result_1" resultType="java.util.List" parameterType="java.lang.String" >
+			select * from bai_hoc b where b.ma_bai_hoc=#{lessonID}
+		</select>
+		
+		<select id="getAllLessonRelate" parameterType="java.lang.String" resultMap="lesson_result_1">
+		 select b.* from bai_hoc b  join chuong_muc c on b.ma_chuong_muc = c.ma_chuong_muc  
+		 inner join khoa_hoc k on c.ma_khoa_hoc = k.ma_khoa_hoc where k.ma_khoa_hoc=(select k.ma_khoa_hoc from bai_hoc b  
+		 inner join chuong_muc c on b.ma_chuong_muc = c.ma_chuong_muc  
+		 inner join khoa_hoc k on c.ma_khoa_hoc = k.ma_khoa_hoc where b.ma_bai_hoc =#{lessonID})
+		</select>
+
+		 <select  id="getFirstLessonInCourse"  parameterType="java.lang.String" resultMap="lesson_result_1">
+		 select  * from bai_hoc b  where b.ma_chuong_muc in (select  ma_chuong_muc from chuong_muc c where c.ma_khoa_hoc= #{courseID}) limit 0,1
+		 </select>
+
+		
+		<select id="getCourseIDByLessonID" parameterType="java.lang.String" resultType="java.lang.String">
+		select distinct k.ma_khoa_hoc from bai_hoc b  join chuong_muc c on b.ma_chuong_muc = c.ma_chuong_muc  
+		 inner join khoa_hoc k on c.ma_khoa_hoc = k.ma_khoa_hoc where k.ma_khoa_hoc=(select k.ma_khoa_hoc from bai_hoc b  
+		 inner join chuong_muc c on b.ma_chuong_muc = c.ma_chuong_muc  
+		 inner join khoa_hoc k on c.ma_khoa_hoc = k.ma_khoa_hoc where b.ma_bai_hoc =#{lessonID});
+		</select>
+		
+		<select id="lessonIsNonCommercial"  parameterType="java.lang.String"  resultType="java.lang.Byte">
+		select  case ma_loai_khoa_hoc  when 'NCO' then 1 else 0 end as result from khoa_hoc where ma_khoa_hoc in (select  ma_khoa_hoc from chuong_muc  where ma_chuong_muc in (select ma_chuong_muc from bai_hoc where ma_bai_hoc=#{lessonID}))
+		</select>
+		
+		<insert id="insertLesson" statementType="CALLABLE" parameterType="java.util.Map">
+			{call insert_bai_hoc(#{lessonTitle}, #{lessonContent}, #{chapterID},#{result, mode=OUT,jdbcType=VARCHAR})}
+		</insert>
+		
+		<update id="updateLesson" parameterType="java.util.Map">
+			update bai_hoc  set ${column} =#{value}  where ma_bai_hoc =#{lessonID}
+		</update>
+		
+		<delete id="deleteLesson" parameterType="java.lang.String">
+			delete from bai_hoc where  ma_bai_hoc =#{lessonID}
+		</delete>
+		
+			
+
+	</mapper>

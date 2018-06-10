@@ -1,0 +1,13 @@
+    
+    <div *ngIf="currentFileUpload" class="progress">
+                <p-progressBar [value]="progress.percentage"></p-progressBar>
+                <h4 *ngIf="progress.percentage === 100 " >{{ thongbao }}</h4>
+        </div>
+        
+        <label class="btn btn-default">
+                <div class="upload-btn-wrapper">
+                        <button class="btn">Chọn video </button>
+            <input   accept=".wmn,.mp4" type="file" (change)="selectFile($event)">
+            </div>
+        </label>
+    

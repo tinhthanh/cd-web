@@ -1,0 +1,77 @@
+<p-growl [(value)]="msgs"></p-growl>
+<!-- <pre>{{ cars || json }}</pre> -->
+<div *ngIf="loading"  style="position: fixed ; top: 0px; left:  0px; width: 100%; z-index: 9999" >
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px' }"></p-progressBar>    
+</div>
+
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">  {{ 'd169' | translate }}</span>
+        <span > {{ 'd170' | translate }}</span>
+    </div>
+</div>
+
+<button pButton type="button" (click)="stacked=!stacked" style="margin-bottom:10px" label=" {{ 'd185' | translate }}" icon="fa-list"></button>
+<div style="margin: 0 5px 0 5px" >
+<p-dataTable [value]="listTopic" selectionMode="single" [(selection)]="toppic" (onRowSelect)="suKienChon($event)"
+[responsive]="true"
+[stacked]="stacked"
+>
+    <p-header>  {{ 'd171' | translate }} </p-header>
+    <p-column field="topicID" header="  {{ 'd172' | translate }}" [sortable]="true"></p-column>
+    <p-column field="topicName" header="  {{ 'd173' | translate }} " [sortable]="true"></p-column>
+    <p-column field="topicDescription" header="  {{ 'd174' | translate }}" [sortable]="true">
+        <ng-template let-col let-topic="rowData" pTemplate="body">
+            <span [innerHTML]="topic[col.field]"></span>
+        </ng-template>
+    </p-column>
+    <p-column field="topicStatus" header=" {{ 'd175' | translate }} " >
+        <ng-template let-col let-topic="rowData" pTemplate="body">
+            <span >{{(topic[col.field]=== 1 || topic[col.field]=== '1'  )?'Active':'Block '}}</span>
+            <i  *ngIf="topic[col.field] === 1 || topic[col.field] === '1'" style="color: #06c;" class="fa fa-check" aria-hidden="true"></i>
+            <i *ngIf="topic[col.field] === 0 || topic[col.field] === '0'" style="color: red;" class="fa fa-ban" aria-hidden="true"></i>
+        </ng-template>
+    </p-column>
+    <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddToppic()" label="Add"></button></div></p-footer>
+</p-dataTable>
+
+<p-paginator rows="{{size}}"  totalRecords="{{totalRow}}" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20, 100]" ></p-paginator>
+
+</div>
+<p-dialog header=" {{ 'd176' | translate }} "  [minWidth]="600"  [(visible)]="displayDialogTopic" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="toppic">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicID"> {{ 'd177' | translate }}</label></div>
+            <div class="ui-grid-col-8"><input [disabled]="true"    pInputText id="topicID" [(ngModel)]="toppic.topicID" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicName">  {{ 'd178' | translate }}</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="topicName" [(ngModel)]="toppic.topicName" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicDescription">  {{ 'd179' | translate }} </label></div>
+           
+            <div class="ui-grid-col-8"> <p-editor [(ngModel)]="toppic.topicDescription" [style]="{'height':'120px'}"></p-editor></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicStatus"> {{ 'd180' | translate }} </label></div>
+            <div class="ui-grid-col-8">
+                
+                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                            <div class="ui-g-12">
+                                <p-radioButton name="group1" value="1" label=" {{ 'd181' | translate }} " [(ngModel)]="toppic.topicStatus" inputId="opt2"></p-radioButton>
+                            </div>
+                            <div class="ui-g-12">
+                                <p-radioButton name="group1" value="0" label=" {{ 'd182' | translate }}" [(ngModel)]="toppic.topicStatus" inputId="opt3"></p-radioButton>
+                            </div>
+                        </div>
+                        </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="deleteTopic()" label=" {{ 'd183' | translate }} "></button>
+            <button type="button" pButton icon="fa-check" (click)="saveTopic()" label=" {{ 'd184' | translate }} "></button>
+        </div>
+    </p-footer>
+</p-dialog>

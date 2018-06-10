@@ -1,0 +1,10 @@
+<div *ngIf="currentFileUpload" class="progress">
+  <h4 *ngIf="progress.percentage === 100 ">{{ thongbao }}</h4>
+</div>
+
+<label class="btn btn-default">
+  <div class="upload-btn-wrapper">
+    <button class="btn"><i class="fa fa-upload"></i> Tải lên hình ảnh</button>
+    <input accept="image/*" type="file" (change)="selectFile($event)">
+  </div>
+</label>

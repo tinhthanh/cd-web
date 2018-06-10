@@ -1,0 +1,25 @@
+.pagination {
+	.page-item {
+		a.page-link {
+			border: 1px solid $color5;
+			color: $color5;
+			@include basic-delay(0.5s);
+			&:hover {
+				background: $color4;
+				color: #ffffff;
+				@include basic-delay(.5s);
+			}
+		}
+
+		a.active {
+			background: $color4;
+			color: #ffffff;
+			@include basic-delay(0.5s);
+			&:hover {
+				background: $color5;
+				color: #ffffff;
+				@include basic-delay(.5s);
+			}
+		}
+	}
+}

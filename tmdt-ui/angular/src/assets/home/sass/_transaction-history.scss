@@ -1,0 +1,26 @@
+.transaction-history {
+	section.sec-1 {
+		padding: 150px 0 50px 0;
+		h1 {
+			font-family: $font1;
+		}
+	}
+
+	section.sec-2 {
+		table {
+			tr {	
+				th {
+					border: 1px solid $color5;
+					text-align: center;
+					background-color: $color4;
+					color: white;
+				}
+
+				td {
+					border: 1px solid $color5;
+
+				}
+			}
+		}
+	}
+}

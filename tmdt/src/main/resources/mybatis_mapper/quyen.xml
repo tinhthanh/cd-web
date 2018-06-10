@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.RoleMapper">
+	<resultMap type="com.spring.domain.Role" id="role_result_1">
+		<id column="ma_quyen" javaType="int" property="roleID"/>
+		<result column="ten_quyen" javaType="java.lang.String" property="roleName"/>
+	</resultMap>
+	
+	<select id="getListRoleByUserID" statementType="CALLABLE" parameterType="java.lang.String"  resultMap="role_result_1">
+		{call get_nguoi_dung_quyen_by_ma_nguoi_dung(#{userID}) }
+	</select>
+</mapper>

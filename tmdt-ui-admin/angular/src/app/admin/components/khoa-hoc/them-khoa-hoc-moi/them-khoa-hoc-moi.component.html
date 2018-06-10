@@ -1,0 +1,150 @@
+
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">   {{ 'd113' | translate }} </span>
+        <span>  {{ 'd114' | translate }}  </span>
+    </div>
+</div>
+<a>
+    <button routerLink="/admin/khoa-hoc/quan-ly-khoa-hoc" pButton type="button" icon="fa-plus"  label=" {{ 'd117' | translate }}" class="ui-button-info"></button>
+    </a>
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+        <p-panel header="{{ 'd137' | translate }}">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px; margin-bottom: 70px;">
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd115' | translate }}
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <input pInputText type="text" formControlName="courseTitle" placeholder="" />
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTitle'].valid&&userform.controls['courseTitle'].dirty">
+                            <i class="fa fa-close"></i>
+                            {{ 'd105' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd106' | translate }}
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-editor formControlName="courseDescription" [style]="{'height':'70px'}">
+                            <p-header>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold"></button>
+                                    <button class="ql-italic" aria-label="Italic"></button>
+                                    <button class="ql-underline" aria-label="Underline"></button>
+                                </span>
+                            </p-header>
+                        </p-editor>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+                <div *ngIf="userform.value.courseTypeID === 'CO'" class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd107' | translate }}
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <input pInputText type="number" formControlName="price" placeholder="" />
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['price'].valid&&userform.controls['price'].dirty">
+                            <i class="fa fa-close"></i>
+                            {{ 'd105' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd108' | translate }}
+                       
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-dropdown [options]="courseTypeID" formControlName="courseTypeID" [autoWidth]="false"></p-dropdown>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTypeID'].valid&&userform.controls['courseTypeID'].dirty">
+                            <i class="fa fa-close"></i>
+                            {{ 'd105' | translate }}
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd109' | translate }}
+                     
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-dropdown [options]="topicID" formControlName="topicID" [autoWidth]="false" filter="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['topicID'].valid&&userform.controls['topicID'].dirty">
+                            <i class="fa fa-close"></i>
+                            {{ 'd105' | translate }}
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        {{ 'd110' | translate }}
+                        
+                    </div>
+                    <div class="ui-grid-col-3">
+
+                        <img *ngIf="!uploadImgProress" style="width: 100%; height: auto;" [src]="courseAvatar_temp" />
+
+                        <div style="width: 100%;" *ngIf="uploadImgProress">
+                            <p-progressSpinner></p-progressSpinner>
+
+                        </div>
+                        <!-- <input   formControlName="courseAvatar" /> -->
+                        <div style="width: 100%;">
+                            <p-fileUpload (onError)="erroUpload($event)" (onProgress)="progressUp($event)" #fubauto mode="basic" name="file" url="{{url_upload}}/upload"
+                                accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" auto="true"
+                                chooseLabel="Browse">
+                                <ng-template pTemplate="content">
+                                </ng-template>
+                            </p-fileUpload>
+                        </div>
+
+                    </div>
+
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseAvatar'].valid&&userform.controls['courseAvatar'].dirty">
+                            <i class="fa fa-close"></i>
+                            {{ 'd105' | translate }}
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-editor formControlName="courseDetail" [style]="{'height':'150px'}"></p-editor>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2"></div>
+                    <div class="ui-grid-col-6">
+                        <button pButton type="submit" [disabled]="submitted" label="  {{ 'd116' | translate }}" [disabled]="!userform.valid">
+                            <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                            />
+                        </button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+    <a>
+        <button routerLink="/admin/khoa-hoc/quan-ly-khoa-hoc" pButton type="button" icon="fa-plus" label="{{ 'd117' | translate }} " class="ui-button-info"></button>
+        </a>

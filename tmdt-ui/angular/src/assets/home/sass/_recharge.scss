@@ -1,0 +1,52 @@
+.recharge {
+	section.sec-1 {
+		padding: 150px 0 10px 0;
+		h1 {
+			font-family: $font1;
+		}
+	}
+	section.sec-2 {
+		padding: 0 0 50px 0;
+
+		accordion-group {
+			.panel-heading {
+				background: $color4;
+				color: #FFFFFF;
+				font-size: 1.5em;
+			}
+
+			.show-note {
+				margin: 50px 0 20px 0;
+				background: $color4;
+				color: #FFFFFF;
+				padding: 15px 0 10px 10px;
+			}
+			h4 {
+				text-transform: uppercase;
+				color: red;
+			}
+			.brand-card {
+				padding: 5px 0 5px 0;
+
+				.img-thumbnail {
+					border: none;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.recharge {
+		section.sec-2 {
+			.brand-card {
+				border: 1px solid $color4;
+				border-bottom: none;
+				padding: 5px 0 5px 0;
+				&:last-child {
+					border-bottom: 1px solid $color4;
+				}
+			}
+		}
+	}
+}

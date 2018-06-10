@@ -1,0 +1,37 @@
+<p-growl [(value)]="msgs"></p-growl>
+<!-- <pre>{{ cars || json }}</pre> -->
+<div *ngIf="loading"  style="position: fixed ; top: 0px; left:  0px; width: 100%; z-index: 9999" >
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px' }"></p-progressBar>    
+</div>
+
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">Quản lý chủ đề</span>
+        <span>Danh sách các chủ đề.</span>
+    </div>
+</div>
+
+
+
+<div style="margin: 0 5px 0 5px" >
+    <p-dataTable [value]="danhSachKhoaHoc" selectionMode="single" [(selection)]="khoahoc" (onRowSelect)="suKienChon($event)"
+    [responsive]="true"
+    >
+        <p-header>Quản lý chủ đề</p-header>
+        <p-column field="courseID" header="ID Chủ đề" [sortable]="true"></p-column>
+        <p-column field="courseTitle" header="Tên chủ đề" [sortable]="true"></p-column>
+        <p-column field="courseDescription" header="Mô tả chủ đề " [sortable]="true">
+            <ng-template let-col let-khoahoc="rowData" pTemplate="body">
+                <span [innerHTML]="khoahoc[col.field]"></span>
+            </ng-template>
+        </p-column>
+        <p-column field="status" header="Trạng thái" >
+            <ng-template let-col let-topic="rowData" pTemplate="body">
+                <span >{{(topic[col.field]===1)?'Hoạt động':'Khóa '}}</span>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+<p-paginator rows="{{size}}"  totalRecords="{{totalRow}}" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20, 100]" ></p-paginator>
+
+    
+    </div>

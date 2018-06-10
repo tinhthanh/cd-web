@@ -1,0 +1,19 @@
+.error404 {
+	margin-top: 10%;
+	// background: #cccccc;
+	h1 {
+		font-family: $font1;
+	}
+}
+
+@media (min-width: 768px) {
+	h1 {
+		font-size: 5em;
+	}
+}
+
+@media (max-width: 768px) {
+	h1 {
+		font-size: 3em;
+	}
+}

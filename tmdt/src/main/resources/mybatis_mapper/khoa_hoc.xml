@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.CourseMapper">
+	<resultMap type="com.spring.domain.Course" id="course_result_1">
+		<id column="ma_khoa_hoc" javaType="java.lang.String" property="courseID" />
+		<result column="tieu_de" javaType="java.lang.String" property="courseTitle" />
+		<result column="mo_ta" javaType="java.lang.String" property="courseDescription" />
+		<result column="ngay_tao" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="createDate" />
+		<result column="don_gia" javaType="java.lang.Integer" property="price" />
+		<result column="trang_thai" javaType="java.lang.Integer" property="status" />
+		<result column="ngay_duyet" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="confirmedDate" />
+		<result column="luot_truy_cap" javaType="java.lang.Integer" property="views" />
+		<result column="anh_dai_dien" javaType="java.lang.String" property="courseAvatar" />
+		<result column="chi_tiet_khoa_hoc" javaType="java.lang.String" property="courseDetail" />
+		<association column="id_admin_duyet" property="confirmedBy" select="com.spring.mapper.UserMapper.getUserByUserID2"></association>
+		<association column="ma_nguoi_dung" property="author" select="com.spring.mapper.UserMapper.getUserByUserID2"></association>
+		<association column="ma_loai_khoa_hoc" property="courseType" select="com.spring.mapper.CourseTypeMapper.getCourseTypeByID"></association>
+		<association column="ma_chu_de" property="topic" select="com.spring.mapper.TopicMapper.getTopicByTopicID"></association>
+	</resultMap>
+
+
+	<resultMap type="com.spring.domain.custom.Author" id="author_info">
+	<id column="ma_nguoi_dung" javaType="java.lang.String" property="userID" />
+		<result column="ten_nguoi_dung" javaType="java.lang.String" property="userName" />
+		<result column="ngay_dang_ky" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="registrationDate" />
+		<result column="email" javaType="java.lang.String" property="email" />
+		<result column="anh_dai_dien" javaType="java.lang.String" property="avatar" />
+		<result column="diem" javaType="java.lang.Double" property="score" />
+		<result column="dia_chi" javaType="java.lang.String" property="address" />
+		<result column="sdt" javaType="java.lang.String" property="phoneNumber" />
+		<result column="number_of_course" javaType="int" property="numberOfCourses" />
+	</resultMap>
+	
+	
+	<resultMap type="com.spring.domain.Statistics" id="courseStatistics">
+		<result column="tenKH" javaType="java.lang.String" property="name"/>
+		<result column="luotXem" javaType="java.lang.Integer" property="value"/>
+	</resultMap>
+	<!-- query data -->
+	<select id="getCourseByCourseID" resultMap="course_result_1">
+		select * from khoa_hoc k where k.ma_khoa_hoc =#{courseID}
+	</select>
+
+	<select id="getCourseWithPaging" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{ call proc_paging_table(#{page}, #{size}, #{sumPage, mode=OUT,
+		jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},'khoa_hoc')}
+	</select>
+
+
+	<select id="getCourseByTopicIDWithPaging" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},"select * from khoa_hoc k where
+		k.ma_chu_de ='${topicID}'")}
+	</select>
+
+
+	<select id="getRelateCourse" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select * from khoa_hoc k where k.ma_chu_de in
+		(select ma_chu_de from khoa_hoc k2 where k2.ma_khoa_hoc='${courseID}' ) and
+		k.ma_khoa_hoc!='${courseID}' order by rand()")}
+	</select>
+	<select id="getListCoursesFeatured" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call
+		proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		" select  * from khoa_hoc k order by k.luot_truy_cap  desc")}
+	</select>
+	<select  id="searchByCourseName"  statementType="CALLABLE"  parameterType="java.util.Map"  resultMap="course_result_1">
+		{call
+		proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		" select  * from khoa_hoc k where k.tieu_de like '%${keySearch}%'")}
+	</select>
+	
+	<update id="updateCourseStatus" parameterType="java.util.Map">
+		update khoa_hoc set trang_thai = #{newStatus} where ma_khoa_hoc =
+		#{courseID}
+	</update>
+
+	<select id="createCourse" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+		{call tmdt.create_khoa_hoc(#{courseTitle}, #{courseDescription}, #{author},
+		#{price}, #{courseTypeID},
+		#{topicID},#{courseAvatar},#{courseDetail})}
+	</select>
+
+	<select id="getAuthorInfo" parameterType="java.lang.String" resultMap="author_info">
+		select
+		n.ma_nguoi_dung,n.ten_nguoi_dung,n.ngay_dang_ky,n.email,n.anh_dai_dien,n.diem,n.dia_chi,n.sdt,count(k.ma_nguoi_dung)
+		as number_of_course from nguoi_dung n left join
+		khoa_hoc k on
+		n.ma_nguoi_dung= k.ma_nguoi_dung where n.ma_nguoi_dung= #{authorID}
+		group by k.ma_nguoi_dung;
+	</select>
+
+	<select id="getCourseByAuthorIDSortByView" parameterType="java.util.Map" resultMap="course_result_1">
+		select * from khoa_hoc k where k.ma_nguoi_dung =#{authorID} order by
+		k.luot_truy_cap ${sortType} limit ${limitRecord}
+	</select>
+
+	<select id="getAllCourseAuthorIdWithSortAndPaging" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select * from khoa_hoc k where k.ma_nguoi_dung ='${authorID}' order by
+		k.${sortPropertie}")}
+	</select>
+
+	<select id="isRegisteredCourse" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select if( EXISTS(select * from dang_ky_khoa_hoc k where
+		k.ma_nguoi_dung='${userID}' and k.ma_khoa_hoc='${courseID}'), 1, 0) as
+		result
+	</select>
+
+	<select id="getCourseByLessonID"  parameterType="java.lang.String"  resultMap="course_result_1">
+	select * from khoa_hoc where ma_khoa_hoc in (select ma_khoa_hoc from chuong_muc where  ma_chuong_muc in (select  ma_chuong_muc from bai_hoc where ma_bai_hoc =#{lessonID}))
+	</select>
+	
+	<select id="coursesRegistedByUserID"   statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+	{call proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select k.* from khoa_hoc k where k.ma_khoa_hoc  in (select  d.ma_khoa_hoc from dang_ky_khoa_hoc d where d.ma_nguoi_dung= '${userID}')")}
+	</select>
+	
+	<select id="countNumberUserInCourse"  parameterType="java.lang.String" resultType="java.lang.Integer">
+	select count(*) as result from dang_ky_khoa_hoc where ma_khoa_hoc = #{courseID}
+	</select>
+	<update id="updateCourse" parameterType="java.util.Map">
+		update khoa_hoc set ${courseProperties} = #{coursePropertiesValue} where ma_khoa_hoc =#{courseID}
+	</update>
+	<update id="updateViewByCourseID" parameterType="java.lang.String">
+		UPDATE KHOA_HOC  SET LUOT_TRUY_CAP = (LUOT_TRUY_CAP + 1) WHERE MA_KHOA_HOC = #{courseID}
+	</update>
+	
+<!-- 	<select id="statisticsByCourse" statementType="CALLABLE" parameterType="java.util.Map" resultMap="courseStatistics"> -->
+<!-- 		{call proc_thong_ke_theo_khoa_hoc(#{rowsLimit}, #{totalView, mode=OUT, jdbcType=INTEGER})} -->
+<!-- 	</select> -->
+	
+	
+	
+	
+
+		
+	<select id="getAllCourseByStatusWithPaging" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call
+		proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select * from khoa_hoc k where trang_thai =${status}")}
+	</select>
+	
+	
+	<update id="UpdateConfirmedBy" parameterType="java.util.Map">
+		update khoa_hoc set id_admin_duyet =#{adminID},ngay_duyet=#{confirmedDate} where ma_khoa_hoc =#{courseID}
+	</update>
+
+
+	<resultMap type="com.spring.domain.Statistics" id="topicStatisticsCources">
+		<result column="tieu_de" javaType="java.lang.String" property="name"/>
+		<result column="luot_truy_cap" javaType="java.lang.Integer" property="value"/>
+	</resultMap>
+	
+	
+	<select id="statisticsByCourse" statementType="CALLABLE" parameterType="java.util.Map" resultMap="topicStatisticsCources">
+		{call tmdt.thong_ke_top_khoa_hoc(#{rowsLimit} ,  #{totalCourse, mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+
+	<select id="getAllCourseByAuthorID" statementType="CALLABLE" parameterType="java.util.Map" resultMap="course_result_1">
+		{call
+		proc_paging_query(#{page},#{size},#{sumPage,
+		mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select * from khoa_hoc k where ma_nguoi_dung ='${authorID}'")}
+	</select>
+	
+</mapper>
+

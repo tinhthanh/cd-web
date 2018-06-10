@@ -1,0 +1,91 @@
+<!-- list-course -->
+<div class="list-course">
+    <section class="section-1">
+        <div class="container">
+            <h2 class="text-center">{{topicItem.topicName}}</h2>
+            <!-- <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 btndd">
+                    <select class="form-control">
+                        <option>Sắp xếp theo tên</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 btndd">
+                    <select class="form-control">
+                        <option>Giá</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 btndd">
+                    <select class="form-control">
+                        <option>Ngôn ngữ</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 btndd">
+                    <select class="form-control">
+                        <option>Ngày tạo</option>
+                    </select>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    <section class="section-2">
+        <div class="container">
+            <div class="row">
+                <!-- card -->
+                <div *ngFor="let item of listCourse" class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                    <div class="card border-secondary">
+                        <img class="card-img-top card-item" src="{{item.courseAvatar}}" alt="">
+                        <div class="card-body">
+                            <div class="parallelogram-blue"></div>
+                            <div class="parallelogram-orange"></div>
+                            <h5 class="card-title">
+                                <div class="parallelogram-text block-with-text">{{item.courseTitle}}</div>
+                            </h5>
+                            <p class="card-text truncate-text demission">{{item.courseDescription}}</p>
+                            <span>Giảng viên:
+                                <a [routerLink]="['/home/thong-tin-ca-nhan', item.author.userID]">
+                                    <b>{{item.author.userName}}</b>
+                                </a>
+                            </span>
+                            <br/>
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <i class="fa fa-users"></i> {{item.views}}
+                                </div>
+                                <!-- <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <i class="fa fa-clock-o"></i> 45 giờ học
+                                </div> -->
+                            </div>
+                            <!-- <span><b class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></b></span> -->
+                            <div class="text-right">
+                                <a [routerLink]="['/home/chi-tiet-khoa-hoc',item.courseID]" class="btn ibtn">Xem chi tiết</a>
+                            </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <h6 class="price">{{item.price==0?'Miễn phí':item.price+'đ'}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+
+            </div>
+        </div>
+    </section>
+    <section class="sec-3">
+        <div class="container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li *ngIf="page !== 1"  (click)="lui()" class="page-item disabled">
+                        <a class="page-link" >Lùi</a>
+                    </li>
+                    <li *ngFor="let temp of listPageV" class="page-item">
+                        <a [ngClass]="{'active': temp === page }" class="page-link" (click)="bitxe(temp)">{{temp}}</a>
+                    </li>
+                    <li *ngIf="page !== numberOfPage"   (click)="toi()" class="page-item">
+                        <a class="page-link" >Tiến</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</div>
+<!-- /list-count -->

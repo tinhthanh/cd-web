@@ -1,0 +1,42 @@
+
+<!-- <pre>{{ cars || json }}</pre> -->
+<p-dataTable [value]="listTopic" selectionMode="single" [(selection)]="toppic" (onRowSelect)="suKienChon($event)"
+[responsive]="true" 
+[rowsPerPageOptions]="[10,20,30]"
+>
+    <p-header>Quản lý chủ đề</p-header>
+    <p-column field="topicID" header="ID Chủ đề" [sortable]="true"></p-column>
+    <p-column field="topicName" header="Tên chủ đề" [sortable]="true"></p-column>
+    <p-column field="topicDescription" header="Mô tả chủ đề " [sortable]="true"></p-column>
+    <p-column field="topicStatus" header="Trạng thái" ></p-column>
+    <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddToppic()" label="Add"></button></div></p-footer>
+</p-dataTable>
+
+<p-paginator rows="{{size}}" totalRecords="{{totalRow}}" (onPageChange)="paginate($event)"></p-paginator>
+
+<p-dialog header="Car Details"  [minWidth]="600"  [(visible)]="displayDialogTopic" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="toppic">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicID">Vin</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="topicID" [(ngModel)]="toppic.topicID" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicName">Year</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="topicName" [(ngModel)]="toppic.topicName" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicDescription">Brand</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="topicDescription" [(ngModel)]="toppic.topicDescription" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="topicStatus">Color</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="topicStatus" [(ngModel)]="toppic.topicStatus" /></div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="deleteTopic()" label="Xoa"></button>
+            <button type="button" pButton icon="fa-check" (click)="saveTopic()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>

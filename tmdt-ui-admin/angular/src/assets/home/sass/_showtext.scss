@@ -1,0 +1,38 @@
+@media (min-width: 1200px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 200px;
+	}
+}
+
+@media (max-width: 1200px) and (min-width: 992px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 170px;
+	}
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 300px;
+	}
+}

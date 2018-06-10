@@ -1,0 +1,32 @@
+package com.pal.intern.service.impl;
+
+import com.pal.intern.domain.ConvertProvider;
+import com.pal.intern.domain.UserMapper;
+import com.pal.intern.repository.UserRedmineRepository;
+import com.pal.intern.service.UserRedmineService;
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.bean.User;
+import java.util.LinkedList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserRedmineServiceImpl implements UserRedmineService {
+
+    @Autowired
+    private UserRedmineRepository userRedmineRepository;
+
+    @Override
+    public List<UserMapper> getAllUserRedmine() throws RedmineException {
+        List<User> listOfUser = this.userRedmineRepository.getAllUserRedmine();
+        List<UserMapper> result = new LinkedList<>();
+        if (listOfUser != null) {
+            listOfUser.forEach(u -> {
+                result.add(ConvertProvider.from(u));
+            });
+        }
+        return result;
+    }
+
+}

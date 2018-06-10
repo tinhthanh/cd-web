@@ -1,0 +1,48 @@
+<p-growl [value]="msgs" sticky="sticky">
+</p-growl>
+
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+    <p-panel header="Trạng thái khóa học">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Mã khóa học *:
+                </div>
+                <div class="ui-grid-col-6">
+                    <p-dropdown [options]="courseID" formControlName="courseID" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseID'].valid&&userform.controls['courseID'].dirty">
+                        <i class="fa fa-close"></i>
+                        Đây là trường bắt buộc
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Trạng thái:
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="newStatus" placeholder="Trạng thái" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['newStatus'].valid&&userform.controls['newStatus'].dirty">
+                        <i class="fa fa-close"></i>
+                        Đây là trường bắt buộc
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"></div>
+                <div class="ui-grid-col-6">
+                    <button pButton type="submit" label="Thêm trạng thái" [disabled]="!userform.valid"></button>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+            <div style="text-align:center;margin-top:20px" *ngIf="submitted">
+                Form Submitted
+                <br> {{diagnostic}}
+            </div>
+        </div>
+    </p-panel>
+</form>

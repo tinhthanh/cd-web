@@ -1,0 +1,54 @@
+<div class="sign">
+    <div class="background"></div>
+    <div class="container clog">
+        <div class="row">
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-lg-4 content-log">
+                <div class="brand-logo text-right">
+                    <img src="../../../../assets/home/images/3TPL50x50.png" alt="Logo">
+                    <span class="brand-name">3TPL</span>
+                </div>
+                <div class="wrapper">
+                    <form>
+                        <h3>Đổi mật khẩu</h3>
+                        <div class="group">
+                            <input type="password" id="oldpassword" formControlName="oldpassword" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label-for" for="oldpassword">Mật khẩu cũ</label>
+                        </div>
+                        <div class="group">
+                            <input type="password" id="newpassword" formControlName="newpassword" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label-for" for="newpassword">Mật khẩu mới</label>
+                        </div>
+                        <div class="group">
+                            <input type="password" id="renewpassword" formControlName="renewpassword" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label-for" for="renewpassword">Nhập lại mật khẩu mới</label>
+                        </div>
+                        <div class="button-log">
+                            <button class="btn redibtn btn-block">Đổi mật khẩu</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="more-content">
+                    <a href="../dang-nhap">Đăng nhập</a>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+        </div>
+    </div>
+    <nav class="navbar fixed-bottom justify-content-end nav-footer">
+        <div class="text-right">
+            <a class="nav-link">3TPL &copy; 2017</a>
+            <a class="nav-link" [routerLink]="['/home/main']">Trang chủ</a>
+            <a class="nav-link" [routerLink]="['/home/gioi-thieu']">Giới thiệu</a>
+            <a class="nav-link" [routerLink]="['/home/dieu-khoan-su-dung']">Điều khoản</a>
+            <a class="nav-link" href="#">Thông tin quảng cáo</a>
+        </div>
+    </nav>
+</div>

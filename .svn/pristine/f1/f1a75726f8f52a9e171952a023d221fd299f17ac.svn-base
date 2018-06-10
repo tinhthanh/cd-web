@@ -1,0 +1,22 @@
+package com.pal.intern.repository;
+
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.internal.ResultsWrapper;
+import java.util.Map;
+
+/**
+ *
+ * @author tyler.intern
+ */
+public interface IssuesRepository {
+
+    public Issue getIssueById(int id) throws RedmineException;
+
+    public ResultsWrapper<Issue> getListIssuesByProjectId(int projectId, int offset, int limit) throws RedmineException;
+
+    public ResultsWrapper<Issue> getAllIssues(int offset, int limit) throws RedmineException;
+
+    public ResultsWrapper<Issue> getIssuesWithParam(Map<String, Object> params) throws RedmineException;
+
+}

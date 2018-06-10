@@ -1,0 +1,21 @@
+@import "font";
+@import "color";
+@import "effect";
+@import "ibutton";
+@import "shopping-cart";
+
+body, html {
+	font-family: $font2;
+	font-size: 16px;
+}
+@import "sign";
+@import "navbar";
+@import "index";
+@import "list-course";
+@import "course";
+@import "footer";
+@import "account";
+@import "recharge";
+@import "introduce";
+@import "policy";
+@import "error404";

@@ -1,0 +1,328 @@
+
+#style-3::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+}
+
+.scrollbar
+{
+	/* margin-left: 30px; */
+	float: left;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+    /* margin-bottom: 25px; */
+    /* margin-bottom: 50px; */
+}
+
+@keyframes ui-progress-spinner-color {
+    100%,
+    0% {
+        stroke: #d62d20;
+    }
+    40% {
+        stroke: #0057e7;
+    }
+    66% {
+        stroke: #008744;
+    }
+    80%,
+    90% {
+        stroke: #ffa700;
+    }
+}
+
+
+
+.video { position: relative; }
+
+.video a {
+  position: absolute;
+  display: block;
+  background: url(http://www.slatecube.com/images/play-btn.png);
+  height: 100%;
+  width: 100%;
+  top: 40%;
+  left: 22%;
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+}
+.video-thumbnail {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+  .video-thumbnail img {
+    border-radius: 10px 10px 10px 10px;
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+  }
+  .video-thumbnail img:hover {
+    border-radius: 10px 10px 35px 10px;
+  }
+  .video-thumbnail:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    content: "\f01d";
+    font-family: FontAwesome;
+    font-size: 100px;
+    color: #fff;
+    opacity: .8;
+    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  }
+  .video-thumbnail .title {
+    font-family: 'Norican', 'Trebuchet MS', sans-serif;
+      position:  absolute ;
+      bottom: 0 ;
+      width: 80%;
+      left: 0;
+      margin-bottom: 10px;
+      padding-left: 15px;
+      background: rgba(0,0,0,0.8);
+      line-height: 1.25em;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #F5F5F5;
+      font-size: 1.2em;
+  }
+
+  .video-thumbnail .action {
+    font-family: 'Norican', 'Trebuchet MS', sans-serif;
+      position:  absolute ;
+      top: 0 ;
+      right: 0;
+      margin-bottom: 10px;
+      padding-left: 15px;
+      line-height: 1.25em;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #F5F5F5;
+      font-size: 1.2em;
+  }
+
+
+  
+
+ 
+
+
+/* The Modal (background) */
+.video-modal {
+  
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.video-modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#video-caption {
+    z-index:  -1;
+    position:  absolute ;
+    right: 27%;
+    top: 35%;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.video-modal-content, #video-caption {    
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.video-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.video-close:hover,
+.video-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .video-modal-content {
+        width: 100%;
+    }
+}
+.play-video {
+    position: fixed; 
+    bottom: 0px ;
+    left: 0px;
+    width: 70px;
+}
+.play-video-top {
+    position: fixed; 
+    top: 70px ;
+    left: 0px;
+    width: 320px;
+}
+.video-top-left {
+  position: absolute;
+  z-index: 3;
+  top: 0px ;
+  right:  0px ;
+}
+
+
+.fond{position:absolute;padding-top:85px;top:0;left:0; right:0;bottom:0;
+    background-color:#00506b;}
+   
+   .style_prevu_kit
+   {
+       display:inline-block;
+       border:0;
+       width:70px;
+       position: relative;
+       -webkit-transition: all 200ms ease-in;
+       -webkit-transform: scale(1); 
+       -ms-transition: all 200ms ease-in;
+       -ms-transform: scale(1); 
+       -moz-transition: all 200ms ease-in;
+       -moz-transform: scale(1);
+       transition: all 200ms ease-in;
+       transform: scale(1);   
+   
+   }
+   .style_prevu_kit:hover
+   {
+       
+   }
+   .thanh-zoom {
+    width:320px;
+    box-shadow: 0px 0px 150px #000000;
+    z-index: 2;
+    -webkit-transition: all 400ms ease-in;
+    -webkit-transform: scale(1);
+    -ms-transition: all 400ms ease-in;
+    -ms-transform: scale(1);   
+    -moz-transition: all 400ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 400ms ease-in;
+    transform: scale(1);
+   }
+   
+   .list-type1{
+    width:400px;
+    margin-left: 20px;
+    max-height: 350px;
+    }
+    
+    .list-type1 ol{
+    counter-reset: li;
+    list-style: none;
+    *list-style: decimal;
+    font-size: 15px;
+    font-family: 'Raleway', sans-serif;
+    padding: 0;
+    margin-bottom: 4em;
+    }
+    .list-type1 ol ol{
+    margin: 0 0 0 2em;
+    }
+    
+    .list-type1 a{
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    *padding: .4em;
+    margin: .5em 3em;
+    background: #93C775;
+    color: #000;
+    text-decoration: none;
+    -moz-border-radius: .3em;
+    -webkit-border-radius: .3em;
+    border-radius: 10em;
+    transition: all .2s ease-in-out;
+    }
+    
+    .list-type1 a:hover{
+    background: #d6d4d4;
+    text-decoration:none;
+    transform: scale(1.1);
+    }
+    
+    .list-type1 a:before{
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background:#93C775;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid #fff;
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 2em;
+    -webkit-border-radius: 2em;
+    border-radius: 2em;
+    color:#FFF;
+    }

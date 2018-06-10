@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.spring.mapper.CommentMapper">
+		<resultMap type="com.spring.domain.Comment" id="comment_result_1">
+			<id column="ma_binh_luan" property="commentID" javaType="java.lang.Integer"/>
+			<result column="ma_bai_hoc" property="lessonID" javaType="java.lang.String"/>
+			<result column="ma_nguoi_dung" property="userID" javaType="java.lang.String"/>
+			<result column="noi_dung" property="commentContent" javaType="java.lang.String"/>
+			<result column="thoi_gian_binh_luan" property="commentDate" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle"/>
+		</resultMap>
+
+	<!-- Query Data -->
+		<select id="getCommentByLessonID" resultMap="comment_result_1" resultType="java.util.List" parameterType="java.lang.String">
+				select * from binh_luan b where b.ma_bai_hoc = #{lessonID} order by thoi_gian_binh_luan desc
+		</select>
+		
+		<select id="getCommentBycommentID" resultMap="comment_result_1" parameterType="int">
+				select * from binh_luan where ma_binh_luan =#{commentID}
+		</select>
+		
+		<select id="canEditComment"  parameterType="java.util.Map" resultType="int">
+			select if  (exists(select * from binh_luan  b where b.ma_binh_luan=#{commentID} and b.ma_nguoi_dung=#{userID}),1,0) as result     
+		</select>
+		
+		<update id="updateCommentContent" parameterType="java.util.Map">
+				update binh_luan set noi_dung =#{commentContent} where ma_binh_luan =#{commentID}
+		</update>
+		
+	
+		<delete id="deleteCommentByCommentID" parameterType="int">
+				delete from binh_luan where  ma_binh_luan =#{commentID}
+		</delete>
+		
+			
+		
+		</mapper>
+

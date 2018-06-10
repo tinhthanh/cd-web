@@ -1,0 +1,114 @@
+<p-growl [value]="msgs" sticky="sticky">
+    </p-growl>
+    
+    <form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+        <p-panel header="Cập nhật khóa học">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Tên chủ đề *:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <input pInputText type="text" formControlName="courseTitle" placeholder="Tên chủ đề" />
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTitle'].valid&&userform.controls['courseTitle'].dirty">
+                            <i class="fa fa-close"></i>
+                            Đây là trường bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Mô tả:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <textarea pInputTextarea type="text" formControlName="courseDescription"></textarea>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Giá:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <input pInputText type="number" formControlName="price" placeholder="Giá khóa học" />
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['price'].valid&&userform.controls['price'].dirty">
+                            <i class="fa fa-close"></i>
+                            Đây là trường bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Mã loại khóa học *:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-dropdown [options]="courseTypeID" formControlName="courseTypeID" [autoWidth]="false"></p-dropdown>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTypeID'].valid&&userform.controls['courseTypeID'].dirty">
+                            <i class="fa fa-close"></i>
+                            Đây là trường bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Mã chủ đề *:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-dropdown [options]="topicID" formControlName="topicID" [autoWidth]="false"></p-dropdown>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['topicID'].valid&&userform.controls['topicID'].dirty">
+                            <i class="fa fa-close"></i>
+                            Đây là trường bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Ảnh đại diện:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-fileUpload name="uploadAvt[]" url="./upload.php" (onUpload)="onUpload($event)" multiple="multiple" accept="image/*" maxFileSize="1000000">
+                            <ng-template pTemplate type="content">
+                                <ul *ngIf="uploadedAvt.length">
+                                    <li *ngFor="let file of uploadedAvt">{{file.name}} - {{file.size}} bytes</li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseAvatar'].valid&&userform.controls['courseAvatar'].dirty">
+                            <i class="fa fa-close"></i>
+                            Đây là trường bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        Chi tiết khóa học:
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p-editor formControlName="ScourseDetail" [(ngModel)]="sourceDetail" [style]="{'height':'320px'}"></p-editor>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2"></div>
+                    <div class="ui-grid-col-6">
+                        <button pButton type="submit" label="Cập nhật khóa học" [disabled]="!userform.valid"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                </div>
+                <div style="text-align:center;margin-top:20px" *ngIf="submitted">
+                    Form Submitted
+                    <br> {{diagnostic}}
+                </div>
+            </div>
+        </p-panel>
+    </form>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		<mapper namespace="com.spring.mapper.UserMapper">
+		
+		<resultMap type="com.spring.domain.User" id="user_result_1">
+		<id column="ma_nguoi_dung" javaType="java.lang.String" property="userID" />
+		<result column="ten_nguoi_dung" javaType="java.lang.String" property="userName"/>
+		<result column="ngay_dang_ky" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="registrationDate"/>
+		<result column="email" javaType="java.lang.String" property="email"/>
+		<result column="anh_dai_dien" javaType="java.lang.String" property="avatar"/>
+		<result column="mat_khau" javaType="java.lang.String" property="password"/>
+		<result column="diem" javaType="java.lang.Double" property="score"/>
+		<result column="trang_thai" javaType="java.lang.Integer" property="status"/>
+		<result column="dia_chi" javaType="java.lang.String" property="address"/>
+		<result column="sdt" javaType="java.lang.String" property="phoneNumber"/>
+		<association property="lastPasswordResetDate" column="ma_nguoi_dung" select="com.spring.mapper.UserActionMapper.getLastPasswordResetDate"></association>
+		<collection property="permission" column="ma_nguoi_dung" select="com.spring.mapper.RoleMapper.getListRoleByUserID"></collection>
+		</resultMap>
+		
+		
+		<resultMap type="com.spring.domain.custom.UserInfo" id="user_result_2">
+		<id column="ma_nguoi_dung" javaType="java.lang.String" property="userID" />
+		<result column="ten_nguoi_dung" javaType="java.lang.String" property="userName"/>
+		<result column="ngay_dang_ky" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="registrationDate"/>
+		<result column="email" javaType="java.lang.String" property="email"/>
+		<result column="anh_dai_dien" javaType="java.lang.String" property="avatar"/>
+		<result column="diem" javaType="java.lang.Double" property="score"/>
+		<result column="trang_thai" javaType="java.lang.Integer" property="status"/>
+		<result column="dia_chi" javaType="java.lang.String" property="address"/>
+		<result column="sdt" javaType="java.lang.String" property="phoneNumber"/>
+		<association property="lastPasswordResetDate" column="ma_nguoi_dung" select="com.spring.mapper.UserActionMapper.getLastPasswordResetDate"></association>
+		<collection property="permission" column="ma_nguoi_dung" select="com.spring.mapper.RoleMapper.getListRoleByUserID"></collection>
+		</resultMap>
+		
+		
+		
+		<!-- QUERY data -->
+		
+		<select id="getListUserInfo" resultMap="user_result_2" statementType="CALLABLE" parameterType="java.util.Map">
+			{call proc_paging_query(#{page},#{size},
+			#{sumPage, mode=OUT,jdbcType=INTEGER},
+			#{sumRecord, mode=OUT,jdbcType=INTEGER},
+			"select * from nguoi_dung")}
+		</select>
+		
+		<select id="getUserByUserID" parameterType="java.lang.String" statementType="CALLABLE"  resultMap="user_result_1">
+			{call get_nguoi_dung_by_ma_nguoi_dung(#{userID,mode=IN})}
+		</select>
+		
+		<select id="getUserByEmail" parameterType="java.lang.String" statementType="CALLABLE" resultMap="user_result_1">
+			{call get_nguoi_dung_by_email(#{email,mode=IN})}
+		</select>
+		
+		<select id="getUserByUserID2" parameterType="java.lang.String" resultMap="user_result_2">
+			select * from nguoi_dung n where n.ma_nguoi_dung = #{userID}
+		</select>
+		
+		<insert id="createUser" statementType="CALLABLE" parameterType="java.util.Map">
+			{call create_nguoi_dung(#{userName,mode=IN}, #{email,mode=IN}, #{password,mode=IN}, #{result,jdbcType=INTEGER,mode=OUT})}
+		</insert>
+		
+		
+		<insert id="changeUserStatus" statementType="CALLABLE" parameterType="java.util.Map">
+			{call change_trang_thai_nguoi_dung(#{userID,mode=IN},#{newStatus,mode=IN},#{result,jdbcType=INTEGER,mode=OUT})}
+		</insert>
+		
+		<insert id="changeUserPassword" statementType="CALLABLE" parameterType="java.util.Map">
+			{call change_mat_khau_nguoi_dung(#{userID,mode=IN},#{newPassword,mode=IN},#{result,jdbcType=INTEGER,mode=OUT})}
+		</insert>
+		
+		<insert id="updateScore" parameterType="java.util.Map">
+			update nguoi_dung set diem =#{score} where ma_nguoi_dung = #{userID}
+		</insert>
+		
+		<update id="updateUserInfo" parameterType="java.util.Map">
+			update nguoi_dung set ${column} =#{value} where ma_nguoi_dung = #{userID}
+		</update>
+		
+	
+		<resultMap type="com.spring.domain.Statistics" id="topicStatisticsGuests">
+		<result column="ten_nguoi_dung" javaType="java.lang.String" property="name"/>
+		<result column="diem" javaType="java.lang.Integer" property="value"/>
+		</resultMap>
+		
+		<select id="statisticsByGuest" statementType="CALLABLE" parameterType="java.util.Map" resultMap="topicStatisticsGuests">
+		{call thong_ke_diem_nguoi_dunng(#{rowsLimit, mode=IN,jdbcType=INTEGER}, #{totalCourse, mode=OUT,jdbcType=INTEGER})}
+		</select>
+		
+		
+		</mapper>

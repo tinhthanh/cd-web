@@ -1,0 +1,30 @@
+<!-- footer -->
+<a  *ngIf="navIsFixed" (click)="scrollTop()" style="display: block" class="cd-top">Lên đầu</a>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 iaddress">
+                <h2 class="text-center">Địa chỉ</h2>
+                <h6>Địa chỉ: <b>Trường đại học Nông Lâm thành phố Hồ Chí Minh</b></h6>
+                <h6>Số điện thoại: <b><a href="tel:+84969037662">0969 037 662</a></b></h6>
+                <h6>Email: <b><a href="mailto:nguyenphatit.nl@gmail.com?Subject=Hello%203TPL" target="_top">nguyenphatit.nl@gmail.com</a></b></h6>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 isupport">
+                <h2 class="text-center">Thông tin</h2>
+                <h6><b><a [routerLink]="['/home/gioi-thieu']">Giới thiệu</a></b></h6>
+                <h6><b><a [routerLink]="['/home/dieu-khoan-su-dung']">Điều khoản sử dụng</a></b></h6>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 imap">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5541.200840130881!2d106.79258270238932!3d10.870812277542086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d89fdd1c3b31%3A0x8f87c513d055215c!2zS2hvYSBDw7RuZyBOZ2jhu4cgVGjDtG5nIFRpbg!5e0!3m2!1svi!2s!4v1509746747708" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="ifooter text-right">
+    <div class="container">
+        <h6>Được thiết kế bởi 3TPL &copy; 2017</h6>
+    </div>
+</div>
+<!-- /footer -->

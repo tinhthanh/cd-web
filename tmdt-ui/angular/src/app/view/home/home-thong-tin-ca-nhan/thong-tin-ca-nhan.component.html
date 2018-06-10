@@ -1,0 +1,176 @@
+<!-- account -->
+<div class="account">
+  <section class="sec-1">
+    <div class="info-basic">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+            <img src="{{authorItem?.avatar}}" alt="Ảnh đại diện" class="img-thumbnail rounded-circle avatar-img">
+          </div>
+          <div class="col-12 col-sm-12 col-md-6 col-lg-9 col-xl-9 content-text">
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                <h1>{{authorItem?.userName}}</h1>
+                <!-- <h5>Sinh ngày 1 tháng 6 năm 1996</h5> -->
+                <h5>Địa chỉ: {{authorItem?.address}}</h5>
+                <h5>Số lượng khóa học: {{authorItem?.numberOfCourses}}</h5>
+                <h5>Điểm: {{authorItem?.score}}</h5>
+              </div>
+              <div *ngIf="this.authorItem?.userID ===  this.loginUser?.userID" class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 text-right">
+                <button (click)="isShowProfile=!isShowProfile" type="button" class="btn ibtn-circle-white" data-toggle="collapse" href="#settingacc"
+                  aria-expanded="false" aria-controls="settingacc">
+                  <i class="fa fa-cog"></i> Chỉnh sửa thông tin</button>
+                <button [routerLink]="['/home/lich-su-giao-dich']" class="btn ibtn-circle-white">
+                  <i class="fa fa-credit-card"></i> Lịch sử giao dịch</button>
+                <button [routerLink]="['/home/khoa-hoc-cua-toi']" class="btn ibtn-circle-white">
+                  <i class="fa fa-credit-card"></i> Khóa học của tôi</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="isShowProfile" class="sec-2" id="settingacc">
+    <div class="container">
+      <div class="setting-account">
+        <h2>Chỉnh sửa thông tin cá nhân</h2>
+        <form *ngIf="userform" [formGroup]="userform" (ngSubmit)="onSubmit()">
+          <div class="row form-group change-avt">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+              <img [src]="url_avatar" alt="Ảnh đại diện" class="img-thumbnail avatar-img">
+            </div>
+            <!-- file input đang bị lỗi -->
+            <div class="col-12 col-sm-12 col-md-6 col-lg-9 col-xl-9 content-text">
+              <app-upload-avatar (eventUp)="onUploadAvartar($event)"></app-upload-avatar>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Họ và tên</label>
+            <input type="text" class="form-control" id="name" name="name" aria-describedby="name" formControlName="userName" placeholder="Họ và tên">
+            <small id="name" class="form-text text-muted">Bạn phải nhập họ và tên.</small>
+          </div>
+          <!-- <div class="custom-controls-stacked d-block my-3">
+                        <label class="custom-control custom-radio">
+                            <input id="male" name="radio-stacked" type="radio" class="custom-control-input" required>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Nam</span>
+                        </label>
+                        <label class="custom-control custom-radio">
+                            <input id="female" name="radio-stacked" type="radio" class="custom-control-input" required>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Nữ</span>
+                        </label>
+                    </div> -->
+          <!-- <div class="form-group">
+                        <label for="birthday">Sinh nhật</label>
+                        <input type="date" class="form-control" id="birthday" placeholder="Sinh nhật">
+                    </div> -->
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input formControlName="phoneNumber" type="text" class="form-control" id="phone" name="phone-number" placeholder="Số điện thoại">
+          </div>
+          <div class="form-group">
+            <label for="address">Địa chỉ</label>
+            <textarea formControlName="address" class="form-control" id="address" rows="3" name="address"></textarea>
+          </div>
+          <div class="text-right">
+            <button [disabled]="submitted" type="submit" class="btn ibtn">
+
+              <i class="fa fa-check"></i>
+              <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+              /> Cập nhật thông tin</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="sec-3">
+    <div class="container">
+      <h2>Khóa học nổi bật</h2>
+      <div class="row">
+        <!-- item -->
+        <div *ngFor="let item  of featuredCourse" class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+          <div class="card border-secondary">
+            <img class="card-img-top" src="{{item.courseAvatar}}" alt="">
+            <div class="card-body">
+              <div class="parallelogram-blue"></div>
+              <div class="parallelogram-orange"></div>
+              <h5 class="card-title">
+                <div class="parallelogram-text block-with-text">{{item.courseTitle}}</div>
+              </h5>
+              <p class="card-text truncate-text demission">{{item.courseDescription}}</p>
+              <span>Giảng viên:
+                <a [routerLink]="['/home/thong-tin-ca-nhan', item.author.userID]">
+                  <b>{{item.author.userName}}</b>
+                </a>
+              </span>
+              <br/>
+              <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <i class="fa fa-users"></i> {{item.views}}
+                </div>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                  <!-- <i class="fa fa-clock-o"></i> 45 giờ học -->
+                </div>
+              </div>
+              <!-- <span><b class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></b></span> -->
+              <div class="text-right">
+                <a [routerLink]="['/home/chi-tiet-khoa-hoc',item.courseID]" class="btn ibtn">Xem chi tiết</a>
+              </div>
+            </div>
+            <div class="card-footer text-right">
+              <h6 class="price">{{item.price==0?'Miễn phí':item.price+'đ'}}</h6>
+            </div>
+          </div>
+        </div>
+        <!-- item -->
+      </div>
+    </div>
+  </section>
+  <section class="sec-4">
+    <div class="container">
+      <h2>Tất cả khóa học</h2>
+      <div class="row">
+        <!-- item -->
+        <div *ngFor="let item  of listCourseItem" class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+          <div class="card border-secondary">
+            <img class="card-img-top" src="{{item.courseAvatar}}" alt="">
+            <div class="card-body">
+              <div class="parallelogram-blue"></div>
+              <div class="parallelogram-orange"></div>
+              <h5 class="card-title">
+                <div class="parallelogram-text block-with-text"> {{item.courseTitle}}</div>
+              </h5>
+              <p class="card-text truncate-text demission">{{item.courseDescription}}</p>
+              <span>Giảng viên:
+                <a [routerLink]="['/home/thong-tin-ca-nhan', item.author.userID]">
+                  <b>{{item.author.userName}}</b>
+                </a>
+              </span>
+              <br/>
+              <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <i class="fa fa-users"></i> {{item.views}}
+                </div>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                  <!-- <i class="fa fa-clock-o"></i> 45 giờ học -->
+                </div>
+              </div>
+              <!-- <span><b class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></b></span> -->
+              <div class="text-right">
+                <a [routerLink]="['/home/chi-tiet-khoa-hoc',item.courseID]" class="btn ibtn">Xem chi tiết</a>
+              </div>
+            </div>
+            <div class="card-footer text-right">
+              <h6 class="price">{{item.price==0?'Miễn phí':item.price+'đ'}}</h6>
+            </div>
+          </div>
+        </div>
+        <!-- item -->
+      </div>
+    </div>
+  </section>
+</div>
+<!-- /account -->

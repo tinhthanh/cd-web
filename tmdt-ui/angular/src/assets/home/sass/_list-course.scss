@@ -1,0 +1,100 @@
+.list-course {
+	section.section-1 {
+		padding: 150px 0 50px 0;
+		text-algin: center;
+		h2 {
+			font-family: $font1;
+			font-size: 2.5em;
+		}
+		.btndd {
+			select {
+				border-top: 1px solid $color4;
+				border-radius: 0;
+				outline: none;
+				&:focus {
+					outline: none;
+				}
+			}
+		}
+	}
+
+	section.section-2 {
+		background: #ffffff;
+		padding: 0 0 50px 0;
+		.card {
+			@include basic-delay(1s);
+			margin: 20px 0 20px 0;
+			border-radius: 0;
+			.card-img-top {
+				max-height: 156px;
+				min-height: 156px;
+				.card-item {
+					// height: 100px;
+					max-height: 156px;
+				}
+				opacity: .6;
+				@include basic-delay(1s);
+			}
+
+			.card-body {
+				.parallelogram-blue {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color2;
+					float: left;
+					margin: 0 2px 0 0;
+				}
+
+				.parallelogram-orange {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color4;
+					float: left;
+					margin: 0 10px 0 0;
+				}
+
+				h5 {
+					font-size: 1em;
+				}
+
+				.rating {
+					color: $color3;
+				}
+
+				.btninfo {
+					border: 1px solid $color4;
+					color: $color4;
+					cursor: pointer;
+					@include basic-delay(1s);
+					&:hover {
+						background: $color4;
+						color: #ffffff;
+						@include basic-delay(1s);
+					}
+				}
+			}
+
+			.card-footer {
+				.price {
+					font-family: $font3;
+					font-size: 1.250em;
+					color: $color5;
+				}				
+			}
+			&:hover {
+				@include basic-shadow(1px, 1px, 10px, 5px, #999);
+				@include basic-delay(1s);
+			}
+			&:hover .card-img-top {
+				opacity: 1;
+				@include basic-delay(1s);
+			}
+		}
+	}
+}

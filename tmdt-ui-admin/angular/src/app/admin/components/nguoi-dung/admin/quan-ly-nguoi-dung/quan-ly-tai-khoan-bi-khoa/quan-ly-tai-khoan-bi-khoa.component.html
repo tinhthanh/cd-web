@@ -1,0 +1,73 @@
+<p-confirmDialog></p-confirmDialog>
+
+<p-messages></p-messages>
+<!-- <pre>{{ cars || json }}</pre> -->
+<div class="content-section introduction">
+        <div>
+            <span class="feature-title"> {{ 'd186' | translate }}</span>
+            <span> {{ 'd187' | translate }} </span>
+        </div>
+    </div>
+    <div style="margin: 0 5px 0 5px" >
+        <p-dataTable [value]="listUser"  
+        scrollable="true" scrollHeight="400px"
+        [responsive]="true"
+        >
+            <p-header> {{ 'd142' | translate }} </p-header>
+            <p-column styleClass="col-button" >
+                <ng-template pTemplate="header">
+                        {{ 'd189' | translate }}  
+                </ng-template>
+                <ng-template let-user="rowData" pTemplate="body">
+                       <img style="
+                       border-radius: 50%;
+                       width: 80px; white-space: nowrap;
+                       overflow: hidden;
+                       text-overflow: ellipsis;" src="{{user.avatar}}" >
+                </ng-template>
+            </p-column>
+            
+            <p-column field="email" header="{{ 'd146' | translate }} " [sortable]="true">
+                    <ng-template let-col let-user="rowData" pTemplate="body">
+                        <h5>  <pre>{{user.email}}</pre></h5> 
+                    </ng-template>
+                </p-column>
+                <p-column field="address" header=" {{ 'diachi' | translate }} " [sortable]="true">
+                    <ng-template let-col let-user="rowData" pTemplate="body">
+                        <h5 innerHTML=" {{user.address}}">
+                           
+                        </h5>
+                    </ng-template>
+                </p-column>
+            <p-column field="phoneNumber" header=" {{ 'd190' | translate }} " [sortable]="true">
+                    <ng-template let-col let-user="rowData" pTemplate="body">
+                           <pre>{{user.phoneNumber}}</pre>
+                    </ng-template>
+                </p-column>
+                <p-column field="score" header="{{ 'diemso' | translate }} " [sortable]="true">
+                        <ng-template let-col let-user="rowData" pTemplate="body">
+                               <pre>{{user.score}}</pre>
+                        </ng-template>
+                    </p-column>
+                        <p-column field="permission" header=" {{ 'd191' | translate }}" [sortable]="true">
+                                <ng-template let-col let-user="rowData" pTemplate="body">
+                                       <pre *ngFor="let role of user.permission ">{{ 
+                                           (role.roleName ===  'ROLE_ADMIN')?'Manager': (role.roleName === 'ROLE_USER')?'User': role.roleName }}</pre>
+                                </ng-template>
+                            </p-column>
+            <p-column styleClass="col-button" >
+                <ng-template pTemplate="header">
+                        {{ 'hanhdong' | translate }}
+                </ng-template>
+                <ng-template let-user="rowData" pTemplate="body">
+                        <button (click)="thaoTacMoKhoa(user)"  type="button" class="ui-button-success" pButton icon="fa fa-lock">                 
+                        </button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
+        <p-paginator rows="{{size}}"  totalRecords="{{total}}" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20, 100]" ></p-paginator>
+        
+        
+        </div>
+    
+    

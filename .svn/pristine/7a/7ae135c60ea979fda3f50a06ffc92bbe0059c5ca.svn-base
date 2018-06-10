@@ -1,0 +1,110 @@
+import { Component, OnInit } from '@angular/core';
+import { ManagerRoleService } from '../../../../_services/admin/manager-role.service';
+import { Observable } from 'rxjs/Observable';
+import { UserRoleList, UserSubInfo } from '../../../../_models/user/user-role';
+import { Privilege } from '../../../../_models/user/privilege';
+import { NgZone } from '@angular/core';
+import { UserInfo } from '../../../../_models/user/user-info';
+const day = ['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat'];
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+@Component({
+  selector: 'app-permission',
+  templateUrl: './permission.component.html',
+  styleUrls: ['./permission.component.css']
+})
+export class PermissionComponent implements OnInit {
+
+  constructor(public roleSv: ManagerRoleService, public zone: NgZone) { }
+  public userRoleList: Observable<UserSubInfo[]>;
+  public privilegeList: Observable<Privilege[]>;
+  public listUser: Observable<UserInfo[]>;
+  public selectUser: UserSubInfo;
+  public updateUser: Privilege;
+
+  public startDate;
+  public endDate;
+  pageList = new Array<number>();
+  selectedPage = 0;
+
+  ngOnInit() {
+    this.selectedPage = 0;
+    this.updateUser = new Privilege();
+    this.updateUser.privilegesStatus = 1;
+    this.setSelectPage(0);
+  }
+
+  setPage(pageSize) {
+    this.pageList = new Array<number>();
+    for (let i = 0; i < pageSize; i++) {
+      this.pageList.push(i);
+    }
+  }
+
+  setSelectPage(selectedPage) {
+    const pageSize = 5;
+    if (selectedPage >= 0 && selectedPage < this.pageList.length) {
+      console.log(selectedPage);
+      this.selectedPage = selectedPage;
+    }
+    this.userRoleList = this.roleSv.getAllUserWithRole(this.selectedPage * pageSize, pageSize).map(data => {
+      const numPage = Math.floor(data.total / pageSize);
+      this.setPage(numPage + ( data.total % pageSize > 0 ? 1 : 0));
+      return data.listOfUser;
+    });
+
+  }
+
+  getUserPrivilege(id) {
+    this.userRoleList.map(data => {
+      return data.filter(u => u.userId == id)[0];
+    }).subscribe(user => {
+      this.selectUser = user;
+    });
+    this.privilegeList = this.roleSv.getAllPrivilegeById(id).map(data => {
+      data.forEach(p => {
+        p.endDate = new Date(p.endDate['year'], p.endDate['monthValue'] - 1, p.endDate['dayOfMonth']);
+        p.startDate = new Date(p.startDate['year'], p.startDate['monthValue'] - 1, p.startDate['dayOfMonth']);
+      });
+      return data;
+    });
+    this.listUser = this.roleSv.getAllUser().map(data => {
+      return data.filter(user => user.userId != id);
+    });
+    this.updateUser.userId = id;
+  }
+
+  printDate(d: Date) {
+    return day[d.getDay()] + ', ' + d.getDate() + '-' + month[d.getMonth()] + '-' + d.getFullYear();
+  }
+
+  update() {
+    if (this.startDate && this.endDate && this.updateUser.userId && this.updateUser.userReportId) {
+      this.zone.run(() => {
+        this.updateUser.startDate = new Date(this.startDate.year, this.startDate.month, this.startDate.day);
+        this.updateUser.endDate = new Date(this.endDate.year, this.endDate.month, this.endDate.day);
+        this.roleSv.addPrivilege(this.updateUser).subscribe(dt => {
+
+          this.privilegeList = this.privilegeList.map(pri => {
+            dt.startDate = this.updateUser.startDate;
+            dt.endDate = this.updateUser.startDate;
+            return pri;
+          });
+        }, err => {
+          console.log(err);
+        });
+
+      });
+    }
+  }
+  delete(id) {
+    this.roleSv.deletePrivilege(id).subscribe(isDeleted => {
+      if (isDeleted) {
+        this.privilegeList = this.privilegeList.map(data => {
+          return data.filter(pri => pri.reportPrivilegesId != id);
+        });
+      }
+    });
+  }
+
+}

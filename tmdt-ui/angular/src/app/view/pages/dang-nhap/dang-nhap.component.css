@@ -1,0 +1,93 @@
+* The Modal (background) */
+.token-modal {
+
+    position: fixed; /* Stay in place */
+    z-index: 1051; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    bottom: 0px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    margin-top: 100px;
+}
+
+/* Modal Content (image) */
+.token-modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 850px;
+    /* background-color: #ffffff; */
+    border-radius: 5px;
+}
+
+/* Caption of Modal Image */
+#token-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 850px;
+    text-align: center;
+    /* color: #ccc; */
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.token-modal-content, #token-caption {    
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.token-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.token-close:hover,
+.token-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .token-modal-content {
+        width: 100%;
+    }
+}
+.input-error { 
+    border-color:  hsl(0, 84%, 38%);
+}
+.error {
+    border-color: red;
+}
+.form-login {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    margin-left: 10%;
+    margin-bottom: 5%;
+}

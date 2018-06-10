@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.WatchLaterMapper">
+		<resultMap type="com.spring.domain.WatchLater" id="watch_later_result">
+			<result column="ma_nguoi_dung" javaType="java.lang.String" property="userID"/>
+			<association column="ma_khoa_hoc" property="course" select="com.spring.mapper.CourseMapper.getCourseByCourseID"></association>
+		</resultMap>
+		
+		<select id="getWatchLaterByUserID" parameterType="java.lang.String" resultMap="watch_later_result">
+			select * from dang_ky_xem_sau where ma_nguoi_dung =#{UserID}
+		</select>
+		
+		<select id="getWatchLaterByUserIDAndCourseID" parameterType="java.util.Map" resultMap="watch_later_result">
+			select * from dang_ky_xem_sau where ma_nguoi_dung =#{userID} and ma_khoa_hoc =#{courseID}
+		</select>
+		<delete id="deleteWatchLater" parameterType="java.util.Map">
+			delete from dang_ky_xem_sau where ma_nguoi_dung =#{userID} and ma_khoa_hoc =#{courseID}
+		</delete>
+		
+		<insert id="insertWatchLater" parameterType="java.util.Map">
+			insert into dang_ky_xem_sau values(#{userID},#{courseID})
+		</insert>
+		
+</mapper>

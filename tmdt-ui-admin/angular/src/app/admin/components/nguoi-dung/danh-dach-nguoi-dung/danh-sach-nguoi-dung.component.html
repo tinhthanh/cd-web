@@ -1,0 +1,88 @@
+<p-growl [(value)]="msgs"></p-growl>
+<h3>
+  Danh sách người dùng</h3>
+<p-dataTable [value]="listNguoiDung" sortMode="multiple" [(selection)]="selectedNguoiDung" selectionMode="single" (onRowSelect)="suKienChon($event)">
+  <p-column field="userID" header="ID" [sortable]="true"></p-column>
+  <p-column field="email" header="Email" [sortable]="true"></p-column>
+  <p-column field="userName" header="Tên" [sortable]="true"></p-column>
+  <p-column field="score" header="Điểm" [sortable]="true"></p-column>
+  <p-column field="status" header="Trạng thái" [sortable]="true">
+    <ng-template let-col let-status="rowData" pTemplate="body">
+      <span >{{(status[col.field]===1)?'Hoạt động':'Khóa ' }} </span>
+  </ng-template>
+  </p-column>
+  <p-column header="Lịch sử giao dịch" >
+    <ng-template  pTemplate="body">
+      <button type="button" pButton  icon="fa-history" router-Link="#"></button>
+  </ng-template>
+  </p-column>
+
+</p-dataTable>
+<!-- /table -->
+<!-- <p-dataTable [value]="listNguoiDung">
+  <p-header>
+    <div style="text-align:left">
+      <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+    </div>
+  </p-header>
+  <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true" ></p-column>
+</p-dataTable> -->
+<!-- ./table -->
+
+<p-paginator (onPageChange)="paginate($event)" rows="{{rows}}" totalRecords="{{toltalRow}}" [rowsPerPageOptions]="[10,20,30]"></p-paginator>
+<!--
+<div *ngIf="selectedNguoiDung">
+  <p-dialog header="Godfather I" [(visible)]="display" modal="modal" width="300" [responsive]="true">
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label for="topicID">Vin</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input pInputText id="topicID" [(ngModel)]="selectedNguoiDung.topicID" />
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-check" (click)="display=false" label="Yes"></button>
+        <button type="button" pButton icon="fa-close" (click)="display=false" label="No"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</div>
+
+<button type="button" (click)="display = !display" pButton icon="fa-external-link-square" label="Show"></button> -->
+<p-dialog header="Chỉnh sửa chủ đề "  [minWidth]="600"  [(visible)]="display" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedNguoiDung">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="email">Email</label></div>
+            <div class="ui-grid-col-8"><input [disabled]="true"    pInputText id="email" [(ngModel)]="selectedNguoiDung.email" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="userName">Tên người dùng</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="userName" [(ngModel)]="selectedNguoiDung.userName" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="score">Điểm</label></div>
+            <div class="ui-grid-col-8"> <input pInputNumber id="score" [(ngModel)]="selectedNguoiDung.score" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="status">trạng thái</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="status" [(ngModel)]="selectedNguoiDung.status" /></div>
+      </div> <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="status">trạng thái</label></div>
+        <div class="ui-grid-col-8"> <p-multiSelect [options]="cars" [(ngModel)]="selectedCars1" [panelStyle]="{minWidth:'6em'}"></p-multiSelect></div>
+    </div>
+
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-check" (click)="capNhat()" label="Cập nhật"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<h3 class="first">Basic</h3>
+<p-multiSelect [options]="cars" [(ngModel)]="selectedCars1" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+<p>Selected Cars: {{selectedCars1}}</p>
+

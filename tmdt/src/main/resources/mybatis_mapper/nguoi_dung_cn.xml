@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.UserActionMapper">
+		
+	<select id="getLastPasswordResetDate" statementType="CALLABLE" parameterType="java.lang.String" resultType="java.time.LocalDateTime">
+		{call get_ngay_cap_nhat_mk_by_ma_nguoi_dung(#{userID})}
+	</select>
+	
+	<insert id="saveKeyReset" statementType="CALLABLE" parameterType="java.util.Map" >
+		{call save_key_reset(#{userID,mode=IN},#{keyReset,mode=IN},#{result,jdbcType=INTEGER,mode=OUT})}
+	</insert>
+	<delete id="removeKey" statementType="CALLABLE" parameterType="java.util.Map" >
+		{call remove_key_reset(#{userID,mode=IN},#{keyReset,mode=IN},#{result,jdbcType=INTEGER,mode=OUT})}
+	</delete>
+	<select id="getKeYResetByUserId" statementType="CALLABLE" parameterType="java.lang.String" resultType="java.lang.String">
+		{call get_key_reset_by_ma_nguoi_dung(#{userID})}
+	</select>
+</mapper>

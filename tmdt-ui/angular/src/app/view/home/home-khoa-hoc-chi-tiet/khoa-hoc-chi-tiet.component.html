@@ -1,0 +1,267 @@
+<!-- course -->
+<div class="course">
+    <section class="section-1">
+        <div class="container">
+            <div class="row course-title">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                    <h1>{{courseItem.courseTitle}}</h1>
+                    <div class="row">
+                        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                            Giảng viên: <a  [routerLink]="['/home/thong-tin-ca-nhan', author?.userID]"><b>{{author?.userName}}</b></a>
+                        </div>
+
+                        <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center">
+                            Số thành viên: <b>{{this.numberUserInCourse}} người</b>
+                        </div>
+
+                        <!-- <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center">
+                            Số giờ học: <b>45 giờ</b>
+                        </div> -->
+                    </div>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <img src="{{courseItem.courseAvatar}}" class="rounded mx-auto d-block" alt="...">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-2">
+        <div class="container">
+            <div class="row">
+                <div [innerHTML]="courseItem.courseDetail" class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 icol-1">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 icol-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-right">{{courseItem.price==0?'Miễn phí':courseItem.price+'đ'}}</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <span><i class="fa fa-file-text"></i> Bài học: </span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <span>24 bài học</span>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <span><i class="fa fa-file-text"></i> Thời lượng video: </span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <span>9 giờ 59 phút</span>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <span><i class="fa fa-file-text"></i> Chủ để: </span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <span>{{topic.topicName}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <span><i class="fa fa-eye"></i> Lượt xem: </span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <span>{{courseItem.views}}</span>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="text-right">
+                                <a *ngIf="!isRegisted" (click)="ghiDanh()" class="btn btn-block btn-light btn-book">Ghi danh</a>
+                                <a *ngIf="isRegisted" class="btn btn-block btn-success"><i class="fa fa-check"></i> Đã ghi danh</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-3">
+        <div class="container">
+            <div class="row" *ngIf="firstLessonInCourse">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 icol-1">
+                    <h3>{{firstLessonInCourse?.lessonTitle}}</h3>
+                    <hr/>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" [src]="firstLessonInCourse?.lessonContent" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 icol-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-right">Giới thiệu khóa học</h4>
+                        </div>
+                        <div class="card-body">
+                            {{courseItem.courseDescription}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 icol-1">
+                    <h3>Đề cương môn học</h3>
+                    <h4>{{listChapter.length==0?'Đang cập nhật...':''}}</h4>
+                    <div *ngFor="let itemChapter of listChapter, let i = index"   class="list-group">
+                        <span class="list-group-item list-group-item-action flex-column align-items-start active">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Chương {{i+1}}: {{itemChapter.chapterTitle}}</h5>
+                                <!-- <small><i class="fa fa-clock-o"></i> 0 phút</small> -->
+                            </div>
+                        </span>
+
+                        <a   *ngFor="let itemLesson of itemChapter.listOfLesson"   [routerLink]="['/home/bai-hoc',itemLesson.lessonID]" class="list-group-item list-group-item-action flex-column align-items-start">
+
+                            <p class="mb-1"><i class="fa fa-file"></i> {{itemLesson.lessonTitle}}</p>
+                        </a>
+                    </div>
+
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 icol-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-right">Thông tin giảng viên</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-6">
+                                    <img class="img-thumbnail" src="{{author.avatar}}" alt="">
+                                </div>
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-6 text-right">
+                                    <h6><a  [routerLink]="['/home/thong-tin-ca-nhan',author.userID]"><b>{{author.userName}}</b> </a></h6>
+                                    <h6><i class="fa fa-play-circle-o"></i> {{author.numberOfCourses}} khóa học</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-5">
+        <div class="container icol-1">
+            <h3>Khóa học có liên quan</h3>
+            <div class="row">
+                <!-- card -->
+                <div *ngFor="let item of listCourseRelationship"   class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 wow bounceInUp">
+                    <div class="card border-secondary">
+                        <img class="card-img-top" src="{{item.courseAvatar}}" alt="">
+                        <div class="card-body">
+                                <div class="parallelogram-blue"></div>
+                                <div class="parallelogram-orange"></div>
+                            <h5 class="card-title"><div class="parallelogram-text block-with-text">{{item.courseTitle}}</div>
+                            </h5>
+                            <p class="card-text truncate-text demission">{{item.courseTitle}}</p>
+                            <span>Giảng viên: <b>{{item.author.userName}}</b></span><br/>
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <i class="fa fa-users"></i> {{item.views}}
+                                </div>
+                                <!-- <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right">
+                                    <i class="fa fa-clock-o"></i> 45 giờ học
+                                </div> -->
+                            </div>
+                            <!-- <span><b class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></b></span> -->
+                            <div class="text-right"><a [routerLink]="['/home/chi-tiet-khoa-hoc',item.courseID]" class="btn btn-light btninfo">Xem chi tiết</a></div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <h6 class="price">{{item.price==0?'Miễn phí':item.price+'đ'}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+            </div>
+        </div>
+    </section>
+    <!-- <section class="section-6">
+        <div class="container">
+            <div class="sec-rating">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 icol-1">
+                        <h5>Đánh giá của học viên</h5>
+                        <h1>4.6</h1>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 icol-2">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100">88%</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 4%" aria-valuenow="4" aria-valuemin="0" aria-valuemax="100">4%</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 8%" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100">8%</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 icol-3">
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment">
+
+            </div>
+        </div>
+    </section> -->
+</div>
+<!-- /course -->

@@ -1,0 +1,89 @@
+package com.pal.intern.service.impl;
+
+import com.pal.intern.domain.ConvertProvider;
+import com.pal.intern.domain.IssueMapper;
+import com.pal.intern.repository.IssuesRepository;
+import com.pal.intern.service.IssueService;
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.internal.ResultsWrapper;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class IssueServiceImpl implements IssueService {
+
+    @Autowired
+    private IssuesRepository issuesRepository;
+
+    @Override
+    public IssueMapper getIssueById(int id) throws RedmineException {
+        Issue issue = this.issuesRepository.getIssueById(id);
+        IssueMapper result = ConvertProvider.from(issue);
+        return result;
+
+    }
+
+    @Override
+    public Map<String, Object> getListIssuesByProjectId(int projectId, int offset, int limit) throws RedmineException {
+        ResultsWrapper<Issue> rw = this.issuesRepository.getListIssuesByProjectId(projectId, offset, limit);
+        List<IssueMapper> issueMappers = new LinkedList<>();
+        List<Issue> issues = rw.getResults();
+        issues.forEach(i -> {
+            issueMappers.add(ConvertProvider.from(i));
+        });
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("listOfIssues", issueMappers);
+        result.put("offset", rw.getOffsetOnServer());
+        result.put("totalCount", rw.getLimitOnServer());
+        result.put("totalCount", rw.getTotalFoundOnServer());
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getAllIssues(int offset, int limit) throws RedmineException {
+
+        ResultsWrapper<Issue> rw = this.issuesRepository.getAllIssues(offset, limit);
+        List<IssueMapper> issueMappers = new LinkedList<>();
+        List<Issue> issues = rw.getResults();
+        issues.forEach(i -> {
+            issueMappers.add(ConvertProvider.from(i));
+        });
+        Map<String, Object> result = new HashMap<>();
+        result.put("listOfIssues", issueMappers);
+        result.put("offset", rw.getOffsetOnServer());
+        result.put("totalCount", rw.getLimitOnServer());
+        result.put("totalCount", rw.getTotalFoundOnServer());
+
+        return result;
+
+    }
+
+    @Override
+    public Map<String, Object> getIssuesWithParam(Map<String, Object> params) throws RedmineException {
+
+        if (!params.containsKey("status_id")) {
+            params.put("status_id", "*");
+        }
+        ResultsWrapper<Issue> rw = this.issuesRepository.getIssuesWithParam(params);
+        List<IssueMapper> issueMappers = new LinkedList<>();
+        List<Issue> issues = rw.getResults();
+        issues.forEach(i -> {
+            issueMappers.add(ConvertProvider.from(i));
+        });
+        Map<String, Object> result = new HashMap<>();
+        result.put("listOfIssues", issueMappers);
+        result.put("offset", rw.getOffsetOnServer());
+        result.put("totalCount", rw.getLimitOnServer());
+        result.put("totalCount", rw.getTotalFoundOnServer());
+
+        return result;
+    }
+
+}

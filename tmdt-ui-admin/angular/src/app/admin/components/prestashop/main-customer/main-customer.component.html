@@ -1,0 +1,140 @@
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">Demo Call service Angular 5</span>
+        <span> Ứng dụng với chức năng call service Prestashop lấy ra danh sách đơn hàng mới </span>
+    </div>
+</div>
+
+<div class="content-section implementation">
+
+    <p-growl [value]="msgs"></p-growl>
+
+    <p-carousel headerText="   Xem đơn hàng " [value]="carts">
+        <ng-template let-carts pTemplate="item">
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> {{ carts.date_upd }}   </div>
+                
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Hình thức: </div>
+                    <div class="ui-grid-col-6">{{carts.payment}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Tổng tiền </div>
+                    <div class="ui-grid-col-6">{{carts.total_products}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">Tiền Giao: </div>
+                    <div class="ui-grid-col-6">{{carts.total_shipping
+                    }}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+                        <button type="button" pButton icon="fa-search" (click)="selectCar(carts)"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+
+ 
+        <p-panel header=" Thống kê " [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                <div class="ui-grid-row">
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <p-fieldset legend=" Nhân viên " [collapsed]="true" [toggleable]="true">
+                        <p-footer>
+                                <div class="ui-grid-row">
+                                        <div class="ui-grid-col-12">Số lượng: {{ sl_khach_hang }} </div></div>
+                                <button pButton type="button" icon="fa-plus" label="New" class="ui-button-info"></button>
+                                <button pButton type="button" icon="fa-list" label="View" (click)="ds_kh_show=!ds_kh_show" class="ui-button-success"></button>
+                            </p-footer>
+                   </p-fieldset>
+                  
+               </div>
+       
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <p-fieldset legend=" Sản phẩm " [collapsed]="true" [toggleable]="true">
+                    <h2>  {{ sl_san_pham + ' ' }} Sản phẩm </h2>
+                   </p-fieldset>
+               </div>
+               <div class="ui-g-12 ui-md-6 ui-lg-3">
+                    <p-fieldset legend=" Đơn hàng " [collapsed]="true" [toggleable]="true">
+                        <h2>{{sl_don_hang + ' '}} Đơn hàng  </h2>
+                        </p-fieldset>
+                   </div>
+            </div>
+        </p-panel>
+        <div *ngIf="ds_kh_show" class="ui-grid-row">
+
+        <div *ngFor="let kh of ds_khach_hang " class="ui-grid-row">
+                <div  class="ui-grid-col-3" style="text-align:center">
+                   <a [routerLink]="['/admin/prestashop/edit']" [queryParams]="{key:kh.id}">
+                    <i class="fa fa-edit text-info" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </a>
+
+                    
+                    <img style="width: 120px;" src="https://www.roomsoom.com/images/testimonial-face/icon1.png"></div>
+                <div class="ui-grid-col-9">
+                    <div class="ui-grid ui-grid-responsive ui-fluid">
+                        <div class="ui-grid-row">
+                            <div style="text-align: left;" class="ui-grid-col-2">Họ tên: </div>
+                            <div class="ui-grid-col-10">{{  kh.firstname  + ' ' + kh.lastname    }} </div>
+                        </div>
+                        <div  class="ui-grid-row">
+                            <div style="text-align: left;" class="ui-grid-col-2">Emial: </div>
+                            <div  class="ui-grid-col-10">{{kh.email}}</div>
+                        </div>
+                        <div  class="ui-grid-row">
+                            <div style="text-align: left;" class="ui-grid-col-2">Ngày sinh: </div>
+                            <div class="ui-grid-col-10">{{kh.birthday}}</div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div style="text-align: left;" class="ui-grid-col-2">Ngày tham gia: </div>
+                            <div  class="ui-grid-col-10">{{kh.date_add}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton type="button" icon="fa-list" label="Ẩn " (click)="ds_kh_show=!ds_kh_show" class="ui-button-success"></button>
+            </div>
+
+        <!-- <div class="content-section implementation">
+                <p-dataScroller [value]="ds_khach_hang" [rows]="2" [inline]="true" scrollHeight="500px">
+                    <p-header>
+                        Scroll Down to to Load More
+                    </p-header>
+                    <ng-template let-kh pTemplate="item">
+                        <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
+                            <div class="ui-grid-row">
+                                 <div class="ui-grid-col-9">
+                                    <div class="ui-grid ui-grid-responsive ui-fluid">
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">Họ tên : </div>
+                                            <div class="ui-grid-col-10"> </div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">Email : </div>
+                                            <div class="ui-grid-col-10"></div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">Ngày sinh : </div>
+                                            <div class="ui-grid-col-10"></div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">Ngày đăng ký : </div>
+                                            <div class="ui-grid-col-10"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataScroller>
+            </div> -->
+            
+
+    </div>
+
+    

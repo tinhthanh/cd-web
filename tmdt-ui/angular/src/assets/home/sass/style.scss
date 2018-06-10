@@ -1,0 +1,33 @@
+@import "font";
+@import "color";
+@import "effect";
+@import "mixin";
+@import "ibutton";
+@import "shopping-cart";
+@import "scrollbar";
+@import "showtext";
+@import "pagination";
+@import "loader";
+@import "emoji";
+
+body, html {
+	font-family: $font2;
+	font-size: 16px;
+}
+
+@import "sign";
+@import "navbar";
+@import "index";
+// @import "card3d";
+@import "list-course";
+@import "course";
+@import "footer";
+@import "account";
+@import "recharge";
+@import "introduce";
+@import "policy";
+@import "error404";
+@import "lesson";
+@import "payment";
+@import "transaction-history";
+@import "my-course";

@@ -1,0 +1,124 @@
+<p-growl [(value)]="msgs"></p-growl>
+<!-- <pre>{{ cars || json }}</pre> -->
+<div *ngIf="loading"  style="position: fixed ; top: 0px; left:  0px; width: 100%; z-index: 9999" >
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px' }"></p-progressBar>    
+</div>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">{{ 'd155' | translate }}</span>
+        <span >{{ 'd156' | translate }}</span>
+    </div>
+</div>
+<div style="margin: 0 5px 0 5px" >
+    <p-dataTable [value]="danhSachKhoaHoc"  
+ 
+    [responsive]="true"
+    >
+        <p-header>{{ 'd142' | translate }}</p-header>
+        <p-column styleClass="col-button" >
+            <ng-template pTemplate="header">
+                    {{ 'd143' | translate }}
+            </ng-template>
+            <ng-template let-khoahoc="rowData" pTemplate="body">
+                   <img style="width: 80px; white-space: nowrap;
+                   overflow: hidden;
+                   text-overflow: ellipsis;" src="{{ ( khoahoc.course.courseAvatar === '' ) ?  'https://www.caperlan.co.uk/sites/caperlan/files/styles/460x460/public/default_images/no-picture.png' : khoahoc.course.courseAvatar  }}" >
+            </ng-template>
+        </p-column>
+        
+        <p-column field="course.courseTitle" header=" {{ 'd115' | translate }}" [sortable]="true"></p-column>
+        <p-column field="courseDescription" header=" {{ 'd134' | translate }} " [sortable]="true">
+            <ng-template let-col let-khoahoc="rowData" pTemplate="body">
+                    <p-inplace>
+                            <span pInplaceDisplay>
+                             <span class="fa fa-user"> {{ 'd144' | translate }}   </span> <br>
+                                <span style="margin-left:8px">
+                                        <span [innerHTML]="khoahoc.course.courseDescription"></span>
+                                </span>
+                            </span>
+                            <span pInplaceContent>
+                                    <table class="doc-table">
+                                            <thead>
+                                                <tr>
+                                                    <th> {{ 'd145' | translate }} </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> <img src="{{khoahoc.course.author.avatar}}" style="
+                            border-radius: 50%;
+                            width: 20%;
+                            float: left;
+                        ">
+                        <div style="
+                            width: 80%;
+                            /* float: left; */
+                            margin-left: 57px;
+                        "> <h4> {{khoahoc.course.author.userName}} </h4></div> </td>
+                        
+                        
+                                                </tr>
+                        <tr>
+                                                    <td> <div style="
+                            border-radius: 50%;
+                            width: 20%;
+                            float: left;
+                                    "> <h4> {{ 'd146' | translate }} </h4>  </div>
+                        <div style="
+                            width: 80%;
+                            /* float: left; */
+                            margin-left: 57px;
+                        "> <h4> {{khoahoc.course.author.email}}</h4></div> </td>
+                        
+                        
+                                                </tr>
+                                              
+                                            </tbody>
+                                        </table>
+                            </span>
+                        </p-inplace>
+
+                        
+              
+            </ng-template>
+        </p-column>
+        <p-column field="status" header="{{ 'd104' | translate }}" >
+            <ng-template let-col let-khoahoc="rowData" pTemplate="body">
+                <!-- <span >{{khoahoc[col.field].topic.topicName }}</span> -->
+              
+                <p-inplace>
+                    <span pInplaceDisplay>
+                      <a>   <span class="fa fa-eye"> {{ 'd147' | translate }}  </span>  </a><br><span style="margin-left:8px">
+                            <pre> {{ khoahoc.course.topic.topicName  }}</pre>
+                        </span>
+                    </span>
+                    <span pInplaceContent>
+                            <p-fieldset legend="{{ 'd149' | translate }}" [toggleable]="true">
+                                    {{ khoahoc.course.topic.topicDescription }} 
+                                        </p-fieldset>
+                          
+                    </span>
+                </p-inplace>
+
+            </ng-template>
+        </p-column>
+        <p-column styleClass="col-button" >
+            <ng-template pTemplate="header">
+              {{ 'd148' | translate }} 
+            </ng-template>
+            <ng-template let-khoahoc="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-danger" pButton (click)="thaoTacXoa(khoahoc)" icon="fa fa-trash-o">
+                           
+                    </button>
+
+                    <button type="button" pButton (click)="thaoTacCapNhap(khoahoc)" icon="fa fa-eye">
+                            
+                     </button>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+
+    
+    </div>

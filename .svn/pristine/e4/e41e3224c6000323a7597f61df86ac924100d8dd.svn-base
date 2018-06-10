@@ -1,0 +1,65 @@
+import { ReportService } from './../../../../_services/manager/report/report.service';
+import { Component, OnInit } from '@angular/core';
+import { ReportItem } from '../../../../_models/report/ReportItem';
+import { PagerServiceService } from '../../../../_services/manager/pagerservice/pager-service.service';
+
+@Component({
+  selector: 'app-view-report-send',
+  templateUrl: './view-report-send.component.html',
+  styleUrls: ['./view-report-send.component.css']
+})
+export class ViewReportSendComponent implements OnInit {
+  isLoading = false; // loading button page
+  pager: any = {};
+  report: any ;
+  public listReport: ReportItem[]  = [];
+  itemSelectToDay: any ;
+  itemSelectTomorrow: any ;
+  constructor(private reportService: ReportService,
+    private pagerServiceService: PagerServiceService) { }
+
+  ngOnInit() {
+this.setPage(1);
+  }
+  setPage(page: number) {
+    this.isLoading = true;
+    const size = 10;
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+    // get pager object from service
+    const offset = (page - 1) * size;
+    const limit = size;
+    this.reportService.getReportSend(page, size).subscribe( (data: any ) => {
+      console.log(data);
+      if ( data.listOfReports && data.listOfReports.length !== 0) {
+        this.listReport =  data.listOfReports;
+        this.getReportById(this.listReport[0].report_id);
+        this.pager = this.pagerServiceService.getPager(data.totalRecords, page, size);
+      } else {
+      }
+      this.isLoading = false;
+    });
+  }
+  public toStringDate(date): string {
+    const ng: number = date;
+    const temp = new Date(ng);
+    return `${temp.getMonth() + 1}/${temp.getDate()}/${temp.getFullYear()}`;
+  }
+  public getReportById(id: number) {
+    this.reportService.getReportById(id).subscribe( ( data: ReportItem ) => {
+      this.listReport.forEach( (item: ReportItem , index)  => {
+            if ( item.report_id === id ) {
+              this.listReport[index].isCheck = 2;
+            } else {
+              this.listReport[index].isCheck = 1;
+            }
+      });
+     console.log(data);
+    this.report = data;
+    this.itemSelectToDay = this.report.tasks;
+    this.itemSelectTomorrow = this.report.tasks;
+    });
+  }
+
+}

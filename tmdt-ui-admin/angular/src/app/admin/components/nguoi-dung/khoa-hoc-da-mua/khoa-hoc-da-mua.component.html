@@ -1,0 +1,92 @@
+<p-growl [(value)]="msgs"></p-growl>
+<!-- <pre>{{ cars || json }}</pre> -->
+<div *ngIf="loading"  style="position: fixed ; top: 0px; left:  0px; width: 100%; z-index: 9999" >
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px' }"></p-progressBar>    
+</div>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">  {{ 'd152' | translate }}</span>
+        <span>  {{ 'd153' | translate }}</span>
+    </div>
+</div>
+<div style="margin: 0 5px 0 5px" >
+    <p-dataTable [value]="danhSachKhoaHoc"  [responsive]="true">
+        <p-column field="course.courseTitle" header=" {{ 'd115' | translate }}  " [sortable]="true"></p-column>
+        <p-column field="course.courseDescription" header=" {{ 'd106' | translate }}  " [sortable]="true">
+            <ng-template let-col let-khoahoc="rowData" pTemplate="body">
+                <p-inplace>
+                        <span pInplaceDisplay>
+                            <span class="fa fa-user">  {{ 'd144' | translate }}   </span> <br>
+                        </span>
+                        <span pInplaceContent>
+                                <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>  {{ 'd145' | translate }} </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> <img src="{{khoahoc.course.author.avatar}}" style="
+                        border-radius: 50%;
+                        width: 20%;
+                        float: left;
+                    ">
+                    <div style="
+                        width: 80%;
+                        /* float: left; */
+                        margin-left: 57px;
+                    "> <h4> {{khoahoc.course.author.userName}} </h4></div> </td>
+                    
+                    
+                                            </tr>
+                    <tr>
+                                                <td> <div style="
+                        border-radius: 50%;
+                        width: 20%;
+                        float: left;
+                                "> <h4>  {{ 'd146' | translate }}  </h4>  </div>
+                    <div style="
+                        width: 80%;
+                        /* float: left; */
+                        margin-left: 57px;
+                    "> <h4> {{khoahoc.course.author.email}}</h4></div> </td>
+                    
+                    
+                                            </tr>
+                                          
+                                        </tbody>
+                                    </table>
+                        </span>
+                    </p-inplace>
+
+                    
+          
+        </ng-template>
+        </p-column>
+        <p-column field="registerDate" header="   {{ 'd154' | translate }} " >
+            <ng-template let-col let-khoahoc="rowData" pTemplate="body">
+                <pre> {{ khoahoc[col.field].dayOfMonth  }}/{{ khoahoc[col.field].monthValue}}/{{ khoahoc[col.field].year  }}</pre>
+            </ng-template>
+        </p-column>
+        <p-column styleClass="col-button" >
+            <ng-template pTemplate="header">
+                    {{ 'd148' | translate }}
+            </ng-template>
+            <ng-template let-khoahoc="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-danger" pButton (click)="thaoTacXoa(khoahoc)" icon="fa fa-trash-o">
+                           
+                    </button>
+
+                    <button type="button" pButton (click)="thaoTacCapNhap(khoahoc)" icon="fa fa-eye">
+                            
+                     </button>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+<p-paginator rows="{{size}}"  totalRecords="{{totalRow}}" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20, 100]" ></p-paginator>
+
+    
+    </div>

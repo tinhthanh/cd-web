@@ -1,0 +1,28 @@
+<div class="content-section introduction">
+  <div>
+      <span class="feature-title">Thống kê điểm khách hàng</span>
+      <span> Thông kê đựa trên điểm số khách hàng có được lấy theo Top.</span>
+  </div>
+</div>
+
+<div  class="ui-g">
+  <div  class="ui-g-12 ui-md-4">
+          <div class="select">
+            <select (change)="thongke($event)" name="slct" id="slct">
+              <option value="-1">Thống kê theo TOP</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          
+        </div>
+        <div > <h1> Tổng điểm trong hệ thống :  {{totalView}} </h1></div>
+        
+
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-md-offset-4"></div>
+</div>
+
+<p-chart type="radar" [data]="data"></p-chart>

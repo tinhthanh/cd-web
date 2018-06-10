@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.spring.mapper.TransactionHistoryMapper">
+		<resultMap type="com.spring.domain.TransactionHistory" id="transaction_history">
+			<id column="ma_lich_su_giao_dich" javaType="java.lang.String" property="transactionHistoryID"/>
+			<result column="ngay_giao_dich" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="transactionDate"/>
+			<result column="no" javaType="java.lang.Double" property="debt"/>
+			<result column="co" javaType="java.lang.Double" property="balance"/>
+			<result column="noi_dung_giao_dich" javaType="java.lang.String" property="transactionDescription"/>
+			<association column="ma_nguoi_dung" property="traders" select="com.spring.mapper.UserMapper.getUserByUserID2"></association>
+			<association column="ma_hinh_thuc_giao_dich" property="transactionForm" select="com.spring.mapper.TransactionFormMapper.getTransactionFormByID"></association>
+		</resultMap>
+			
+			<select id="getAllTransactionHistory" resultMap="transaction_history" statementType="CALLABLE" parameterType="java.util.Map">
+				{ call proc_paging_query(#{page}, #{size}, #{sumPage, mode=OUT, jdbcType=INTEGER},
+				#{sumRecord, mode=OUT,jdbcType=INTEGER},'select * from lich_su_giao_dich')}
+			</select>
+			
+			<select id="getTransactionHistoryByID" parameterType="java.lang.String" resultMap="transaction_history">
+				select * from lich_su_giao_dich l where l.ma_lich_su_giao_dich=#{transactionHistoryID}
+			</select>
+
+			<select id="getTransactionHistoryByTraders" resultMap="transaction_history" statementType="CALLABLE" parameterType="java.util.Map">
+				{ call proc_paging_query(#{page}, #{size}, #{sumPage, mode=OUT, jdbcType=INTEGER},
+				#{sumRecord, mode=OUT,jdbcType=INTEGER},"select * from lich_su_giao_dich l where l.ma_nguoi_dung='${userID}' order by l.ngay_giao_dich  desc ")}
+			</select>	
+				<select id="getTransactionHistoryByTradersAndTransactionID" resultMap="transaction_history" statementType="CALLABLE" parameterType="java.util.Map">
+				{ call proc_paging_query(#{page}, #{size}, #{sumPage, mode=OUT, jdbcType=INTEGER},
+				#{sumRecord, mode=OUT,jdbcType=INTEGER},"select * from lich_su_giao_dich l where l.ma_nguoi_dung='${userID}' and l.ma_hinh_thuc_giao_dich ='${transactionID}' order by l.ngay_giao_dich  desc ")}
+			</select>	
+			
+			<insert id="inserTransactionHistory" statementType="CALLABLE" parameterType="java.util.Map">
+				{call insert_lich_su_giao_dich(#{transactionFormID}, #{debt}, #{balance}, #{userID}, #{transactionDescription},#{result, mode=OUT, jdbcType=VARCHAR} )}
+			</insert>
+			
+	</mapper>

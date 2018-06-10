@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.spring.mapper.TransactionFormMapper">
+		<resultMap type="com.spring.domain.TransactionForm" id="transaction_form_result">
+			<id column="ma_hinh_thuc_giao_dich" javaType="java.lang.String" property="transactionFormID"/>
+			<result column="ten_hinh_thuc_giao_dich" javaType="java.lang.String" property="transactionFormName"/>
+			<result column="mo_ta" javaType="java.lang.String" property="transactionFormDecription"/>
+		</resultMap>
+		
+		<select id="getTransactionFormByID" resultMap="transaction_form_result">
+			select * from hinh_thuc_giao_dich h where h.ma_hinh_thuc_giao_dich=#{transactionFormID}
+		</select>
+		 <select id="getTransactionForm" resultMap="transaction_form_result">
+		 select *  from hinh_thuc_giao_dich h
+		 </select>
+		
+	</mapper>

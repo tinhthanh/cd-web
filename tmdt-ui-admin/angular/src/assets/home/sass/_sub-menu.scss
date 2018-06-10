@@ -1,0 +1,24 @@
+@media (max-width: 400px) {
+	.sub-menu {
+		margin-left: 0;
+	}
+}
+
+@media (min-width: 400px) and (max-width: 600px) {
+	.sub-menu {
+		margin-left: 0;
+	}
+}
+
+@media (min-width: 600px) and (max-width: 990px) {
+	.sub-menu {
+		margin-left: 0;
+	}
+}
+
+@media (min-width: 990px) {
+	.sub-menu {
+		margin-left: -200px;
+		width: 600px;
+	}
+}

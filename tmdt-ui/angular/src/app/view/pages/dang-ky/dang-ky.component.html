@@ -1,0 +1,115 @@
+<div class="sign">
+    <div class="background"></div>
+    <div class="container clog log-long">
+        <div class="row">
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-lg-4 content-log">
+                <div class="brand-logo text-right">
+                    <img src="../../../../assets/home/images/3TPL50x50.png" alt="Logo">
+                    <span class="brand-name">3TPL</span>
+                </div>
+                <h2 *ngIf="!success" class="text-left">Đăng ký</h2>
+                <h2 *ngIf="success" class="text-center">Đăng ký thành công vui lòng kiểm tra email</h2>
+                <small class="form-text text-muted" *ngIf="ms && !success">
+                    <p style="color: red "> {{ ms }} </p>
+                </small>
+                <div *ngIf="!success" class="card-body">
+                    <div class="wrapper">
+                        <form (ngSubmit)="registerSubmit() && register.valid" [formGroup]="register">
+                            <div class="group">
+                                <input formControlName="userName" type="text" id="username" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label-for" for="username">Họ và tên</label>
+                                <div>
+                                    <small class="form-text text-muted" *ngIf=" register.controls['userName'].errors && ( register.controls['userName'].dirty || register.controls['userName'].touched)">
+                                        <p style="color: red " *ngIf=" register.controls['userName'].errors.required"> Họ và tên không đươc để trống! </p>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <input formControlName="email" type="email" id="email" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label-for" for="email">Email</label>
+                                <div>
+                                    <small class="form-text text-muted" *ngIf=" register.controls['email'].errors && ( register.controls['email'].dirty || register.controls['email'].touched)">
+                                        <p style="color: red " *ngIf=" register.controls['email'].errors.required">Email không được để trống </p>
+                                        <p style="color: red " *ngIf=" register.controls['email'].errors.pattern"> Email nhập không hợp lệ </p>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <input formControlName="passwordnew" type="password" id="passwordnew" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label-for" for="passwordnew">Mật khẩu</label>
+                                <div>
+                                    <small class="form-text text-muted" *ngIf=" register.controls['passwordnew'].errors && ( register.controls['passwordnew'].dirty || register.controls['passwordnew'].touched)">
+                                        <p style="color: red " *ngIf=" register.controls['passwordnew'].errors.required"> Mật khẩu không được để trống </p>
+                                        <p style="color: red " *ngIf="register.controls['passwordnew'].errors.minlength">Mật khẩu bé hơn 8 ký tự </p>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <input formControlName="passwordold" type="password" id="passwordold" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label-for" for="passwordold">Nhập lại mật khẩu</label>
+                                <div>
+                                    <small class="form-text text-muted" *ngIf=" register.controls['passwordold'].errors && ( register.controls['passwordold'].dirty || register.controls['passwordold'].touched)">
+                                        <p style="color: red " *ngIf=" register.controls['passwordold'].errors.required"> Mật khẩu không được để trống </p>
+                                        <p style="color: red " *ngIf="register.controls['passwordold'].errors.minlength">Mật khẩu bé hơn 8 ký tự </p>
+                                    </small>
+                                    <small>
+                                        <div style="color: red " *ngIf="register.controls['passwordnew'].valid  && register.controls['passwordold'].valid">
+                                            <p style="color: red " *ngIf="register.errors">
+                                                Mật khẩu không trùng nhau
+                                            </p>
+                                        </div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <input formControlName="phone" type="password" id="phone" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label-for" for="phone">Số điện thoại</label>
+                                <div>
+                                    <small class="form-text text-muted" *ngIf=" register.controls['phone'].errors && ( register.controls['phone'].dirty || register.controls['phone'].touched)">
+                                        <p style="color: red " *ngIf=" register.controls['phone'].errors.required"> Số điện thoại không đươc để trống </p>
+                                        <p style="color: red " *ngIf="register.controls['phone'].errors.minlength "> Số điện thoai không hợp lệ </p>
+                                        <p style="color: red " *ngIf=" register.controls['phone'].errors.maxlength "> Số điện thoai không hợp lệ </p>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="text-right">
+                                <button [disabled]="loading" [disabled]="!register.valid" type="submit" class="btn btn-block redibtn">
+                                    <span>Đăng ký
+                                        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                        />
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="more-content">
+                    <a routerLink="../dang-nhap">Đăng nhập</a>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-bottom justify-content-end nav-footer">
+        <div class="text-right">
+            <a class="nav-link">3TPL &copy; 2017</a>
+            <a class="nav-link" [routerLink]="['/home/main']">Trang chủ</a>
+            <a class="nav-link" [routerLink]="['/home/gioi-thieu']">Giới thiệu</a>
+            <a class="nav-link" [routerLink]="['/home/dieu-khoan-su-dung']">Điều khoản</a>
+            <a class="nav-link" href="#">Thông tin quảng cáo</a>
+        </div>
+    </nav>
+</div>

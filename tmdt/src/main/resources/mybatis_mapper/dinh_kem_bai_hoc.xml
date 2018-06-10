@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.spring.mapper.LessonAttachMapper">
+		<resultMap type="com.spring.domain.LessonAttach" id="lesson_attach">
+			<id column="ma_dinh_kem_bai_hoc" javaType="int" property="lessonAttachID"/>
+			<result column="ma_bai_hoc" javaType="java.lang.String" property="lessonID"/>
+			<result column="noi_dung" javaType="java.lang.String" property="lesonAttachContent"/>
+			<result column="ngay_them" typeHandler="com.spring.config.mybatis.LocalDateTimeTypeHandle" property="dayAdded" />
+		</resultMap>
+
+		<select id="getLessonAttachByLessonIDWithPaging" parameterType="java.util.Map" statementType="CALLABLE" resultMap="lesson_attach">
+		{call proc_paging_query(#{page},#{size},#{sumPage, mode=OUT,jdbcType=INTEGER},
+		#{sumRecord, mode=OUT,jdbcType=INTEGER},
+		"select * from dinh_kem_bai_hoc d where d.ma_bai_hoc ='${lessonID}'")}
+		</select>		
+	
+		<select id="getLessonAttachByLessonAttachID" parameterType="int" resultMap="lesson_attach">
+				select * from dinh_kem_bai_hoc d where d.ma_dinh_kem_bai_hoc=#{lessonAttachID}		
+		</select>
+		
+		<select  id="getLessonAttachByLessonID"  parameterType="java.lang.String" resultType="java.util.List"  resultMap="lesson_attach">
+		 select * from dinh_kem_bai_hoc d where d.ma_bai_hoc = #{lessonID}
+		</select>
+		
+		
+		<insert id="insertLessonAttach" parameterType="java.util.Map" statementType="CALLABLE">
+			{call insert_dinh_kem_bai_hoc(#{lessonID},#{lesonAttachContent},#{result, mode=OUT,jdbcType=INTEGER})}
+		</insert>
+	
+	
+		<delete id="deleteLessonAttachBylessonAttachID" parameterType="int">
+				delete from dinh_kem_bai_hoc  where ma_dinh_kem_bai_hoc =#{lessonAttachID}	
+		</delete>
+		
+		<update id="updateLessonAttach" parameterType="java.util.Map">
+				update dinh_kem_bai_hoc set ${LessonAttachAtr}=#{values} where ma_dinh_kem_bai_hoc =#{lessonAttachID}
+		</update>
+	</mapper>

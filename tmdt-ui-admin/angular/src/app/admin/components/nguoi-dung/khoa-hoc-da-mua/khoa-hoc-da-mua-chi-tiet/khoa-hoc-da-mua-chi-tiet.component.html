@@ -1,0 +1,264 @@
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">Khóa học của tôi</span>
+        <span> Quản lý khóa học của tôi .</span>
+    </div>
+</div>
+
+<div style="margin-top: 8px">
+    <button pButton type="button" label="Xem hết" (click)="expandAll()"></button>
+    <button pButton type="button" label="Thu nhỏ" (click)="collapseAll()"></button>
+</div>
+
+<div style="width: 100%;" *ngIf="submitted">
+    <p-progressSpinner></p-progressSpinner>
+
+</div>
+<div *ngIf="!submitted" class="content-section implementation">
+    <p-growl [value]="msgs"></p-growl>
+    <h3>Tên khóa học</h3>
+    <p-tree [value]="filesTree11" layout="horizontal" selectionMode="single" [(selection)]="selectedFile3" (onNodeSelect)="nodeSelect($event)"
+        #expandingTree></p-tree>
+    <div style="margin-top:8px">Selected Node: {{selectedFile3 ? selectedFile3.label : 'none'&#125;&#125;</div>
+</div>
+
+<button (click)="toBack()" class="ui-button-success ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" label="Success" pbutton="" type="button" ng-reflect-label="Success"><span class="ui-button-text ui-clickable">Trở về</span></button>
+
+<p-sidebar [(visible)]="visibleEditFile" position="top" [baseZIndex]="10000">
+        <div *ngIf="!isSelectLessonFile">
+    <h1 style="font-weight:normal">{{selectFile?.lesonAttachContent}}</h1>
+    <a href="{{selectFile?.lesonAttachContent}}" >
+    <button pButton type="button"  label="Tải xuống " class="ui-button-success"> </button> </a>
+    <button pButton type="button" (click)="visibleEditFile = false" label="Cancel" class="ui-button-secondary"></button>
+        </div>
+</p-sidebar>
+
+<!-- thêm bài học -->
+<p-sidebar [(visible)]="visibleLesson" position="right" [baseZIndex]="10000">
+        <h1 style="font-weight:normal">Ghim video thành công </h1>
+    <button pButton type="button" (click)="visibleLesson = false ; visibleEditChater = false" label="Về thư mục gốc" class="ui-button-success"></button>
+    <button pButton type="button" (click)="visibleLesson = false" label="Đóng" class="ui-button-secondary"></button>
+
+</p-sidebar>
+<!-- end thêm bài học -->
+<!-- // chỉnh sửa chương mục -->
+<p-sidebar [(visible)]="visibleEditChater" [fullScreen]="isXemDanhSachChuong" position="right" [baseZIndex]="10000">
+    <h1 style="font-weight:normal">Danh sách video bài học của chương {{selectLesson?.chapterTitle}}</h1>
+    <div class="scrollbar">
+        <pre>{{selectLesson?.chapterTitle}}</pre>
+        <pre>{{selectLesson?.chapterSummary}}</pre>
+        <p-fieldset (onBeforeToggle)="xemDanhSachKhoaHoc($event)" [collapsed]="true" legend="Danh sách bài học" [toggleable]="true">
+            <!-- <iframe style=" width: 100% ,  height auto "  src="https://drive.google.com/file/d/1ZlThHQI5HND7l96FsF7T6dl1HV7MAJvk/preview"></iframe> -->
+                <div *ngIf="!submitted" > 
+            <div class="ui-grid-row">
+                <div *ngFor="let temp of selectLesson?.listOfLesson" class="ui-grid-col-3">
+                    <div  style="margin-top: 60px;" class="video-thumbnail">
+                        <img src="{{'https://drive.google.com/thumbnail?authuser=0&sz=w320&id=' + temp?.lessonContent}}" alt="Video thumbnail" />
+                        <div (click)="updateLink(  temp?.lessonContent )"   class="title"> {{temp.lessonTitle}}
+                        </div>
+                        <div class="action">
+                                <button style="height: 27px;" (click)="clickChinhSuaBaiHoc(temp)" pButton type="button" class="ui-button-success">
+                                    <i class="fa fa-bolt" aria-hidden="true"></i>
+                            </button>
+                            <button style="height: 27px;" (click)="updateLink( temp?.lessonContent)"  pButton type="button" class="ui-button-info">
+                                <i class="fa fa-eye " aria-hidden="true"></i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div *ngIf="isXemVideo" class="video-modal">
+                        <span (click)="isXemVideo =! isXemVideo" class="video-close">&times;</span>
+                        <div class="video-modal-content" > 
+                    <iframe width="100%" height="415" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>                    
+                            </div>
+                        <div id="video-caption">
+                                <p-progressSpinner></p-progressSpinner>
+                        </div>
+                      </div>
+            <!-- <pre> {{ selectLesson?.listOfLesson | json }}</pre> -->
+            <!-- <pre>{{ listCharter | json }}</pre>    -->
+        </p-fieldset>
+        <div style="margin-bottom: 100px;" ></div>
+    </div>
+</p-sidebar>
+<!-- end chỉnh sửa chương muc  -->
+
+
+<!-- xem thông tin chi tiết khóa hoc -->
+<p-sidebar [(visible)]="visibleCource" [fullScreen]="true" [baseZIndex]="10000">
+
+    <div *ngIf="khoahoc && userform" class="scrollbar" id="style-3">
+
+        <form >
+            <p-panel header="Thông tin khóa học">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px; margin-bottom: 70px;">
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Danh sách chương:
+                        </div>
+                        
+                        <div  class="ui-grid-col-10">      
+                                <div *ngIf="submitted" >
+                                        <p-progressSpinner></p-progressSpinner>
+                                    </div>
+                            <p-fieldset [collapsed]="true" legend="Xem thêm" [toggleable]="true">
+                                <div *ngIf="!submitted"  >
+                                <div  *ngFor="let temp of listCharter"   class="ui-messages ui-widget ui-corner-all ui-messages-success" style="display:block"
+                                    ng-reflect-klass="ui-messages ui-widget ui-corne" ng-reflect-ng-class="[object Object]">
+                                    <span class="ui-messages-icon fa fa-fw fa-2x fa-check" ng-reflect-klass="ui-messages-icon fa fa-fw fa-2" ng-reflect-ng-class="fa-check"></span>
+                                    <ul>
+                                        <li>
+                                            <span class="ui-messages-summary">{{temp.chapterTitle}}</span>
+                                            <span class="ui-messages-detail">Số bài học {{temp.listOfLesson?.length}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- <pre>{{ listCharter | json }}</pre>    -->
+                            </div>
+                            </p-fieldset>
+                        
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Tên khóa học:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <h3>{{khoahoc.courseTitle}} </h3>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTitle'].valid&&userform.controls['courseTitle'].dirty">
+                                <i class="fa fa-close"></i>
+                                Đây là trường bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Mô tả:
+                        </div>
+                        <div class="ui-grid-col-6">
+                           <h4 [innerHTML]="khoahoc.courseDescription"></h4>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                    <div *ngIf="userform.value.courseTypeID === 'CO'" class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Giá:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <h5>{{khoahoc.price}}</h5>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['price'].valid&&userform.controls['price'].dirty">
+                                <i class="fa fa-close"></i>
+                                Đây là trường bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Tên chủ đề *:
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <pre>{{khoahoc.topic.topicName}}</pre>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['topicID'].valid&&userform.controls['topicID'].dirty">
+                                <i class="fa fa-close"></i>
+                                Đây là trường bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Ảnh đại diện:
+                        </div>
+                        <div class="ui-grid-col-3">
+
+                            <img  style="width: 100%; height: auto;" [src]="courseAvatar_temp" />
+                        </div>
+
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseAvatar'].valid&&userform.controls['courseAvatar'].dirty">
+                                <i class="fa fa-close"></i>
+                                Đây là trường bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <h4 [innerHTML]="khoahoc.courseDetail" ></h4>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                </div>
+            </p-panel>
+        </form>
+
+    </div>
+</p-sidebar>
+<!-- // hết xem thông tin khóa học -->
+<div class="play-video-top" > 
+        <div *ngIf="isZoomVideo" style="  max-height: 350px;">
+              
+
+                     <div class="list-type1 scrollbar "  id="style-3">
+                            <!-- <pre> {{ listghim |  json }} </pre> -->
+                             <ol>
+                             <li *ngFor=" let item of listghim "   ><a  >
+                                 
+                                <h5  style="
+                                width: 90%;
+                                line-height: 1em;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                margin: 0px;
+                                display: inline-block;
+                                ">
+                                <img  (click)="playGhim(item)"  src="{{'https://drive.google.com/thumbnail?authuser=0&sz=w320&id=' + item.link_video}}" style="
+                                width: 32px;
+                            "> 
+                            <i  (click)="playGhim(item)"  class="fa fa-play" aria-hidden="true"></i>
+                            
+                                {{item.lesson_name}}
+                            </h5>       
+                            <i  (click)="xoaGhim(item)"    style=" color: red; cursor: pointer " class="fa fa-trash-o" aria-hidden="true"> </i>
+                             </a>         
+                            </li>
+                             </ol>
+                             </div>
+         
+             <div (click)="isZoomVideo = !isZoomVideo "  class="video-top-left"> 
+                     <button pButton type="button" label="Đóng " class="ui-button-danger"></button>
+                 </div>
+         </div>
+</div>
+<div class="play-video"  > 
+    <div  [ngClass]="{'thanh-zoom': isZoomVideo}"  class="style_prevu_kit" >
+        <div *ngIf="isZoomVideo" >
+                <div  *ngIf="isZoomVideo"  style=" position: absolute;
+                z-index: -1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 18px;" >
+                <p-progressSpinner></p-progressSpinner>
+                </div>
+    <iframe style="z-index: 1;"  autoplay="false" style="width: 100%; " height="210px"   [src]="thanh" allowfullscreen webkitallowfullscreen mozallowfullscreen  >      
+    </iframe>
+    </div>
+    <div *ngIf="!isZoomVideo"  >
+           <img  (click)="isZoomVideo = !isZoomVideo " style="width: 60px; height: 60px;" src="https://png.icons8.com/small/540/external-link.png">
+    </div>
+
+    </div>
+</div>

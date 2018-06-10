@@ -1,0 +1,21 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li *ngIf="page !== 1" (click)="lui()" class="page-item disabled">
+            <a class="page-link" tabindex="-1">Lùi</a>
+        </li>
+        <li *ngFor="let temp of dataPage" class="page-item">
+            <a (click)="next(temp)" [ngClass]="{'active': temp === page}" class="page-link">{{ temp}}</a>
+        </li>
+        <li *ngIf=" page !== numberOfPage " (click)="toi()" class="page-item">
+            <a class="page-link">Tiến</a>
+        </li>
+    </ul>
+    <ul>
+        <select [(ngModel)]="size" (ngModelChange)="onChange($event)">
+            <option [ngValue]="1">1 </option>
+            <option [ngValue]="2">2</option>
+            <option [ngValue]="4">4</option>
+        </select>
+
+    </ul>
+</nav>

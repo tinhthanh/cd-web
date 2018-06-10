@@ -1,0 +1,52 @@
+.block-with-text {
+	display: block;
+    display: -webkit-box;
+    max-width: 450px;
+    height: 39px;
+    margin: 0 auto;
+    font-size: 1.2em;
+    line-height: 1;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (min-width: 1200px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 200px;
+	}
+}
+
+@media (max-width: 1200px) and (min-width: 992px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 170px;
+	}
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+	.truncate-text {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.demission {
+		padding: 5px;
+		width: 300px;
+	}
+}

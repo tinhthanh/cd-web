@@ -1,0 +1,236 @@
+.account {
+	
+	@import "ribbon";
+
+	section.sec-1 {
+		padding-top: 300px;
+		background-image: url("../images/backgroundweb.jpeg");
+		.info-basic {
+			background: rgba(0, 0, 0, 0.4);
+			border-bottom: 5px solid $color4;
+			
+			.avatar-img {
+				border: 5px solid $color4;
+			}
+
+			.content-text {
+				color: #ffffff;
+				top: 50px;
+				h1 {
+					font-size: 1.8em;
+					font-family: $font1;
+				}
+
+				button {
+					margin-bottom: 5px;
+				}
+			}
+		}
+	}
+
+	section.sec-2 {
+		.setting-account {
+			padding: 50px 0 50px 0;
+			border-bottom: 5px solid $color4;
+
+			.upload-btn-wrapper {
+				position: relative;
+				overflow: hidden;
+				display: inline-block;
+				.btn {
+					border: 1px solid $color5;
+					color: $color5;
+					background-color: transparent;
+					padding: 8px 20px;
+					border-radius: 10px;
+					font-size: 1.2em;
+					@include basic-delay(.5s);
+					&:hover {
+						border: 1px solid $color5;
+						color: #ffffff;
+						background-color: $color5;
+						@include basic-delay(.5s);
+					}
+				}
+				& input[type=file] {
+					font-size: 2em;
+					position: absolute;
+					left: 0;
+					top: 0;
+					opacity: 0;
+				}
+			}
+		}
+	}
+
+	section.sec-3 {
+		padding: 50px 0 50px 0;
+		h2 {
+			font-family: $font1;
+		}
+		.card {
+			border: 1px solid $color4;
+			@include basic-delay(0.5s);
+			margin: 10px 0 10px 0;
+			.card-img-top {
+				max-height: 156px;
+				min-height: 156px;
+				opacity: 1;
+				@include basic-delay(1s);
+			}
+
+			.card-body {
+				.parallelogram-blue {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color2;
+					float: left;
+					margin: 0 2px 0 0;
+				}
+
+				.parallelogram-orange {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color4;
+					float: left;
+					margin: 0 10px 0 0;
+				}
+
+				h5 {
+					font-size: 1em;
+				}
+
+				.rating {
+					color: $color3;
+				}
+
+				.btninfo {
+					border: 1px solid $color4;
+					color: $color4;
+					cursor: pointer;
+					@include basic-delay(1s);
+					&:hover {
+						background: $color4;
+						color: #ffffff;
+						@include basic-delay(1s);
+					}
+				}
+			}
+			.card-footer {
+				background: #f2f2f2;
+			}
+
+			&:hover {
+				@include basic-shadow(1px, 1px, 10px, 5px, #ccc);
+				@include basic-delay(.5s);
+			}
+		}
+	}
+
+	section.sec-4 {
+		padding: 50px 0 50px 0;
+		h2 {
+			font-family: $font1;
+		}
+		.card {
+			border: 1px solid $color4;
+			@include basic-delay(0.5s);
+			margin: 10px 0 10px 0;
+			.card-img-top {
+				max-height: 156px;
+				min-height: 156px;
+				.card-item {
+					// height: 100px;
+					max-height: 156px;
+				}
+				opacity: 1;
+				@include basic-delay(1s);
+			}
+
+			.card-body {
+				.parallelogram-blue {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color2;
+					float: left;
+					margin: 0 2px 0 0;
+				}
+
+				.parallelogram-orange {
+					width: 5px;
+					height: 20px;
+					-webkit-transform: skew(20deg);
+					-moz-transform: skew(20deg);
+					-o-transform: skew(20deg);
+					background: $color4;
+					float: left;
+					margin: 0 10px 0 0;
+				}
+
+				h5 {
+					font-size: 1em;
+				}
+
+				.rating {
+					color: $color3;
+				}
+
+				.btninfo {
+					border: 1px solid $color4;
+					color: $color4;
+					cursor: pointer;
+					@include basic-delay(1s);
+					&:hover {
+						background: $color4;
+						color: #ffffff;
+						@include basic-delay(1s);
+					}
+				}
+			}
+			.card-footer {
+				background: #f2f2f2;
+			}
+
+			&:hover {
+				@include basic-shadow(1px, 1px, 10px, 5px, #ccc);
+				@include basic-delay(.5s);
+			}
+		}
+	}
+}
+
+@media (min-width: 780px) {
+	.account {
+		section.sec-1 {
+			.info-basic {
+				.content-text {
+					top: 50px;
+				}
+			}
+
+		}
+	}
+}
+
+@media (max-width: 780px) {
+	.account {
+		section.sec-1 {
+			.info-basic {
+				.content-text {
+					text-align: center;
+					top: 0;
+				}
+			}
+			
+		}
+	}
+}

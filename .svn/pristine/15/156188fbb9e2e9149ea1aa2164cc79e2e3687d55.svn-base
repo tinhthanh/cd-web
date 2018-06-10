@@ -1,0 +1,11 @@
+package com.pal.intern.repository;
+
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.bean.User;
+import java.util.List;
+
+public interface UserRedmineRepository {
+
+    public List<User> getAllUserRedmine() throws RedmineException;
+
+}

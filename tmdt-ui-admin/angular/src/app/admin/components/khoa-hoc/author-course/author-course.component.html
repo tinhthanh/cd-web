@@ -1,0 +1,449 @@
+<div class="content-section introduction">
+    <div>
+        <span class="feature-title">  {{ 'd118' | translate }} </span>
+        <span>   {{ 'd119' | translate }} </span>
+    </div>
+</div>
+
+<div style="margin-top: 8px">
+    <button pButton type="button" label=" {{ 'd138' | translate }}" (click)="expandAll()"></button>
+    <button pButton type="button" label=" {{ 'd139' | translate }}" (click)="collapseAll()"></button>
+</div>
+
+<div style="width: 100%;" *ngIf="submitted">
+    <p-progressSpinner></p-progressSpinner>
+
+</div>
+<div *ngIf="!submitted" class="content-section implementation">
+    <p-growl [value]="msgs"></p-growl>
+    <h3> {{ 'd120' | translate }}</h3>
+    <p-tree [value]="filesTree11" layout="horizontal" selectionMode="single" [(selection)]="selectedFile3" (onNodeSelect)="nodeSelect($event)"
+        #expandingTree></p-tree>
+    <div style="margin-top:8px">Selected Node: {{selectedFile3 ? selectedFile3.label : 'none'&#125;&#125;</div>
+</div>
+
+<button (click)="toBack()" class="ui-button-success ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" label="Success" pbutton="" type="button" ng-reflect-label="Success"><span class="ui-button-text ui-clickable">   {{ 'd121' | translate }}   </span></button>
+
+<p-sidebar [(visible)]="visibleEditFile" position="top" [baseZIndex]="10000">
+        <div *ngIf="!isSelectLessonFile">
+    <h1 style="font-weight:normal"><a href="{{selectFile?.lesonAttachContent}}" > {{selectFile?.lesonAttachContent}}</a></h1>
+    <button pButton type="button" (click)="clickXoaFile()" label="Xóa tập tin này" class="ui-button-success"></button>
+    <button pButton type="button" (click)="visibleEditFile = false" label="Cancel" class="ui-button-secondary"></button>
+        </div>
+    <h3 class="first"> {{ 'd122' | translate }}</h3>
+    <p-fileUpload name="file" url="{{url_upload}}/upload" (onUpload)="onUpload($event)" multiple="multiple" 
+   
+        maxFileSize="10000000">
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+</p-sidebar>
+
+<!-- thêm bài học -->
+<p-sidebar [(visible)]="visibleLesson" position="right" [baseZIndex]="10000">
+    <form *ngIf="lessonForm" [formGroup]="lessonForm" (ngSubmit)="themBaiHoc()">
+        <p-panel header="Thêm bài học">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                        {{ 'd123' | translate }}
+                    </div>
+                    <div [ngClass]=" (!lessonForm.controls['lessonTitle'].valid&&lessonForm.controls['lessonTitle'].dirty)?'ui-grid-col-6':'ui-grid-col-9' ">
+                        <input pInputText type="text" formControlName="lessonTitle" placeholder="Tên bài học" />
+                    </div>
+                    <div *ngIf="!lessonForm.controls['lessonTitle'].valid&&lessonForm.controls['lessonTitle'].dirty" class="ui-grid-col-3">
+                        <div class="ui-message ui-messages-error ui-corner-all">
+                            <i class="fa fa-close"></i>
+                            {{ 'd124' | translate }}
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                            {{ 'd125' | translate }}
+                      
+                    </div>
+                    <div class="ui-grid-col-9">
+                             <div style="width: 100%;">
+                            <app-form-upload  (eventUp) ="onUploadVideo($event)"  ></app-form-upload>   
+                            </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                        <!-- <pre>{{  !isThemBaiHoc }}</pre>
+                        <pre>{{  !lessonForm.controls['lessonTitle'].valid }}</pre>
+                        <pre>{{((lessonForm.controls['lessonTitle'].valid)&&(isThemBaiHoc))?true:false }}</pre> -->
+                    </div>
+                    <div class="ui-grid-col-9">
+                        <button pButton type="submit" [disabled]="!((lessonForm.controls['lessonTitle'].valid)&&(isThemBaiHoc))?true:false" label="Submit" >
+                            <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                            />
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</p-sidebar>
+<!-- end thêm bài học -->
+<!-- // chỉnh sửa chương mục -->
+<p-sidebar [(visible)]="visibleEditChater" [fullScreen]="isXemDanhSachChuong" position="right" [baseZIndex]="10000">
+    <h1 style="font-weight:normal">  {{ 'd126' | translate }} </h1>
+    <div class="scrollbar">
+        <form *ngIf="chapterForm" [formGroup]="chapterForm" (ngSubmit)="chinhSuaChuongMuc()">
+            <p-panel header="Điền thông tin chương">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3">
+                             {{ 'd127' | translate }}
+                        </div>
+                        <div [ngClass]=" (!chapterForm.controls['chapterTitle'].valid&&chapterForm.controls['chapterTitle'].dirty)?'ui-grid-col-6':'ui-grid-col-9' ">
+                            <input pInputText type="text" formControlName="chapterTitle" placeholder=" Tên chương mục" />
+                        </div>
+                        <div *ngIf="!chapterForm.controls['chapterTitle'].valid&&chapterForm.controls['chapterTitle'].dirty" class="ui-grid-col-3">
+                            <div class="ui-message ui-messages-error ui-corner-all">
+                                <i class="fa fa-close"></i>
+                                {{ 'd128' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3">
+                            {{ 'd129' | translate }}
+                        </div>
+                        <div class="ui-grid-col-9">
+                            <input pInputText type="text" formControlName="chapterContent" placeholder="Giới thiệu " />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3">
+                           {{ 'd130' | translate }}
+                        </div>
+                        <div class="ui-grid-col-9">
+
+                            <!-- <p-editor  [(ngModel)]="chapterForm.value.chapterSummary"   [style]="{'height':'150px'}"></p-editor> -->
+                            <!-- <p-editor  formControlName="chapterSummary"  [style]="{'height':'150px'}"></p-editor> -->
+
+                            <textarea rows="4" pInputText type="text" formControlName="chapterSummary" placeholder="Giới thiệu ">
+                                </textarea>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3"></div>
+                        <div class="ui-grid-col-9">
+                            <button pButton type="submit" [disabled]="submitted" label="Submit" [disabled]="!chapterForm.valid">
+
+                                <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                />
+
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </p-panel>
+        </form>
+
+
+        <p-fieldset (onBeforeToggle)="xemDanhSachKhoaHoc($event)" [collapsed]="true" legend="Danh sách bài học" [toggleable]="true">
+            <button pButton type="button" (click)="clickThemBaiHoc()" icon="fa-plus" label="Bài học mới" class="ui-button-info"></button>
+            <!-- <iframe style=" width: 100% ,  height auto "  src="https://drive.google.com/file/d/1ZlThHQI5HND7l96FsF7T6dl1HV7MAJvk/preview"></iframe> -->
+
+            <div *ngIf="submitted" >
+                    <p-progressSpinner></p-progressSpinner>
+                </div> 
+                <div *ngIf="!submitted" > 
+            <div class="ui-grid-row">
+                <div *ngFor="let temp of selectLesson?.listOfLesson" class="ui-grid-col-3">
+                    <div  style="margin-top: 50px;" class="video-thumbnail">
+                        <img src="{{(temp?.lessonContent==='NA')?'assets/components/images/kiemduyet.jpg': 'https://drive.google.com/thumbnail?authuser=0&sz=w320&id=' + temp?.lessonContent}}" alt="Video thumbnail" />
+                        <div (click)="updateLink( ( temp?.lessonContent==='NA')? temp?.lessonContent2 : temp?.lessonContent )"   class="title"> {{temp.lessonTitle}}
+                        </div>
+                        <div class="action">
+                                <button style="height: 27px;" (click)="xoaBaiHoc(temp)" pButton type="button" class="ui-button-danger">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                                <button style="height: 27px;" (click)="clickChinhSuaBaiHoc(temp)" pButton type="button" class="ui-button-success">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>
+                            <button style="height: 27px;" (click)="updateLink( ( temp?.lessonContent==='NA')? temp?.lessonContent2 : temp?.lessonContent )"  pButton type="button" class="ui-button-info">
+                                <i class="fa fa-eye " aria-hidden="true"></i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div *ngIf="isXemVideo" class="video-modal">
+                        <span (click)="isXemVideo =! isXemVideo" class="video-close">&times;</span>
+                        <div class="video-modal-content" > 
+                    <iframe width="100%" height="415" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>                    
+                            </div>
+                        <div id="video-caption">
+                                <p-progressSpinner></p-progressSpinner>
+                        </div>
+                      </div>
+            <!-- <pre> {{ selectLesson?.listOfLesson | json }}</pre> -->
+            <!-- <pre>{{ listCharter | json }}</pre>    -->
+        </p-fieldset>
+        <div style="margin-bottom: 100px;" ></div>
+    </div>
+</p-sidebar>
+<!-- end chỉnh sửa chương muc  -->
+<!-- thêm chương mục  -->
+<p-sidebar [(visible)]="visibleChater" position="right" [baseZIndex]="10000">
+    <form *ngIf="chapterForm" [formGroup]="chapterForm" (ngSubmit)="themChuongMuc()">
+        <p-panel header="Thêm chương mục">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                        
+                         {{ 'd131' | translate }}
+                    </div>
+                    <div [ngClass]=" (!chapterForm.controls['chapterTitle'].valid&&chapterForm.controls['chapterTitle'].dirty)?'ui-grid-col-6':'ui-grid-col-9' ">
+                        <input pInputText type="text" formControlName="chapterTitle"  />
+                    </div>
+                    <div *ngIf="!chapterForm.controls['chapterTitle'].valid&&chapterForm.controls['chapterTitle'].dirty" class="ui-grid-col-3">
+                        <div class="ui-message ui-messages-error ui-corner-all">
+                            <i class="fa fa-close"></i>
+                              {{ 'd132' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                         {{ 'd133' | translate }}
+                    </div>
+                    <div class="ui-grid-col-9">
+                        <input pInputText type="text" formControlName="chapterContent"  />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3">
+                         {{ 'd134' | translate }}
+                    </div>
+                    <div class="ui-grid-col-9">
+
+                        <!-- <p-editor  [(ngModel)]="chapterForm.value.chapterSummary"   [style]="{'height':'150px'}"></p-editor> -->
+                        <!-- <p-editor  formControlName="chapterSummary"  [style]="{'height':'150px'}"></p-editor> -->
+
+                        <textarea rows="4" pInputText type="text" formControlName="chapterSummary" >
+                            </textarea>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-3"></div>
+                    <div class="ui-grid-col-9">
+                        <button pButton type="submit" [disabled]="submitted" label="Submit" [disabled]="!chapterForm.valid">
+
+                            <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                            />
+
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</p-sidebar>
+<!-- hết phần thêm chương mục -->
+
+<!-- xem thông tin chi tiết khóa hoc -->
+<p-sidebar [(visible)]="visibleCource" [fullScreen]="true" [baseZIndex]="10000">
+
+    <div *ngIf="khoahoc && userform" class="scrollbar" id="style-3">
+
+        <form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+            <p-panel header="Tạo khóa học">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px; margin-bottom: 70px;">
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                          
+                            {{ 'd135' | translate }}
+                        </div>
+                        
+                        <div  class="ui-grid-col-10">      
+                                <div *ngIf="submitted" >
+                                        <p-progressSpinner></p-progressSpinner>
+                                    </div>
+                            <p-fieldset [collapsed]="true" legend="Xem thêm" [toggleable]="true">
+                                <div *ngIf="!submitted"  >
+                                <div  *ngFor="let temp of listCharter"   class="ui-messages ui-widget ui-corner-all ui-messages-success" style="display:block"
+                                    ng-reflect-klass="ui-messages ui-widget ui-corne" ng-reflect-ng-class="[object Object]">
+                                    <a class="ui-messages-close" (click)="clickXoaChuong(temp)">
+                                        <i class="fa fa-close"></i>
+                                    </a>
+                                    <span class="ui-messages-icon fa fa-fw fa-2x fa-check" ng-reflect-klass="ui-messages-icon fa fa-fw fa-2" ng-reflect-ng-class="fa-check"></span>
+                                    <ul>
+                                        <li>
+                                            <span class="ui-messages-summary">{{temp.chapterTitle}}</span>
+                                            <span class="ui-messages-detail">Số bài học {{temp.listOfLesson?.length}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button pButton type="button" (click)="clickThemChuongMuc()" icon="fa-plus" label="Thêm chương mục" class="ui-button-info"></button>
+                                <!-- <pre>{{ listCharter | json }}</pre>    -->
+                            </div>
+                            </p-fieldset>
+                        
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                              {{ 'd136' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <div class="ui-g" style="width:250px;margin-bottom:10px">
+                                <div class="ui-g-12">
+                                    <p-radioButton name="group1" value="2" label="Xuất bản" formControlName="status" inputId="opt2"></p-radioButton>
+                                </div>
+                                <div class="ui-g-12">
+                                    <p-radioButton name="group1" value="0" label="Đang cập nhật" formControlName="status" inputId="opt3"></p-radioButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-grid-col-4">
+
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                               {{ 'd104' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="text" formControlName="courseTitle" placeholder="Tên chủ đề" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTitle'].valid&&userform.controls['courseTitle'].dirty">
+                                <i class="fa fa-close"></i>
+                                 {{ 'd105' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            Mô tả:    {{ 'd138' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p-editor formControlName="courseDescription" [style]="{'height':'70px'}">
+                                <p-header>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold" aria-label="Bold"></button>
+                                        <button class="ql-italic" aria-label="Italic"></button>
+                                        <button class="ql-underline" aria-label="Underline"></button>
+                                    </span>
+                                </p-header>
+                            </p-editor>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                    <div *ngIf="userform.value.courseTypeID === 'CO'" class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                             {{ 'd107' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <input pInputText type="number" formControlName="price" placeholder="Giá khóa học" />
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['price'].valid&&userform.controls['price'].dirty">
+                                <i class="fa fa-close"></i>
+                                {{ 'd105' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                             {{ 'd108' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p-dropdown [options]="courseTypeID" formControlName="courseTypeID" [autoWidth]="false"></p-dropdown>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTypeID'].valid&&userform.controls['courseTypeID'].dirty">
+                                <i class="fa fa-close"></i>
+                                {{ 'd105' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                           {{ 'd109' | translate }}
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p-dropdown [options]="topicID" formControlName="topicID" [autoWidth]="false" filter="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['topicID'].valid&&userform.controls['topicID'].dirty">
+                                <i class="fa fa-close"></i>
+                                {{ 'd105' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                                {{ 'd110' | translate }}
+                        </div>
+                        <div class="ui-grid-col-3">
+
+                            <img *ngIf="!uploadImgProress" style="width: 100%; height: auto;" [src]="courseAvatar_temp" />
+
+                            <div style="width: 100%;" *ngIf="uploadImgProress">
+                                <p-progressSpinner></p-progressSpinner>
+
+                            </div>
+                            <!-- <input   formControlName="courseAvatar" /> -->
+                            <div style="width: 100%;">
+                                <p-fileUpload (onError)="erroUpload($event)" (onProgress)="progressUp($event)" #fubauto mode="basic" name="file" url="{{url_upload}}/upload"
+                                    accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" auto="true"
+                                    chooseLabel="Browse">
+                                    <ng-template pTemplate="content">
+                                    </ng-template>
+                                </p-fileUpload>
+                            </div>
+
+                        </div>
+
+                        <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseAvatar'].valid&&userform.controls['courseAvatar'].dirty">
+                                <i class="fa fa-close"></i>
+                                {{ 'd105' | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p-editor formControlName="courseDetail" [style]="{'height':'150px'}"></p-editor>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2"></div>
+                        <div class="ui-grid-col-6">
+                            <button pButton type="submit" [disabled]="submitted" label="Lưu lại" [disabled]="!userform.valid">
+                                <img *ngIf="submitted" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                />
+                            </button>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                    </div>
+                </div>
+            </p-panel>
+        </form>
+
+    </div>
+</p-sidebar>
+<!-- // hết xem thông tin khóa học -->

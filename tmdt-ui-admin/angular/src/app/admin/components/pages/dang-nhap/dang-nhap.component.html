@@ -1,0 +1,72 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" type="text/css" href="assets/home/fonts/fontawesome/css/font-awesome.min.css"> -->
+<!-- <link rel="stylesheet" href="assets/home/css/style.css"> -->
+<div class="sign">
+        <div *ngIf="isLogin" class="ui-progressbar ui-widget ui-widget-content ui-corner-all ui-progressbar-indeterminate" ng-reflect-ng-class="[object Object]" ng-reflect-ng-style="[object Object]" style="height: 6px;">
+                <div class="ui-progressbar-value ui-progressbar-value-animate ui-widget-header ui-corner-all" style="display:block"></div>
+            </div>
+    <div  style="margin-top: 0px; " class="container clog ">
+        <div class="row">
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-lg-4 content-log">
+                <div class="brand-logo text-right">
+                    <img src="assets/home/images/3TPL50x50.png" alt="Logo">
+                    <span class="brand-name">3TPL</span>
+                </div>
+                <form (ngSubmit)="login() && loginFormGroup.valid" [formGroup]="loginFormGroup" novalidate>
+                    <h3>Đăng nhập</h3>
+                    <div *ngIf="sms"   style="display:block" ng-reflect-klass="ui-messages ui-widget ui-corne" >
+                         <a class="ui-messages-close" >
+                               
+                            </a>
+                            <span  ng-reflect-klass="ui-messages-icon fa fa-fw fa-2" ng-reflect-ng-class="fa-warning"></span>
+                            <ul>
+                         <li class="">
+                         <span class="ui-messages-summary"></span>
+                         <span class="ui-messages-detail"> {{ sms }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input formControlName="email" type="email" class="form-control" id="email" placeholder="Địa chỉ email">
+                        <div>
+                            <small class="form-text text-muted" *ngIf="loginFormGroup.controls['email'].errors && ( loginFormGroup.controls['email'].dirty || loginFormGroup.controls['email'].touched)">
+                                <p style="color: red " *ngIf="loginFormGroup.controls['email'].errors.required"> &nbsp;&nbsp; Email không được để trống </p>
+                                <p style="color: red " *ngIf="loginFormGroup.controls['email'].errors.pattern">  &nbsp;&nbsp; Email nhập không hợp lệ </p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input formControlName="password" type="password" class="form-control" id="password" aria-describedby="passwordlHelp" placeholder="Mật khẩu">
+                        <small class="form-text text-muted" *ngIf="loginFormGroup.controls['password'].errors && ( loginFormGroup.controls['password'].dirty || loginFormGroup.controls['password'].touched)">
+                            <p style="color: red " *ngIf="loginFormGroup.controls['password'].errors.required"> &nbsp;&nbsp; Mật khẩu không được để trống </p>
+                            <p style="color: red " *ngIf="loginFormGroup.controls['password'].errors.minlength"> &nbsp;&nbsp; Mật khẩu không đủ tám ký tự </p>                            
+                        </small>
+                    </div>
+                    <label class="custom-control custom-checkbox">
+                        <input formControlName="forword" type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Ghi nhớ tôi!</span>
+                    </label>
+                    <div class="button-log">
+                        <button type="submit" [disabled]="isLogin" [disabled]="!loginFormGroup.valid" class="btn redibtn btn-block">Đăng nhập
+                                <img *ngIf="isLogin" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                     
+                        </button>
+                    </div> 
+                </form>
+            </div>
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-bottom justify-content-end">
+        <div class="text-right">
+            <a class="nav-link">3TPL &copy; 2017</a>
+            <a class="nav-link" href="#">Giới thiệu</a>
+            <a class="nav-link" href="#">Điều khoản</a>
+            <a class="nav-link" href="#">Thông tin quảng cáo</a>
+        </div>
+    </nav>
+</div>

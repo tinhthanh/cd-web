@@ -1,0 +1,117 @@
+<p-growl [value]="msgs" sticky="sticky">
+</p-growl>
+<div class="content-section implementation">            
+        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)" 
+                multiple="multiple" accept="image/*" maxFileSize="1000000"> 
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                </ng-template>    
+        </p-fileUpload>
+        </div>
+<form [formGroup]="userform" (ngSubmit)="onSubmit()">
+    <p-panel header="Tạo khóa học">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd104' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="text" formControlName="courseTitle" placeholder="Tên chủ đề" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTitle'].valid&&userform.controls['courseTitle'].dirty">
+                        <i class="fa fa-close"></i>
+                        {{ 'd105' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd106' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <textarea pInputTextarea type="text" formControlName="courseDescription"></textarea>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd107' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <input pInputText type="number" formControlName="price" placeholder="Giá khóa học" />
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['price'].valid&&userform.controls['price'].dirty">
+                        <i class="fa fa-close"></i>
+                        {{ 'd105' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd108' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <p-dropdown [options]="courseTypeID" formControlName="courseTypeID" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseTypeID'].valid&&userform.controls['courseTypeID'].dirty">
+                        <i class="fa fa-close"></i>
+                        {{ 'd105' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd109' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <p-dropdown [options]="topicID" formControlName="topicID" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['topicID'].valid&&userform.controls['topicID'].dirty">
+                        <i class="fa fa-close"></i>
+                        {{ 'd105' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd110' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                      
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['courseAvatar'].valid&&userform.controls['courseAvatar'].dirty">
+                        <i class="fa fa-close"></i>
+                        {{ 'd105' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    {{ 'd111' | translate }}
+                </div>
+                <div class="ui-grid-col-6">
+                    <p-editor formControlName="ScourseDetail" [(ngModel)]="sourceDetail" [style]="{'height':'150px'}"></p-editor>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"></div>
+                <div class="ui-grid-col-6">
+                    <button pButton type="submit" label="Thêm khóa học" [disabled]="!userform.valid"></button>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+            <div style="text-align:center;margin-top:20px" *ngIf="submitted">
+                {{ 'd112' | translate }}
+                <br> 
+            </div>
+        </div>
+    </p-panel>
+</form>

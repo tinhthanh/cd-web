@@ -1,0 +1,61 @@
+package com.pal.intern.repository.impl;
+
+import com.pal.intern.config.redmine.RedmineProviderFactory;
+import com.pal.intern.repository.IssuesRepository;
+import com.taskadapter.redmineapi.Include;
+import com.taskadapter.redmineapi.IssueManager;
+import com.taskadapter.redmineapi.Params;
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.internal.ResultsWrapper;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class IssuesRepositoryImpl implements IssuesRepository {
+
+    @Autowired
+    private RedmineProviderFactory redmineProviderFactory;
+
+    @Override
+    public Issue getIssueById(int id) throws RedmineException {
+        IssueManager issueManager = redmineProviderFactory.getRedmineManager().getIssueManager();
+        Issue issue = issueManager.getIssueById(id, Include.watchers);
+        return issue;
+    }
+
+    @Override
+    public ResultsWrapper<Issue> getListIssuesByProjectId(int projectId, int offset, int limit) throws RedmineException {
+        IssueManager issueManager = redmineProviderFactory.getRedmineManager().getIssueManager();
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("project_id", String.valueOf(projectId));
+        parameters.put("offset", String.valueOf(offset));
+        parameters.put("limit", String.valueOf(limit));
+        parameters.put("status_id", "*");
+        return issueManager.getIssues(parameters);
+    }
+
+    @Override
+    public ResultsWrapper<Issue> getAllIssues(int offset, int limit) throws RedmineException {
+        IssueManager issueManager = redmineProviderFactory.getRedmineManager().getIssueManager();
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("offset", String.valueOf(offset));
+        parameters.put("limit", String.valueOf(limit));
+        parameters.put("status_id", "*");
+        return issueManager.getIssues(parameters);
+    }
+
+    @Override
+    public ResultsWrapper<Issue> getIssuesWithParam(Map<String, Object> params) throws RedmineException {
+        IssueManager issueManager = redmineProviderFactory.getRedmineManager().getIssueManager();
+        Params p = new Params();
+        params.forEach((String k, Object v) -> {
+            p.add(k, String.valueOf(v));
+        });
+        return issueManager.getIssues(p);
+
+    }
+
+}

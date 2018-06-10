@@ -1,0 +1,341 @@
+<div class="layout-wrapper">
+  <div id="layout-topbar">
+    <a href="#" class="menu-button" (click)="onMenuButtonClick($event)">
+      <i class="fa fa-bars"></i>
+    </a>
+
+    <a href="#" class="logo" [routerLink]="['/']">
+      <img alt="logo" src="assets/showcase/images/logo2.png" />
+    </a>
+
+    <ul class="topbar-menu">
+      <li *ngIf="isAdmin">
+        <a  >  {{ 'Quantrivien' | translate }} </a>
+      </li>
+      <li class="topbar-menu-themes">
+        <a href="#">  {{ 'Thongtin' | translate }}</a>
+        <ul>
+          <li class="topbar-submenu-header"> {{ 'Tennguoidung' | translate }}</li>
+          <li>
+            <a>
+              <img style=" border-radius: 50%;" src="{{user?.avatar}}" alt="Avatar"> {{ user?.userName }}</a>
+          </li>
+          <li class="topbar-submenu-header">Kill</li>
+          <li>
+            <a>
+              <span class="ui-text"> {{ 'diemso' | translate }}: {{ user?.score }}</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="ui-text">  {{ 'diachi' | translate }}: {{ user?.address }}</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="ui-text">  {{ 'sodienthoai' | translate }}: {{ user?.phoneNumber }}</span>
+            </a>
+          </li>
+          <li class="topbar-submenu-header"> {{ 'ngonngu' | translate }} </li>
+          <li><a (click)="switchLanguage('vi')"><img src="assets/showcase/images/themeswitcher-manhattan.png" alt="Manhattan"><span class="ui-text">Vietnamese</span></a></li>
+          <li><a (click)="switchLanguage('jp')" ><img src="assets/showcase/images/themeswitcher-morpheus.png" alt="Morpheus"><span class="ui-text">Janpan</span></a></li>
+          <li><a (click)="switchLanguage('en')"><img src="assets/showcase/images/themeswitcher-atlantis.png" alt="Atlantis"><span class="ui-text">English</span></a></li>
+          <li><a (click)="switchLanguage('fr')"><img src="assets/showcase/images/themeswitcher-poseidon.png" alt="Poseidon"><span class="ui-text">French</span></a></li>
+          <li><a (click)="switchLanguage('km')"><img src="assets/showcase/images/themeswitcher-omega.png" alt="Omega"><span class="ui-text">Khmer</span></a></li>
+      
+          <li class="topbar-submenu-header">  {{ 'hanhdong' | translate }} </li>
+          <li>
+            <a>
+              <span class="ui-text" (click)="logout()"> {{ 'thoat' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+  
+    </ul>
+  </div>
+
+  <div id="layout-sidebar" [ngClass]="{'active': menuActive}">
+
+
+    <!-- <div (click)="development=!development" class="layout-menu">
+      <a id="menu_input">
+        <span>Dev</span>
+      </a>
+    </div> -->
+    <div *ngIf="!development" class="layout-menu">
+      <!-- Trinh -->
+      <a id="ca_nhan_menu" #CaNhanMenu [class.active-menuitem]="CaNhanMenu?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === CaNhanMenu?.id ? null : CaNhanMenu?.id)">
+          <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+          <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+          <span>  {{ 'Taikhoancuatoi' | translate }} </span>
+        </a>
+        <div [ngClass]="{'submenushow': (CaNhanMenu?.id == activeMenuId), 'submenuhide': (CaNhanMenu?.id != activeMenuId)}">
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/khoa-hoc-da-dang']" (click)="menuActive = false">&#9679;  {{ 'Danhsachkhoahocdadang' | translate }} </a>
+          <a *ngIf="!isAdmin" style="  width: 100%; "  [routerLink]="['/admin/khoa-hoc/them-khoa-hoc-moi']" (click)="menuActive = false">&#9679;  {{ 'Dangkhoahocmoi' | translate }}   </a>
+          
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/khoa-hoc-da-mua']" (click)="menuActive = false">&#9679;  {{ 'Danhsachkhoahocdamua' | translate }} </a>
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/dang-ky-xem-sau']" (click)="menuActive = false">&#9679;  {{ 'Danhsachkhoahocdangkyxemsau' | translate }} </a>
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/lich-su-giao-dich-cua-toi']" (click)="menuActive = false">&#9679;  {{ 'Lichsugiaodich' | translate }} </a>
+        </div>
+        <!-- Trinh -->
+      <!-- <a *ngIf="isAdmin" style="  width: 100%; "  id="button_menutitle" #buttonmenutitle [class.active-menuitem]="buttonmenutitle?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === buttonmenutitle?.id ? null : buttonmenutitle?.id)">
+        <img src="assets/showcase/images/icons/button-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/button.svg" class="layout-menu-icon-inactive" />
+        <span>Thống kê  </span>
+      </a>
+      <div  *ngIf="isAdmin"  [ngClass]="{'submenushow': (buttonmenutitle?.id == activeMenuId), 'submenuhide': (buttonmenutitle?.id != activeMenuId)}">
+        <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-theo-danh-thu']" (click)="menuActive = false">&#9679; Thống kê doanh thu </a>                
+        <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-doanh-thu-theo-tuan']" (click)="menuActive = false">&#9679; Thống kê doanh thu theo tuần </a>                        
+        <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-diem-nguoi-dung']" (click)="menuActive = false">&#9679; Thống kê điểm người dùng </a>                                
+        <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-theo-chu-de']" (click)="menuActive = false">&#9679; Theo chủ đề</a>
+        <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-luoc-xem-khoa-hoc']" (click)="menuActive = false">&#9679; Thống kê lược xem khóa học</a>         -->
+        <!-- <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-luoc-mua-khoa-hoc']" (click)="menuActive = false">&#9679; Thống kê lược mua khóa học</a>                 -->
+        <!-- <a style="  width: 100%; "  [routerLink]="['/admin/thong-ke/thong-ke-chu-de-theo-luoc-xem']" (click)="menuActive = false">&#9679; Theo chủ đề theo lược xem</a>         -->
+      <!-- </div> -->
+        <a   *ngIf="isAdmin" style=" width: 100%; "  [routerLink]="['/admin/nguoi-dung/danh-sach-lich-su-giao-dich']" >
+          <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+          <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+            <span> {{ 'Lichsugiaodich' | translate }} </span>
+          </a>
+      <!-- /thang -->
+      <a   *ngIf="isAdmin" style=" width: 100%; "  [routerLink]="['/admin/chu-de/danh-sach-chu-de']" >
+        <img src="assets/showcase/images/icons/message-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/message.svg" class="layout-menu-icon-inactive" />
+        <span>{{ 'chede' | translate }}</span>
+      </a>
+      
+      <a *ngIf="isAdmin" id="menu_file" #filemenutitle [class.active-menuitem]="filemenutitle?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === filemenutitle?.id ? null : filemenutitle?.id)">
+        <img src="assets/showcase/images/icons/file-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/file.svg" class="layout-menu-icon-inactive" />
+        <span> {{ 'Nguoidung' | translate }} </span>
+      </a>
+      <div  *ngIf="isAdmin" [ngClass]="{'submenushow': (filemenutitle?.id == activeMenuId), 'submenuhide': (filemenutitle?.id != activeMenuId)}">
+        <a  [routerLink]="['/admin/nguoi-dung/quan-ly/quan-ly-tai-khoan-hoat-dong']" (click)="menuActive = false">&#9679;  {{ 'Quanlynguoidunghoatdong' | translate }}</a>
+        <a  [routerLink]="['/admin/nguoi-dung/quan-ly/quan-ly-tai-khoan-bi-khoa']" (click)="menuActive = false">&#9679;  {{ 'Quanlynguoidungbikhoa' | translate }}</a>
+      </div>
+      <!-- <a  *ngIf="isAdmin"  style="  width: 100%; "  id="chu_de_menu" #chuDeMenu [class.active-menuitem]="chuDeMenu?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === chuDeMenu?.id ? null : chuDeMenu?.id)">
+        <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+        <span>Chủ đề</span>
+      </a>
+      <div *ngIf="isAdmin" [ngClass]="{'submenushow': (chuDeMenu?.id == activeMenuId), 'submenuhide': (chuDeMenu?.id != activeMenuId)}">
+        <a style="  width: 100%; "  [routerLink]="['/admin/chu-de/danh-sach-chu-de']" (click)="menuActive = false">&#9679; Quản lý chủ đề</a>
+        <a style="  width: 100%; "  [routerLink]="['/admin/chu-de/danh-sach-chu-de']" [queryParams]="{ add: true }" (click)="menuActive = false">&#9679; Thêm chủ đề</a>
+      </div> -->
+      <a style="  width: 100%; "  id="khoa_hoc_menu" #khoaHocMenu [class.active-menuitem]="khoaHocMenu?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === khoaHocMenu?.id ? null : khoaHocMenu?.id)">
+          <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+          <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+          <span> {{ 'Khoahoc' | translate }} </span>
+        </a>
+        <div [ngClass]="{'submenushow': (khoaHocMenu?.id == activeMenuId), 'submenuhide': (khoaHocMenu?.id != activeMenuId)}">
+         <a *ngIf="isAdmin" style="  width: 100%; "  [routerLink]="['/admin/khoa-hoc/duyet-khoa-hoc']" (click)="menuActive = false">&#9679; {{ 'Duyetkhoahoc' | translate }}</a>
+           <a *ngIf="isAdmin" style="  width: 100%; "  [routerLink]="['/admin/khoa-hoc/quan-ly-khoa-hoc']" (click)="menuActive = false">&#9679; {{ 'Quanlykhoahoc' | translate }}</a>
+          <a *ngIf="isAdmin" style="  width: 100%; "  [routerLink]="['/admin/khoa-hoc/them-khoa-hoc-moi']" (click)="menuActive = false">&#9679;  {{ 'Themkhoahoc' | translate }} </a>
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/dang-ky-xem-sau']" (click)="menuActive = false">&#9679; {{ 'Danhsachkhoahocdangkyxemsau' | translate }}</a>
+          <a style="  width: 100%; "  [routerLink]="['/admin/nguoi-dung/khoa-hoc-da-mua']" (click)="menuActive = false">&#9679; {{ 'Danhsachkhoahocdamua' | translate }} </a>
+        </div>
+      <!-- <a *ngIf="isAdmin" style="  width: 100%; "  id="account_menu" #accountMenu [class.active-menuitem]="accountMenu?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === accountMenu?.id ? null : accountMenu?.id)">
+        <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+        <span>Người dùng</span>
+      </a>
+      <div   *ngIf="isAdmin" [ngClass]="{'submenushow': (accountMenu?.id == activeMenuId), 'submenuhide': (accountMenu?.id != activeMenuId)}">
+        <a style="  width: 100%; "  (click)="menuActive = false">&#9679; Quản lý người dùng hoạt động</a>
+        <a style="  width: 100%; "  (click)="menuActive = false">&#9679; Quản lý người dùng bị khóa</a>
+      </div> -->
+
+      <!-- <a     *ngIf="isAdmin" id="menu_misc" #misctitle [class.active-menuitem]="misctitle?.id == activeMenuId" (click)="activeMenuId = (activeMenuId === misctitle?.id ? null : misctitle?.id)">
+        <img src="assets/showcase/images/icons/misc-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/misc.svg" class="layout-menu-icon-inactive" />
+        <span>Người dùng</span>
+      </a>
+      <div   *ngIf="isAdmin" [ngClass]="{'submenushow': (misctitle?.id == activeMenuId), 'submenuhide': (misctitle?.id != activeMenuId)}">
+        <a  [routerLink]="['/admin/nguoi-dung/quan-ly/quan-ly-tai-khoan-hoat-dong']" (click)="menuActive = false">&#9679; Quản lý người dùng hoạt động</a>
+        <a   [routerLink]="['/admin/nguoi-dung/quan-ly/quan-ly-tai-khoan-bi-khoa']"  (click)="menuActive = false">&#9679; Quản lý người dùng bị khóa</a>
+      </div> -->
+      <!-- ./thang -->
+      
+    </div>
+
+
+    <div *ngIf="development" class="layout-menu">
+      <a id="menu_input" #inputmenutitle [class.active-menuitem]="inputmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === inputmenutitle.id ? null : inputmenutitle.id)">
+        <img src="assets/showcase/images/icons/input-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/input.svg" class="layout-menu-icon-inactive" />
+        <span>Input</span>
+      </a>
+      <div [ngClass]="{submenushow: (inputmenutitle.id == activeMenuId), 'submenuhide': (inputmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/inputgroup']" (click)="menuActive = false">&#9679; InputGroup</a>
+        <a [routerLink]="['/autocomplete']" (click)="menuActive = false">&#9679; AutoComplete</a>
+        <a [routerLink]="['/calendar']" (click)="menuActive = false">&#9679; Calendar</a>
+        <a [routerLink]="['/checkbox']" (click)="menuActive = false">&#9679; Checkbox</a>
+        <a [routerLink]="['/chips']" (click)="menuActive = false">&#9679; Chips</a>
+        <a [routerLink]="['/colorpicker']" (click)="menuActive = false">&#9679; ColorPicker</a>
+        <a [routerLink]="['/dropdown']" (click)="menuActive = false">&#9679; Dropdown</a>
+        <a [routerLink]="['/editor']" (click)="menuActive = false">&#9679; Editor</a>
+        <a [routerLink]="['/inputswitch']" (click)="menuActive = false">&#9679; InputSwitch</a>
+        <a [routerLink]="['/inputtext']" (click)="menuActive = false">&#9679; InputText</a>
+        <a [routerLink]="['/inputtextarea']" (click)="menuActive = false">&#9679; InputTextArea</a>
+        <a [routerLink]="['/listbox']" (click)="menuActive = false">&#9679; Listbox</a>
+        <a [routerLink]="['/inputmask']" (click)="menuActive = false">&#9679; Mask</a>
+        <a [routerLink]="['/multiselect']" (click)="menuActive = false">&#9679; MultiSelect</a>
+        <a [routerLink]="['/password']" (click)="menuActive = false">&#9679; Password</a>
+        <a [routerLink]="['/radiobutton']" (click)="menuActive = false">&#9679; RadioButton</a>
+        <a [routerLink]="['/rating']" (click)="menuActive = false">&#9679; Rating</a>
+        <a [routerLink]="['/slider']" (click)="menuActive = false">&#9679; Slider</a>
+        <a [routerLink]="['/spinner']" (click)="menuActive = false">&#9679; Spinner</a>
+        <a [routerLink]="['/selectbutton']" (click)="menuActive = false">&#9679; SelectButton</a>
+        <a [routerLink]="['/togglebutton']" (click)="menuActive = false">&#9679; ToggleButton</a>
+        <a [routerLink]="['/tristatecheckbox']" (click)="menuActive = false">&#9679; TriCheckbox</a>
+      </div>
+
+      <a id="button_menutitle" #buttonmenutitle [class.active-menuitem]="buttonmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === buttonmenutitle.id ? null : buttonmenutitle.id)">
+        <img src="assets/showcase/images/icons/button-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/button.svg" class="layout-menu-icon-inactive" />
+        <span>Button</span>
+      </a>
+      <div [ngClass]="{'submenushow': (buttonmenutitle.id == activeMenuId), 'submenuhide': (buttonmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/button']" (click)="menuActive = false">&#9679; Button</a>
+        <a [routerLink]="['/splitbutton']" (click)="menuActive = false">&#9679; SplitButton</a>
+      </div>
+
+      <a id="data_menutitle" #datamenutitle [class.active-menuitem]="datamenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === datamenutitle.id ? null : datamenutitle.id)">
+        <img src="assets/showcase/images/icons/data-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/data.svg" class="layout-menu-icon-inactive" />
+        <span>Data</span>
+      </a>
+      <div [ngClass]="{'submenushow': (datamenutitle.id == activeMenuId), 'submenuhide': (datamenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/carousel']" (click)="menuActive = false">&#9679; Carousel</a>
+        <a [routerLink]="['/datagrid']" (click)="menuActive = false">&#9679; DataGrid</a>
+        <a [routerLink]="['/datalist']" (click)="menuActive = false">&#9679; DataList</a>
+        <a [routerLink]="['/datascroller']" (click)="menuActive = false">&#9679; DataScroller</a>
+        <a [routerLink]="['/datatable']" (click)="menuActive = false">&#9679; DataTable</a>
+        <a [routerLink]="['/organizationchart']" (click)="menuActive = false">&#9679; Org Chart</a>
+        <a [routerLink]="['/orderlist']" (click)="menuActive = false">&#9679; OrderList</a>
+        <a [routerLink]="['/gmap']" (click)="menuActive = false">&#9679; GMap</a>
+        <a [routerLink]="['/paginator']" (click)="menuActive = false">&#9679; Paginator</a>
+        <a [routerLink]="['/picklist']" (click)="menuActive = false">&#9679; PickList</a>
+        <a [routerLink]="['/schedule']" (click)="menuActive = false">&#9679; Schedule</a>
+        <a [routerLink]="['/tree']" (click)="menuActive = false">&#9679; Tree</a>
+        <a [routerLink]="['/treetable']" (click)="menuActive = false">&#9679; TreeTable</a>
+      </div>
+
+      <a id="menu_panel" #panelmenutitle [class.active-menuitem]="panelmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === panelmenutitle.id ? null : panelmenutitle.id)">
+        <img src="assets/showcase/images/icons/panel-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/panel.svg" class="layout-menu-icon-inactive" />
+        <span>Panel</span>
+      </a>
+      <div [ngClass]="{'submenushow': (panelmenutitle.id == activeMenuId), 'submenuhide': (panelmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/accordion']" (click)="menuActive = false">&#9679; Accordion</a>
+        <a [routerLink]="['/fieldset']" (click)="menuActive = false">&#9679; Fieldset</a>
+        <a [routerLink]="['/panel']" (click)="menuActive = false">&#9679; Panel</a>
+        <a [routerLink]="['/scrollpanel']" (click)="menuActive = false">&#9679; ScrollPanel</a>
+        <a [routerLink]="['/grid']" (click)="menuActive = false">&#9679; Grid</a>
+        <a [routerLink]="['/tabview']" (click)="menuActive = false">&#9679; TabView</a>
+        <a [routerLink]="['/toolbar']" (click)="menuActive = false">&#9679; Toolbar</a>
+      </div>
+
+      <a id="menu_overlay" #overlaymenutitle [class.active-menuitem]="overlaymenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === overlaymenutitle.id ? null : overlaymenutitle.id)">
+        <img src="assets/showcase/images/icons/overlay-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/overlay.svg" class="layout-menu-icon-inactive" />
+        <span>Overlay</span>
+      </a>
+      <div [ngClass]="{'submenushow': (overlaymenutitle.id == activeMenuId), 'submenuhide': (overlaymenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/confirmdialog']" (click)="menuActive = false">&#9679; ConfirmDialog</a>
+        <a [routerLink]="['/dialog']" (click)="menuActive = false">&#9679; Dialog</a>
+        <a [routerLink]="['/lightbox']" (click)="menuActive = false">&#9679; Lightbox</a>
+        <a [routerLink]="['/sidebar']" (click)="menuActive = false">&#9679; Sidebar</a>
+        <a [routerLink]="['/overlaypanel']" (click)="menuActive = false">&#9679; OverlayPanel</a>
+        <a [routerLink]="['/tooltip']" (click)="menuActive = false">&#9679; Tooltip</a>
+      </div>
+
+
+      <a id="menu_menu" #menumenutitle [class.active-menuitem]="menumenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === menumenutitle.id ? null : menumenutitle.id)">
+        <img src="assets/showcase/images/icons/menu-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/menu.svg" class="layout-menu-icon-inactive" />
+        <span>Menu</span>
+      </a>
+      <div [ngClass]="{'submenushow': (menumenutitle.id == activeMenuId), 'submenuhide': (menumenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/menumodel']" (click)="menuActive = false">&#9679; MenuModel</a>
+        <a [routerLink]="['/breadcrumb']" (click)="menuActive = false">&#9679; Breadcrumb</a>
+        <a [routerLink]="['/contextmenu']" (click)="menuActive = false">&#9679; ContextMenu</a>
+        <a [routerLink]="['/megamenu']" (click)="menuActive = false">&#9679; MegaMenu</a>
+        <a [routerLink]="['/menu']" (click)="menuActive = false">&#9679; Menu</a>
+        <a [routerLink]="['/menubar']" (click)="menuActive = false">&#9679; Menubar</a>
+        <a [routerLink]="['/panelmenu']" (click)="menuActive = false">&#9679; PanelMenu</a>
+        <a [routerLink]="['/slidemenu']" (click)="menuActive = false">&#9679; SlideMenu</a>
+        <a [routerLink]="['/steps']" (click)="menuActive = false">&#9679; Steps</a>
+        <a [routerLink]="['/tabmenu']" (click)="menuActive = false">&#9679; TabMenu</a>
+        <a [routerLink]="['/tieredmenu']" (click)="menuActive = false">&#9679; TieredMenu</a>
+      </div>
+
+      <a id="menu_chart" #chartmenutitle [class.active-menuitem]="chartmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === chartmenutitle.id ? null : chartmenutitle.id)">
+        <img src="assets/showcase/images/icons/charts-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/charts.svg" class="layout-menu-icon-inactive" />
+        <span>Charts</span>
+      </a>
+      <div [ngClass]="{'submenushow': (chartmenutitle.id == activeMenuId), 'submenuhide': (chartmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/chart']" (click)="menuActive = false">&#9679; ChartModel</a>
+        <a [routerLink]="['/chart/bar']" (click)="menuActive = false">&#9679; Bar</a>
+        <a [routerLink]="['/chart/doughnut']" (click)="menuActive = false">&#9679; Doughnut</a>
+        <a [routerLink]="['/chart/line']" (click)="menuActive = false">&#9679; Line</a>
+        <a [routerLink]="['/chart/polararea']" (click)="menuActive = false">&#9679; PolarArea</a>
+        <a [routerLink]="['/chart/pie']" (click)="menuActive = false">&#9679; Pie</a>
+        <a [routerLink]="['/chart/radar']" (click)="menuActive = false">&#9679; Radar</a>
+      </div>
+
+      <a id="menu_messages" #messagesmenutitle [class.active-menuitem]="messagesmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === messagesmenutitle.id ? null : messagesmenutitle.id)">
+        <img src="assets/showcase/images/icons/message-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/message.svg" class="layout-menu-icon-inactive" />
+        <span>Messages</span>
+      </a>
+      <div [ngClass]="{'submenushow': (messagesmenutitle.id == activeMenuId), 'submenuhide': (messagesmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/messages']" (click)="menuActive = false">&#9679; Messages</a>
+        <a [routerLink]="['/growl']" (click)="menuActive = false">&#9679; Growl</a>
+      </div>
+
+      <a id="menu_multimedia" #multimediamenutitle [class.active-menuitem]="multimediamenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === multimediamenutitle.id ? null : multimediamenutitle.id)">
+        <img src="assets/showcase/images/icons/multimedia-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/multimedia.svg" class="layout-menu-icon-inactive" />
+        <span>Multimedia</span>
+      </a>
+      <div [ngClass]="{'submenushow': (multimediamenutitle.id == activeMenuId), 'submenuhide': (multimediamenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/galleria']" (click)="menuActive = false">&#9679; Galleria</a>
+      </div>
+
+      <a id="menu_dnd" #dndmenutitle [class.active-menuitem]="dndmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === dndmenutitle.id ? null : dndmenutitle.id)">
+        <img src="assets/showcase/images/icons/dragdrop-active.svg" class="layout-menu-icon-active" />
+        <img src="assets/showcase/images/icons/dragdrop.svg" class="layout-menu-icon-inactive" />
+        <span>DragDrop</span>
+      </a>
+      <div [ngClass]="{'submenushow': (dndmenutitle.id == activeMenuId), 'submenuhide': (dndmenutitle.id != activeMenuId)}">
+        <a [routerLink]="['/dragdrop']" (click)="menuActive = false">&#9679; Drag&amp;Drop</a>
+      </div>
+
+    
+    </div>
+  </div>
+
+  <div class="layout-mask" *ngIf="menuActive">
+  </div>
+
+  <div id="layout-content" >
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="content-section layout-footer clearfix">
+      <span>
+        <a href="http://www.primetek.com.tr">PrimeTek</a>, Copyright &copy; 2017</span>
+      <div class="footer-links">
+        <a href="https://github.com/primefaces/primeng">
+          <i class="fa fa-github"></i>
+        </a>
+        <a href="https://twitter.com/prime_ng">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <div>
+        </div>
+      </div>
+
+    </div>

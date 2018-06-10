@@ -1,0 +1,61 @@
+<div class="sign">
+    <div class="background"></div>
+    <div class="container clog">
+        <div class="row">
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-lg-4 content-log">
+                <div class="brand-logo text-right">
+                    <img src="../../../../assets/home/images/3TPL50x50.png" alt="Logo">
+                    <span class="brand-name">3TPL </span>
+                    <span *ngIf="successs" class="brand-name" [innerHTML]="ms"></span>
+                </div>
+                <p *ngIf="ms?!successs:false" style="color: red "> {{ms}}</p>
+                <div class="wrapper">
+                    <form *ngIf="!successs" (ngSubmit)="forgetSubmit() && forgetGroup.valid" [formGroup]="forgetGroup">
+                        <h3>Quên mật khẩu</h3>
+                        <!-- <div class="group">
+                            <input formControlName="email" type="email" id="email">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label-for" for="email">Email</label>
+                            <div>
+                                <small class="form-text text-muted" *ngIf=" forgetGroup.controls['email'].errors && ( forgetGroup.controls['email'].dirty || forgetGroup.controls['email'].touched)">
+                                    <p style="color: red " *ngIf=" forgetGroup.controls['email'].errors.required">Email không được để trống </p>
+                                    <p style="color: red " *ngIf=" forgetGroup.controls['email'].errors.pattern"> Email nhập không hợp lệ </p>
+                                </small>
+                            </div>
+                        </div> -->
+                        <div class="group">
+                            <input type="email" id="email" formControlName="email" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label-for" for="email">Email</label>
+                            <div>
+                                <small class="form-text text-muted" *ngIf=" forgetGroup.controls['email'].errors && ( forgetGroup.controls['email'].dirty || forgetGroup.controls['email'].touched)">
+                                    <p style="color: red " *ngIf=" forgetGroup.controls['email'].errors.required">Email không được để trống </p>
+                                    <p style="color: red " *ngIf=" forgetGroup.controls['email'].errors.pattern"> Email nhập không hợp lệ </p>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="button-log">
+                            <button stype="submit" [disabled]="isLoading" [disabled]="!forgetGroup.valid" class="btn redibtn btn-block">Tiếp tục
+                                <img *ngIf="isLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 col-md-3 col-lg-4 col-lg-4"></div>
+        </div>
+    </div>
+    <nav class="navbar fixed-bottom justify-content-end nav-footer">
+        <div class="text-right">
+            <a class="nav-link">3TPL &copy; 2017</a>
+            <a class="nav-link" [routerLink]="['/home/main']">Trang chủ</a>
+            <a class="nav-link" [routerLink]="['/home/gioi-thieu']">Giới thiệu</a>
+            <a class="nav-link" [routerLink]="['/home/dieu-khoan-su-dung']">Điều khoản</a>
+            <a class="nav-link" href="#">Thông tin quảng cáo</a>
+        </div>
+    </nav>
+</div>
