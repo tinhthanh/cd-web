@@ -1,8 +1,0 @@
-
-export class GruopContact {
-    group_contact_id: number ;
-    group_contact_name: string;
-    user_id: string;
-    group_contact_status: string ;
-    status: number;
-}

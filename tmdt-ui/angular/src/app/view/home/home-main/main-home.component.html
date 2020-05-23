@@ -127,7 +127,7 @@
     <section class="section-3">
         <div class="container">
             <h2 class="text-center">CÁC KHÓA HỌC NỔI BẬT</h2>
-            <div class="row"> 
+            <div class="row">
                 <div *ngFor="let item of listCourse" class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="card border-secondary">
                         <img class="card-img-top card-item" src="{{item.courseAvatar}}" alt="">
@@ -137,7 +137,7 @@
                             <h5 class="card-title">
                                 <div class="parallelogram-text block-with-text">{{item.courseTitle}}</div>
                             </h5>
-                            <p class="card-text truncate-text demission">{{item.courseDescription}}</p>
+                            <p class="card-text truncate-text demission"  ></p>
                             <span>Giảng viên:
                                 <a [routerLink]="['/home/thong-tin-ca-nhan', item.author.userID]">
                                     <b>{{item.author.userName}}</b>

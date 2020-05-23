@@ -1,0 +1,8 @@
+--host=0.0.0.0 --ssl --ssl-key D:/cert/ssl.key  --ssl-cert D:/cert/ssl.crt --proxy-config proxy.conf.js
+
+
+server_name 192.168.10.118 localhost;
+	listen 443 ssl;
+
+	ssl_certificate D:/cert/ssl.crt;
+	ssl_certificate_key D:/cert/ssl.key; 

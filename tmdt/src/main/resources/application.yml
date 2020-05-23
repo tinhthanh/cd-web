@@ -1,42 +1,52 @@
 #config jwt
-app : 
+app :
   name : tmdt_rest
 jwt:
   header: Authorization
   secret: mySecret
   prefix: Bearer
-  expiration: 600
-  mobile_expires_in: 600
+  expiration: 60000
+  mobile_expires_in: 60000
   cookie : AUTH-TOKEN
   route:
     authentication:
       path: auth
       refresh: refresh
-#config email      
+#config email
 email:
   from: ttlang162@gmail.com
 
-#aes  
-aes : 
+#aes
+aes :
   key: Bar12345Bar12345
-  initVector : RandomInitVector     
-  
+  initVector : RandomInitVector
+
+##front-end
+#front_end :
+#  scheme: http
+#  server_name: localhost
+#  server_port : '8080/tmdt-ui/#'
+#  link_reset_password : "/pages/kich-hoat?key-change="
+#  link_register : "/pages/kich-hoat?key="
+#  nap_the : "/home/nap-the"
+
+
 #front-end
 front_end :
-  scheme: http
-  server_name: localhost
-  server_port : '8080/tmdt-ui/#'
+  scheme: https
+  server_name: tinhthanh.github.io
+  server_port : '/cd-web-ui-2018/#'
   link_reset_password : "/pages/kich-hoat?key-change="
   link_register : "/pages/kich-hoat?key="
   nap_the : "/home/nap-the"
-  
+
 #google drive api
 google :
   service_account_email : ttlang162@tmdt-189904.iam.gserviceaccount.com
   application_name : TMDT
   folder_id : 1uq3Fto8B34DuhNDPAR1hUn3mAbh2u6yT
   service_account_key : TMDT-6c5d7e57b3b6.p12
-  
+
 
 #paypal
 paypal:
@@ -45,8 +55,8 @@ paypal:
       app: ATxYEuV1ZntyEvEIdUYk8gzjMrArES481gUUaGCqiD1vgTBziUNJSBwwWUtWTbS5owaTHNQSiMLpYTpi
       secret: ED3cyFA1zIpnzAruyGNrusBRfPxbmT9ZSBT_RbecZS3hdkaODrhPItM0iy0fcYIO7GyUDT-xT_5M8Prn
   success_url : pay/success
-  cancle      : pay/cancel 
-  
+  cancle      : pay/cancel
+
 #currency
 vnd_to_score : 1000.0
 
@@ -55,4 +65,3 @@ server.mail : tyler.intern@pal.net.vn
 server.mail.password : Tamlang2
 
 
-    

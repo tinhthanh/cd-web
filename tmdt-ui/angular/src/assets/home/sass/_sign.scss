@@ -1,5 +1,5 @@
 .sign {
-	
+
 	textarea:focus,
 	input[type="text"]:focus,
 	input[type="password"]:focus,
@@ -15,14 +15,14 @@
 	input[type="search"]:focus,
 	input[type="tel"]:focus,
 	input[type="color"]:focus,
-	.uneditable-input:focus {   
+	.uneditable-input:focus {
 		border-color: none;
 		box-shadow: none;
 		outline: 0 none;
 	}
 
 	.background {
-		background-image: url("https://auth.gfx.ms/16.000.27621.00/images/Backgrounds/0.jpg?x=f5a9a9531b8f4bcc86eabb19472d15d5");
+		background-image: url('../images/slide/pexels-photo-1.jpeg');
 		background-repeat: no-repeat,no-repeat;
 		background-position: center center,center center;
 		background-size: cover,cover;

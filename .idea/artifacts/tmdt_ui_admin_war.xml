@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tmdt-ui-admin:war">
+    <output-path>$PROJECT_DIR$/tmdt-ui-admin/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>tmdt-ui-admin</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="tmdt-ui-admin-1.0.war">
+      <element id="artifact" artifact-name="tmdt-ui-admin:war exploded" />
+    </root>
+  </artifact>
+</component>

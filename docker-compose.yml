@@ -1,0 +1,74 @@
+version: '3.7'
+services:
+  udyme-member:
+    container_name: udyme-member
+    build:
+      context: ./tmdt-ui/angular
+      dockerfile: Dockerfile
+    ports:
+      - "8888:80"
+    networks:
+      - spring-boot-mysql-network
+    restart: always
+  udyme-office:
+    container_name: udyme-office
+    build:
+      context: ./tmdt-ui-admin/angular
+      dockerfile: Dockerfile
+    ports:
+      - "8887:80"
+    networks:
+      - spring-boot-mysql-network
+    restart: always
+  db:
+    container_name: db-udyme
+    image: mysql/mysql-server:5.7
+    networks:
+      - spring-boot-mysql-network
+    environment:
+      MYSQL_DATABASE: tmdt
+      MYSQL_USER: udyme
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    restart: always
+  web-service:
+    container_name: udyme-api
+    build:
+      context: ./tmdt
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    networks:
+      - spring-boot-mysql-network
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: 1234
+    depends_on:
+      - db
+    restart: always
+  nginx-traffic:
+    container_name: udyme-nginx-traffic
+    build:
+      context: ./nginx-server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx-server/cert:/etc/nginx/certs
+    depends_on:
+      - udyme-office
+      - udyme-member
+      - web-service
+    networks:
+      - spring-boot-mysql-network
+    restart: always
+networks:
+  spring-boot-mysql-network:
+    driver: bridge

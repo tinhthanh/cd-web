@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  udyme-member:
+    container_name: udyme-member
+    build:
+      context: ./angular
+      dockerfile: Dockerfile
+    ports:
+      - "8888:80"
+    networks:
+      - udyme-ui
+    restart: always
+networks:
+  udyme-ui:
+    driver: bridge

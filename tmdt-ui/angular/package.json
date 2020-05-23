@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href /tmdt-ui/",
+    "build": "ng build --prod",
+    "build-dev": "ng build --prod --base-href /tmdt-ui/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,7 +22,6 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
-    "@ionic-native/in-app-browser": "^4.5.2",
     "bootstrap": "^4.0.0-beta.2",
     "core-js": "^2.4.1",
     "jquery": "^3.2.1",

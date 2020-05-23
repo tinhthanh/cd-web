@@ -1,9 +1,0 @@
-export class Privilege {
-  endDate: Date;
-  privilegesStatus: number;
-  reportPrivilegesId: number;
-  startDate: Date;
-  userId: number;
-  userReportId: number;
-  userReportName: string;
-}

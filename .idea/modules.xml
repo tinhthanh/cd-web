@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/drs-master.iml" filepath="$PROJECT_DIR$/drs-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmdt/tmdt.iml" filepath="$PROJECT_DIR$/tmdt/tmdt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmdt-ui/tmdt-ui.iml" filepath="$PROJECT_DIR$/tmdt-ui/tmdt-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmdt-ui-admin/tmdt-ui-admin.iml" filepath="$PROJECT_DIR$/tmdt-ui-admin/tmdt-ui-admin.iml" />
+    </modules>
+  </component>
+</project>

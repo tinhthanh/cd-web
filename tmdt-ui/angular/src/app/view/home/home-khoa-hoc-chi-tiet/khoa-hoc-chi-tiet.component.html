@@ -101,8 +101,7 @@
                         <div class="card-header">
                             <h4 class="text-right">Giới thiệu khóa học</h4>
                         </div>
-                        <div class="card-body">
-                            {{courseItem.courseDescription}}
+                        <div class="card-body"  [innerHTML]="courseItem.courseDescription">
                         </div>
                     </div>
                 </div>

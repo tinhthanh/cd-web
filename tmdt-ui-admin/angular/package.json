@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href /tmdt-ui-admin/",
+    "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --base-href /udyme_office/",
+    "build-dev": "ng build --prod --base-href /tmdt-ui-admin/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

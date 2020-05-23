@@ -49,7 +49,7 @@
         <pre>{{selectLesson?.chapterSummary}}</pre>
         <p-fieldset (onBeforeToggle)="xemDanhSachKhoaHoc($event)" [collapsed]="true" legend="Danh sách bài học" [toggleable]="true">
             <!-- <iframe style=" width: 100% ,  height auto "  src="https://drive.google.com/file/d/1ZlThHQI5HND7l96FsF7T6dl1HV7MAJvk/preview"></iframe> -->
-                <div *ngIf="!submitted" > 
+                <div *ngIf="!submitted" >
             <div class="ui-grid-row">
                 <div *ngFor="let temp of selectLesson?.listOfLesson" class="ui-grid-col-3">
                     <div  style="margin-top: 60px;" class="video-thumbnail">
@@ -70,8 +70,8 @@
         </div>
                 <div *ngIf="isXemVideo" class="video-modal">
                         <span (click)="isXemVideo =! isXemVideo" class="video-close">&times;</span>
-                        <div class="video-modal-content" > 
-                    <iframe width="100%" height="415" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>                    
+                        <div class="video-modal-content" >
+                    <iframe width="100%" height="415" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
                             </div>
                         <div id="video-caption">
                                 <p-progressSpinner></p-progressSpinner>
@@ -99,8 +99,8 @@
                         <div class="ui-grid-col-2">
                             Danh sách chương:
                         </div>
-                        
-                        <div  class="ui-grid-col-10">      
+
+                        <div  class="ui-grid-col-10">
                                 <div *ngIf="submitted" >
                                         <p-progressSpinner></p-progressSpinner>
                                     </div>
@@ -119,7 +119,7 @@
                                 <!-- <pre>{{ listCharter | json }}</pre>    -->
                             </div>
                             </p-fieldset>
-                        
+
                         </div>
                     </div>
 
@@ -206,15 +206,15 @@
     </div>
 </p-sidebar>
 <!-- // hết xem thông tin khóa học -->
-<div class="play-video-top" > 
+<div class="play-video-top" >
         <div *ngIf="isZoomVideo" style="  max-height: 350px;">
-              
+
 
                      <div class="list-type1 scrollbar "  id="style-3">
                             <!-- <pre> {{ listghim |  json }} </pre> -->
                              <ol>
                              <li *ngFor=" let item of listghim "   ><a  >
-                                 
+
                                 <h5  style="
                                 width: 90%;
                                 line-height: 1em;
@@ -226,23 +226,23 @@
                                 ">
                                 <img  (click)="playGhim(item)"  src="{{'https://drive.google.com/thumbnail?authuser=0&sz=w320&id=' + item.link_video}}" style="
                                 width: 32px;
-                            "> 
+                            ">
                             <i  (click)="playGhim(item)"  class="fa fa-play" aria-hidden="true"></i>
-                            
+
                                 {{item.lesson_name}}
-                            </h5>       
+                            </h5>
                             <i  (click)="xoaGhim(item)"    style=" color: red; cursor: pointer " class="fa fa-trash-o" aria-hidden="true"> </i>
-                             </a>         
+                             </a>
                             </li>
                              </ol>
                              </div>
-         
-             <div (click)="isZoomVideo = !isZoomVideo "  class="video-top-left"> 
+
+             <div (click)="isZoomVideo = !isZoomVideo "  class="video-top-left">
                      <button pButton type="button" label="Đóng " class="ui-button-danger"></button>
                  </div>
          </div>
 </div>
-<div class="play-video"  > 
+<div class="play-video"  >
     <div  [ngClass]="{'thanh-zoom': isZoomVideo}"  class="style_prevu_kit" >
         <div *ngIf="isZoomVideo" >
                 <div  *ngIf="isZoomVideo"  style=" position: absolute;
@@ -253,11 +253,11 @@
                 font-size: 18px;" >
                 <p-progressSpinner></p-progressSpinner>
                 </div>
-    <iframe style="z-index: 1;"  autoplay="false" style="width: 100%; " height="210px"   [src]="thanh" allowfullscreen webkitallowfullscreen mozallowfullscreen  >      
+    <iframe style="z-index: 1;"  autoplay="false" style="width: 100%; " height="210px"   [src]="thanh" allowfullscreen webkitallowfullscreen mozallowfullscreen  >
     </iframe>
     </div>
     <div *ngIf="!isZoomVideo"  >
-           <img  (click)="isZoomVideo = !isZoomVideo " style="width: 60px; height: 60px;" src="https://png.icons8.com/small/540/external-link.png">
+           <img  (click)="isZoomVideo = !isZoomVideo " style="width: 60px; height: 60px;" src="assets/home/images/resizing-png-files.png">
     </div>
 
     </div>

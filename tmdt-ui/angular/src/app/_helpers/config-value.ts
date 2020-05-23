@@ -6,9 +6,9 @@ export class ConfigValue {
      role_admin = 'ROLE_ADMIN';
      role_user = 'ROLE_USER';
      token = 'token';
-     url_port =  'http://127.0.0.1:8080/tmdt'; // chế độ thật
+     url_port =  'http://127.0.0.1:8087/api-service';
     // url_port = 'http://192.168.1.103';
-    remember = 'remember';
+     remember = 'remember';
 
     // dường link res
     // AuthenticationRest.class
