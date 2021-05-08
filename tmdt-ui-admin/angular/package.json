@@ -70,6 +70,6 @@
     "@angular-devkit/core": "0.0.29",
     "@ngx-translate/core": "^9.0.0",
     "@ngx-translate/http-loader": "^2.0.0",
-    "handlebars": "^4.0.11"
+    "handlebars": "^4.7.7"
   }
 }
